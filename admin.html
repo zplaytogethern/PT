@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin – Nguyễn Anh DV Play</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="hero small">
+    <h1>Trang quản trị giá</h1>
+    <p class="hero-sub">Nguyễn Anh DV Play</p>
+  </header>
+
+  <main class="container">
+    <div id="editor"></div>
+
+    <section class="panel">
+      <h2>Liên hệ</h2>
+      <label>Chữ trên nút <input id="contactLabel" type="text"></label>
+      <label>Đường dẫn (Zalo / Facebook) <input id="contactLink" type="url"></label>
+    </section>
+
+    <section class="panel">
+      <h2>Lưu và đồng bộ</h2>
+      <div class="row">
+        <button class="b b-ghost" id="btnPreview">Xem thử</button>
+        <button class="b b-ghost" id="btnDownload">Tải prices.json</button>
+      </div>
+
+      <h3>Đẩy thẳng lên GitHub</h3>
+      <p class="hint">Token chỉ lưu trong tab trình duyệt này, không gửi đi đâu ngoài GitHub. Tạo token loại fine-grained, chỉ cấp quyền “Contents: Read and write” cho repo này.</p>
+      <div class="gh">
+        <label>Tài khoản <input id="ghOwner" type="text" placeholder="ten-github"></label>
+        <label>Tên repo <input id="ghRepo" type="text" placeholder="nguyen-anh-dv-play"></label>
+        <label>Nhánh <input id="ghBranch" type="text" value="main"></label>
+        <label>Token <input id="ghToken" type="password" autocomplete="off"></label>
+      </div>
+      <button class="b" id="btnPush">Cập nhật lên web</button>
+      <p id="msg" class="msg" role="status"></p>
+    </section>
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+:root {
+  --bg: #f5f7f4;
+  --ink: #16251d;
+  --muted: #5d6b63;
+  --card: #ffffff;
+  --line: #e1e7e2;
+  --hero-a: #12372a;
+  --hero-b: #1d5a43;
+  --radius: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body {
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* Đầu trang */
+.hero {
+  background: linear-gradient(160deg, var(--hero-a), var(--hero-b));
+  color: #fff;
+  text-align: center;
+  padding: 48px 20px 40px;
+}
+.hero h1 { font-size: clamp(1.9rem, 6vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.hero-sub { margin-top: 8px; font-size: 1.1rem; opacity: .9; }
+.hero-updated { margin-top: 14px; font-size: .85rem; opacity: .7; }
+
+/* Thanh chọn mục */
+.tabs {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; gap: 8px; justify-content: center;
+  padding: 12px 16px;
+  background: rgba(245, 247, 244, .94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+.tabs a {
+  flex: 0 0 auto;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--c);
+  color: var(--c);
+  font-weight: 700; font-size: .95rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tabs a:hover, .tabs a:focus-visible { background: var(--c); color: #fff; outline: none; }
+
+/* Nội dung */
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px 8px; }
+.loading, .error { text-align: center; color: var(--muted); padding: 40px 0; }
+
+.section { margin-bottom: 36px; }
+.section-head {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-left: 14px;
+  border-left: 6px solid var(--c);
+  margin-bottom: 16px;
+}
+.section-head h2 { font-size: 1.5rem; font-weight: 800; color: var(--c); }
+.section-head p { color: var(--muted); font-size: .92rem; }
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+.item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--c);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: 10px;
+  min-height: 112px;
+}
+.item-name { font-size: 1.1rem; font-weight: 700; }
+.item-note { font-size: .85rem; color: var(--muted); }
+.item-price { font-size: 1.35rem; font-weight: 800; color: var(--c); }
+
+/* Chân trang */
+.footer { text-align: center; padding: 16px 16px 40px; color: var(--muted); font-size: .85rem; }
+.btn {
+  display: inline-block; margin-bottom: 14px;
+  padding: 12px 28px; border-radius: 999px;
+  background: var(--hero-b); color: #fff;
+  font-weight: 700; text-decoration: none;
+}
+.btn:hover, .btn:focus-visible { background: var(--hero-a); }
+
+/* Điện thoại: 2 cột gọn */
+@media (max-width: 520px) {
+  .tabs { justify-content: flex-start; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .item { padding: 12px; min-height: 100px; }
+  .item-name { font-size: 1rem; }
+  .item-price { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

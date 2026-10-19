@@ -1,0 +1,45 @@
+.hero.small { padding: 28px 20px 24px; }
+.hero.small h1 { font-size: clamp(1.5rem, 5vw, 2rem); }
+.panel, .cat {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 18px;
+}
+.cat { border-top: 5px solid var(--c, #888); }
+.cat h2, .panel h2 { font-size: 1.2rem; margin-bottom: 4px; }
+.cat h2 { color: var(--c); }
+.panel h3 { margin: 18px 0 4px; font-size: 1rem; }
+label { display: block; font-size: .85rem; color: var(--muted); margin-top: 10px; }
+input[type=text], input[type=url], input[type=password], input[type=number] {
+  width: 100%; margin-top: 4px; padding: 10px 12px;
+  font: inherit; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; background: #fff;
+}
+input:focus-visible, button:focus-visible { outline: 3px solid #9ccbb4; outline-offset: 1px; }
+.rows { margin-top: 12px; display: grid; gap: 10px; }
+.r {
+  display: grid; gap: 8px; align-items: end;
+  grid-template-columns: 1.3fr 1.3fr 1fr auto;
+}
+.r label { margin: 0; }
+.r .x { height: 42px; }
+.b {
+  padding: 11px 20px; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--hero-b); color: #fff; font: inherit; font-weight: 700;
+}
+.b:hover { background: var(--hero-a); }
+.b-ghost { background: transparent; color: var(--hero-b); border: 2px solid var(--hero-b); }
+.b-ghost:hover { background: var(--hero-b); color: #fff; }
+.b-del { background: #fff; color: #b3261e; border: 1px solid #e6b8b4; padding: 0 14px; }
+.b-del:hover { background: #fbeceb; }
+.b-add { margin-top: 12px; padding: 8px 16px; font-size: .9rem; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.gh { display: grid; gap: 0 12px; grid-template-columns: 1fr 1fr; margin-bottom: 14px; }
+.hint { font-size: .85rem; color: var(--muted); }
+.msg { margin-top: 12px; font-weight: 500; }
+.msg.ok { color: #1d7a45; }
+.msg.err { color: #b3261e; }
+@media (max-width: 640px) {
+  .r { grid-template-columns: 1fr 1fr; }
+  .r .x { grid-column: 1 / -1; height: 40px; }
+  .gh { grid-template-columns: 1fr; }
+}
