@@ -4,29 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nguyen Anh DV Play – Bảng giá dịch vụ</title>
-  <meta name="description" content="Bảng giá dịch vụ Nguyễn Anh DV Play: nông trại, thời tiết, tim và sao.">
+  <meta name="description" content="Bảng giá dịch vụ Nguyễn Anh DV Play: nông trại, thời tiết, tim và sao. Giá cập nhật mới nhất, uy tín, nhanh chóng.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons (lightweight icon set) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- ===== HERO ===== -->
   <header class="hero">
-    <h1>Nguyen Anh DV Play</h1>
-    <p class="hero-sub">Bảng giá dịch vụ</p>
+    <div class="hero-brand">
+      <div class="hero-logo">🎮</div>
+      <h1>Nguyen Anh DV Play</h1>
+    </div>
+    <p class="hero-sub">Bảng giá dịch vụ game – Nhanh · Uy tín · Giá tốt</p>
+    <div class="hero-badges">
+      <span class="hero-badge"><span class="dot"></span>Đang hoạt động</span>
+      <span class="hero-badge">⚡ Giao dịch nhanh</span>
+      <span class="hero-badge">🔒 An toàn</span>
+    </div>
     <p class="hero-updated">Cập nhật: <span id="updated">…</span></p>
   </header>
 
+  <!-- ===== STATS BAR ===== -->
+  <div class="stats-bar" id="statsBar" style="display:none">
+    <span class="stat-chip">📦 <strong id="statCats">0</strong> danh mục</span>
+    <span class="stat-chip">🏷️ <strong id="statItems">0</strong> dịch vụ</span>
+    <span class="stat-chip">📞 Nhắn Zalo / IG để đặt</span>
+  </div>
+
+  <!-- ===== STICKY TABS ===== -->
   <nav class="tabs" id="tabs" aria-label="Danh mục dịch vụ"></nav>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <main id="content" class="container">
+    <!-- Search bar injected by JS -->
     <p class="loading">Đang tải bảng giá…</p>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <a id="contact" class="btn" href="#">Liên hệ đặt dịch vụ</a>
-    <p>© Nguyen Anh DV Play</p>
+    <div class="footer-inner">
+      <a id="contact" class="btn" href="#">
+        <span class="btn-icon">💬</span>
+        <span id="contactLabel">Liên hệ đặt dịch vụ</span>
+      </a>
+      <p>© 2024–2026 Nguyen Anh DV Play · Tất cả dịch vụ đều uy tín</p>
+    </div>
   </footer>
+
+  <!-- ===== SCROLL TO TOP ===== -->
+  <button id="scrollTop" title="Lên đầu trang" aria-label="Cuộn lên đầu trang">⬆</button>
 
   <script src="js/app.js"></script>
 </body>

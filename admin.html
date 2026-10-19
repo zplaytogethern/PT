@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,45 +8,94 @@
   <title>Admin – Nguyễn Anh DV Play</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
+
 <body>
+
+  <!-- ===== HERO ===== -->
   <header class="hero small">
-    <h1>Trang quản trị giá</h1>
+    <div class="hero-brand">
+      <div class="hero-logo">⚙️</div>
+      <h1>Trang quản trị giá</h1>
+    </div>
     <p class="hero-sub">Nguyễn Anh DV Play</p>
   </header>
 
+  <!-- ===== TOP ACTION BAR ===== -->
+  <div class="admin-topbar">
+    <span class="admin-topbar-info" id="draftInfo">💾 Chưa có thay đổi</span>
+    <div class="admin-actions">
+      <button class="b b-ghost" id="btnImport" title="Nhập file prices.json">📂 Nhập JSON</button>
+      <button class="b b-ghost" id="btnPreview">👁️ Xem thử</button>
+      <button class="b b-ghost" id="btnDownload">⬇️ Tải JSON</button>
+    </div>
+  </div>
+
   <main class="container">
+
+    <!-- ===== EDITOR AREA ===== -->
     <div id="editor"></div>
 
+    <!-- Nút thêm danh mục -->
+    <button class="b b-ghost" id="btnAddCat" style="width:100%;margin-bottom:18px">➕ Thêm danh mục mới</button>
+
+    <!-- ===== CONTACT SECTION ===== -->
     <section class="panel">
-      <h2>Liên hệ</h2>
-      <label>Chữ trên nút <input id="contactLabel" type="text"></label>
-      <label>Đường dẫn (Zalo / Facebook) <input id="contactLink" type="url"></label>
+      <h2>📞 Liên hệ</h2>
+      <label>Chữ trên nút liên hệ <input id="contactLabel" type="text"
+          placeholder="Nhắn Zalo 09xxxxxxxx hoặc vào IG"></label>
+      <label>Đường dẫn (Zalo / Facebook / Instagram) <input id="contactLink" type="url"
+          placeholder="https://zalo.me/..."></label>
     </section>
 
+    <!-- ===== GITHUB PUSH SECTION ===== -->
     <section class="panel">
-      <h2>Lưu và đồng bộ</h2>
-      <div class="row">
-        <button class="b b-ghost" id="btnPreview">Xem thử</button>
-        <button class="b b-ghost" id="btnDownload">Tải prices.json</button>
-      </div>
+      <h2>🚀 Lưu và đồng bộ</h2>
 
-      <h3>Đẩy thẳng lên GitHub</h3>
-      <p class="hint">Token chỉ lưu trong tab trình duyệt này, không gửi đi đâu ngoài GitHub. Tạo token loại fine-grained, chỉ cấp quyền “Contents: Read and write” cho repo này.</p>
+      <!-- Import file JSON -->
+      <h3>📂 Nhập file prices.json</h3>
+      <p class="hint">Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này.</p>
+      <label class="import-zone" id="importZone" for="fileInput">
+        📁 Kéo thả hoặc bấm để chọn file prices.json
+        <input type="file" id="fileInput" accept=".json,application/json">
+      </label>
+
+      <!-- Đẩy lên GitHub -->
+      <h3>☁️ Đẩy thẳng lên GitHub Pages</h3>
+      <p class="hint">
+        Token chỉ lưu trong tab trình duyệt này, không gửi đi đâu ngoài GitHub API.
+        Tạo token loại <strong>Fine-grained</strong>, cấp quyền <em>"Contents: Read and write"</em> cho repo này.
+        <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">Tạo token →</a>
+      </p>
+      <p class="hint" style="margin-top:8px;color:#f78166">
+        ⚠️ <strong>Lưu ý:</strong> Chức năng đẩy lên GitHub chỉ hoạt động khi web được host trên GitHub Pages.
+        Nếu dùng file local, hãy dùng "Tải JSON" rồi thay file thủ công.
+      </p>
       <div class="gh">
-        <label>Tài khoản <input id="ghOwner" type="text" placeholder="ten-github"></label>
-        <label>Tên repo <input id="ghRepo" type="text" placeholder="nguyen-anh-dv-play"></label>
+        <label>Tài khoản GitHub <input id="ghOwner" type="text" placeholder="ten-github"></label>
+        <label>Tên repo <input id="ghRepo" type="text" placeholder="ten-repo"></label>
         <label>Nhánh <input id="ghBranch" type="text" value="main"></label>
-        <label>Token <input id="ghToken" type="password" autocomplete="off"></label>
+        <label>Token <input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></label>
       </div>
-      <button class="b" id="btnPush">Cập nhật lên web</button>
+      <div class="row">
+        <button class="b b-push" id="btnPush">☁️ Cập nhật lên GitHub</button>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
       <p id="msg" class="msg" role="status"></p>
     </section>
+
   </main>
+
+  <!-- Hidden file input trigger -->
+  <input type="file" id="fileInput2" accept=".json,application/json" style="display:none">
 
   <script src="js/admin.js"></script>
 </body>
+
 </html>
