@@ -8,11 +8,49 @@
     {
       "id": "nong-trai",
       "title": "Nông trại",
-      "note": "Giá mỗi gói, cập nhật theo thị trường.",
+      "note": "Xu nông trại theo mốc, nhân sâm theo gói.",
       "color": "#2f8f5b",
       "items": [
-        { "name": "Xu nông trại", "note": "Gói 1.000 xu", "price": 20000 },
-        { "name": "Nhân sâm", "note": "Gói 100 củ", "price": 30000 }
+        {
+          "name": "Xu nông trại 10M",
+          "note": "",
+          "price": 20000
+        },
+        {
+          "name": "Xu nông trại 100M",
+          "note": "",
+          "price": 150000
+        },
+        {
+          "name": "Xu nông trại 200M",
+          "note": "",
+          "price": 290000
+        },
+        {
+          "name": "Xu nông trại 500M",
+          "note": "",
+          "price": 700000
+        },
+        {
+          "name": "Xu nông trại 1B",
+          "note": "",
+          "price": 1350000
+        },
+        {
+          "name": "Xu nông trại 2B",
+          "note": "",
+          "price": 2650000
+        },
+        {
+          "name": "Xu nông trại 3B",
+          "note": "",
+          "price": 3900000
+        },
+        {
+          "name": "Nhân sâm",
+          "note": "Gói 100 củ",
+          "price": 30000
+        }
       ]
     },
     {
@@ -21,12 +59,36 @@
       "note": "Chọn số lượng thời tiết cần mua.",
       "color": "#2f7fd1",
       "items": [
-        { "name": "10 thời tiết", "note": "", "price": 10000 },
-        { "name": "50 thời tiết", "note": "", "price": 45000 },
-        { "name": "100 thời tiết", "note": "", "price": 85000 },
-        { "name": "200 thời tiết", "note": "", "price": 160000 },
-        { "name": "500 thời tiết", "note": "", "price": 380000 },
-        { "name": "1000 thời tiết", "note": "", "price": 700000 }
+        {
+          "name": "10 thời tiết",
+          "note": "",
+          "price": 10000
+        },
+        {
+          "name": "50 thời tiết",
+          "note": "",
+          "price": 45000
+        },
+        {
+          "name": "100 thời tiết",
+          "note": "",
+          "price": 85000
+        },
+        {
+          "name": "200 thời tiết",
+          "note": "",
+          "price": 160000
+        },
+        {
+          "name": "500 thời tiết",
+          "note": "",
+          "price": 380000
+        },
+        {
+          "name": "1000 thời tiết",
+          "note": "",
+          "price": 700000
+        }
       ]
     },
     {
@@ -35,10 +97,26 @@
       "note": "Giá theo gói tim và sao.",
       "color": "#d6457a",
       "items": [
-        { "name": "1K tim", "note": "", "price": 15000 },
-        { "name": "1K sao", "note": "", "price": 15000 },
-        { "name": "10K tim", "note": "", "price": 140000 },
-        { "name": "10K sao", "note": "", "price": 140000 }
+        {
+          "name": "1K tim",
+          "note": "",
+          "price": 15000
+        },
+        {
+          "name": "1K sao",
+          "note": "",
+          "price": 15000
+        },
+        {
+          "name": "10K tim",
+          "note": "",
+          "price": 140000
+        },
+        {
+          "name": "10K sao",
+          "note": "",
+          "price": 140000
+        }
       ]
     }
   ]
