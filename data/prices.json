@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-19",
   "contact": {
-    "label": "Nhắn Nguyễn Anh để đặt dịch vụ",
+    "label": "Nhắn Zalo 0388486348 hoặc bấm nút dưới để vào FB",
     "link": "https://facebook.com/ju2974"
   },
   "categories": [
@@ -19,37 +19,37 @@
         {
           "name": "Xu nông trại 100M",
           "note": "",
-          "price": 150000
+          "price": 65000
         },
         {
           "name": "Xu nông trại 200M",
           "note": "",
-          "price": 290000
+          "price": 0
         },
         {
           "name": "Xu nông trại 500M",
           "note": "",
-          "price": 700000
+          "price": 0
         },
         {
           "name": "Xu nông trại 1B",
           "note": "",
-          "price": 1350000
+          "price": 200000
         },
         {
           "name": "Xu nông trại 2B",
           "note": "",
-          "price": 2650000
+          "price": 0
         },
         {
           "name": "Xu nông trại 3B",
           "note": "",
-          "price": 3900000
+          "price": 510000
         },
         {
           "name": "Nhân sâm",
           "note": "Gói 100 củ",
-          "price": 30000
+          "price": 0
         }
       ]
     },
@@ -62,32 +62,32 @@
         {
           "name": "10 thời tiết",
           "note": "",
-          "price": 10000
+          "price": 12000
         },
         {
           "name": "50 thời tiết",
           "note": "",
-          "price": 45000
+          "price": 18000
         },
         {
           "name": "100 thời tiết",
           "note": "",
-          "price": 85000
+          "price": 28000
         },
         {
           "name": "200 thời tiết",
           "note": "",
-          "price": 160000
+          "price": 33000
         },
         {
           "name": "500 thời tiết",
           "note": "",
-          "price": 380000
+          "price": 0
         },
         {
           "name": "1000 thời tiết",
           "note": "",
-          "price": 700000
+          "price": 0
         }
       ]
     },
@@ -105,7 +105,7 @@
         {
           "name": "1K sao",
           "note": "",
-          "price": 15000
+          "price": 0
         },
         {
           "name": "10K tim",
@@ -115,7 +115,7 @@
         {
           "name": "10K sao",
           "note": "",
-          "price": 140000
+          "price": 0
         }
       ]
     }
