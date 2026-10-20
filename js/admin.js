@@ -14,6 +14,8 @@
  * - Web tĩnh chạy local → không thể tự cập nhật file. Phải dùng "Tải JSON"
  *   rồi thay thủ công, HOẶC push lên GitHub Pages.
  * - Đã thêm cảnh báo rõ ràng trong giao diện.
+ *
+ * i18n: Hỗ trợ tiếng Việt (VIE) và tiếng Anh (ENG).
  */
 (function () {
   'use strict';
@@ -29,6 +31,116 @@
     'tim-sao': '💖',
   };
 
+  /* ── i18n ────────────────────────────────────────────────────── */
+  const I18N = {
+    vi: {
+      heroTitle: 'Trang quản trị giá',
+      heroSub: 'Nguyễn Anh DV Play',
+      draftNone: '💾 Chưa có thay đổi',
+      draftDirty: '✏️ Có thay đổi chưa lưu',
+      draftSaved: '✅ Đã lưu',
+      btnImport: '📂 Nhập JSON',
+      btnPreview: '👁️ Xem thử',
+      btnDownload: '⬇️ Tải JSON',
+      btnAddCat: '➕ Thêm danh mục mới',
+      btnPush: '☁️ Cập nhật lên GitHub',
+      addService: '➕ Thêm dịch vụ',
+      editCat: '✏️ Sửa tên',
+      delCat: '🗑️ Xóa mục',
+      labelName: 'Tên dịch vụ',
+      labelNote: 'Ghi chú',
+      labelDesc: 'Mô tả dịch vụ',
+      labelPrice: 'Giá (đồng, 0=Liên hệ)',
+      contactSection: '📞 Liên hệ',
+      contactLabelInput: 'Chữ trên nút liên hệ',
+      contactLinkInput: 'Đường dẫn (Zalo / Facebook / Instagram)',
+      syncSection: '🚀 Lưu và đồng bộ',
+      importTitle: '📂 Nhập file prices.json',
+      importHint: 'Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này.',
+      importZone: '📁 Kéo thả hoặc bấm để chọn file prices.json',
+      ghTitle: '☁️ Đẩy thẳng lên GitHub Pages',
+      ghOwner: 'Tài khoản GitHub',
+      ghRepo: 'Tên repo',
+      ghBranch: 'Nhánh',
+      ghToken: 'Token',
+      copyright: '© Bản quyền thuộc NguyenAnhZn',
+    },
+    en: {
+      heroTitle: 'Price Admin Panel',
+      heroSub: 'Nguyen Anh DV Play',
+      draftNone: '💾 No changes yet',
+      draftDirty: '✏️ Unsaved changes',
+      draftSaved: '✅ Saved',
+      btnImport: '📂 Import JSON',
+      btnPreview: '👁️ Preview',
+      btnDownload: '⬇️ Download JSON',
+      btnAddCat: '➕ Add new category',
+      btnPush: '☁️ Push to GitHub',
+      addService: '➕ Add service',
+      editCat: '✏️ Edit name',
+      delCat: '🗑️ Delete',
+      labelName: 'Service name',
+      labelNote: 'Note',
+      labelDesc: 'Service description',
+      labelPrice: 'Price (VND, 0=Contact)',
+      contactSection: '📞 Contact',
+      contactLabelInput: 'Contact button text',
+      contactLinkInput: 'Link (Zalo / Facebook / Instagram)',
+      syncSection: '🚀 Save & Sync',
+      importTitle: '📂 Import prices.json',
+      importHint: 'If you already downloaded prices.json and edited it locally, use this to reimport.',
+      importZone: '📁 Drag & drop or click to select prices.json',
+      ghTitle: '☁️ Push directly to GitHub Pages',
+      ghOwner: 'GitHub username',
+      ghRepo: 'Repository name',
+      ghBranch: 'Branch',
+      ghToken: 'Token',
+      copyright: '© Copyright belongs to NguyenAnhZn',
+    },
+  };
+
+  let lang = localStorage.getItem('admin-lang') || 'vi';
+  const t = (key) => (I18N[lang] || I18N.vi)[key] || key;
+
+  function applyLang() {
+    // Hero
+    const heroTitle = document.querySelector('.hero h1');
+    const heroSub = document.querySelector('.hero-sub');
+    if (heroTitle) heroTitle.textContent = t('heroTitle');
+    if (heroSub) heroSub.textContent = t('heroSub');
+    // Top buttons
+    if ($('btnImport')) $('btnImport').innerHTML = t('btnImport');
+    if ($('btnPreview')) $('btnPreview').innerHTML = t('btnPreview');
+    if ($('btnDownload')) $('btnDownload').innerHTML = t('btnDownload');
+    if ($('btnAddCat')) $('btnAddCat').innerHTML = t('btnAddCat');
+    if ($('btnPush')) $('btnPush').innerHTML = t('btnPush');
+    // Draft info
+    if (!dirty && $('draftInfo')) $('draftInfo').textContent = t('draftNone');
+    // Contact section
+    const contactSec = document.querySelector('.panel h2');
+    if (contactSec) contactSec.textContent = t('contactSection');
+    // Copyright
+    const copyrightEl = $('adminCopyright');
+    if (copyrightEl) copyrightEl.textContent = t('copyright');
+    // Lang toggle
+    const toggle = $('langToggle');
+    if (toggle) toggle.textContent = lang === 'vi' ? '🌐 ENG' : '🌐 VIE';
+    // Redraw editor to update labels
+    if (data) draw();
+  }
+
+  /* ── Init lang toggle ──────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = $('langToggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        lang = lang === 'vi' ? 'en' : 'vi';
+        localStorage.setItem('admin-lang', lang);
+        applyLang();
+      });
+    }
+  });
+
   /* ── Status message ──────────────────────────────────────────── */
   const say = (text, type = 'ok') => {
     msg.textContent = text;
@@ -38,12 +150,12 @@
   /* ── Draft info bar ──────────────────────────────────────────── */
   const markDirty = () => {
     dirty = true;
-    $('draftInfo').textContent = '✏️ Có thay đổi chưa lưu';
+    $('draftInfo').textContent = t('draftDirty');
     $('draftInfo').style.color = '#f78166';
   };
   const markClean = () => {
     dirty = false;
-    $('draftInfo').textContent = '✅ Đã lưu';
+    $('draftInfo').textContent = t('draftSaved');
     $('draftInfo').style.color = '#3fb950';
   };
 
@@ -86,8 +198,8 @@
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
           <h2>${icon} <span class="cat-title-text">${cat.title}</span></h2>
           <div class="row" style="margin:0">
-            <button type="button" class="b b-ghost" style="font-size:.78rem;padding:5px 12px" data-ci="${ci}" data-action="edit-cat">✏️ Sửa tên</button>
-            <button type="button" class="b b-del" style="font-size:.78rem;padding:5px 12px" data-ci="${ci}" data-action="del-cat">🗑️ Xóa mục</button>
+            <button type="button" class="b b-ghost" style="font-size:.78rem;padding:5px 12px" data-ci="${ci}" data-action="edit-cat">${t('editCat')}</button>
+            <button type="button" class="b b-del" style="font-size:.78rem;padding:5px 12px" data-ci="${ci}" data-action="del-cat">${t('delCat')}</button>
           </div>
         </div>
         <p class="cat-meta">Màu: <input type="color" value="${cat.color || '#58a6ff'}" data-ci="${ci}" data-action="color" style="width:36px;height:26px;padding:1px;border:none;background:none;cursor:pointer;vertical-align:middle"></p>
@@ -102,7 +214,7 @@
       const addBtn = document.createElement('button');
       addBtn.type = 'button';
       addBtn.className = 'b b-ghost b-add';
-      addBtn.innerHTML = '➕ Thêm dịch vụ';
+      addBtn.innerHTML = t('addService');
       addBtn.dataset.ci = ci;
       addBtn.dataset.action = 'add-item';
       wrap.appendChild(addBtn);
@@ -121,9 +233,10 @@
     const r = document.createElement('div');
     r.className = 'r';
     r.innerHTML = `
-      <label>Tên dịch vụ<input type="text" data-k="name" value="${escHtml(it.name || '')}"></label>
-      <label>Ghi chú<input type="text" data-k="note" value="${escHtml(it.note || '')}"></label>
-      <label>Giá (đồng, 0=Liên hệ)<input type="number" min="0" step="1000" data-k="price" value="${it.price || 0}"></label>
+      <label>${t('labelName')}<input type="text" data-k="name" value="${escHtml(it.name || '')}"></label>
+      <label>${t('labelNote')}<input type="text" data-k="note" value="${escHtml(it.note || '')}"></label>
+      <label>${t('labelDesc')}<input type="text" data-k="description" value="${escHtml(it.description || '')}" placeholder="${lang === 'vi' ? 'Mô tả ngắn về dịch vụ…' : 'Short description…'}"></label>
+      <label>${t('labelPrice')}<input type="number" min="0" step="1000" data-k="price" value="${it.price || 0}"></label>
       <button type="button" class="b b-del x" data-ci="${ci}" data-ii="${ii}" data-action="del-item">✕</button>
     `;
     return r;
@@ -145,7 +258,7 @@
       data.categories[ci].items.splice(ii, 1);
       draw(); markDirty();
     } else if (action === 'add-item') {
-      data.categories[ci].items.push({ name: '', note: '', price: 0 });
+      data.categories[ci].items.push({ name: '', note: '', description: '', price: 0 });
       draw(); markDirty();
     } else if (action === 'del-cat') {
       if (confirm('Xóa toàn bộ danh mục "' + data.categories[ci].title + '"?')) {
@@ -198,7 +311,8 @@
 
   /* ── Add new category ────────────────────────────────────────── */
   $('btnAddCat').onclick = () => {
-    const title = prompt('Tên danh mục mới:');
+    const prompt_ = lang === 'vi' ? 'Tên danh mục mới:' : 'New category name:';
+    const title = prompt(prompt_);
     if (!title || !title.trim()) return;
     const id = title.trim().toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -365,4 +479,8 @@
 
   /* ── Boot ────────────────────────────────────────────────────── */
   init().catch((e) => say('❌ Không tải được dữ liệu: ' + e.message, 'err'));
+
+  /* ── Apply lang on boot ─────────────────────────────────────── */
+  // Run after DOM ready (init has already rendered)
+  window.addEventListener('load', () => applyLang());
 })();

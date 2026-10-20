@@ -50,9 +50,11 @@
     // --- Search bar ---
     const searchWrap = document.createElement('div');
     searchWrap.className = 'search-wrap';
+    const siteLang = window.__siteLang || 'vi';
+    const searchPh = (window.__siteI18n && window.__siteI18n.searchPlaceholder) || 'Tìm dịch vụ…';
     searchWrap.innerHTML = `
       <span class="s-icon">🔍</span>
-      <input type="search" id="searchInput" placeholder="Tìm dịch vụ…" autocomplete="off" aria-label="Tìm dịch vụ">
+      <input type="search" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="Tìm dịch vụ">
     `;
     content.appendChild(searchWrap);
 
@@ -95,9 +97,10 @@
 
       (cat.items || []).forEach((it) => {
         const card = el('div', 'item');
-        card.dataset.name = (it.name + ' ' + (it.note || '')).toLowerCase();
+        card.dataset.name = (it.name + ' ' + (it.note || '') + ' ' + (it.description || '')).toLowerCase();
         const info = el('div');
         info.appendChild(el('div', 'item-name', it.name));
+        if (it.description) info.appendChild(el('div', 'item-desc', it.description));
         if (it.note) info.appendChild(el('div', 'item-note', it.note));
 
         const priceFormatted = fmt(it.price);
@@ -148,6 +151,7 @@
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         const q = searchInput.value.trim().toLowerCase();
+        const noResultText = (window.__siteI18n && window.__siteI18n.noResult) || '😕 Không tìm thấy dịch vụ phù hợp';
         sections.forEach((sec) => {
           const grid = sec.querySelector('.grid');
           const cards = [...grid.querySelectorAll('.item')];
@@ -161,13 +165,30 @@
           let noRes = grid.querySelector('.no-results');
           if (visible === 0 && q) {
             if (!noRes) {
-              noRes = el('p', 'no-results', '😕 Không tìm thấy dịch vụ phù hợp');
+              noRes = el('p', 'no-results', noResultText);
               grid.appendChild(noRes);
+            } else {
+              noRes.textContent = noResultText;
             }
           } else {
             if (noRes) noRes.remove();
           }
         });
+      });
+
+      // React to language change
+      document.addEventListener('langchange', (e) => {
+        const i18n = e.detail && e.detail.i18n;
+        if (i18n && i18n.searchPlaceholder) searchInput.placeholder = i18n.searchPlaceholder;
+        // Update contact label
+        const contactLabelEl = document.getElementById('contactLabel');
+        if (contactLabelEl && i18n && i18n.contact) {
+          // Only override if it's still the default
+          const defaultLabels = ['Liên hệ đặt dịch vụ', 'Contact to order'];
+          if (defaultLabels.includes(contactLabelEl.textContent.trim())) {
+            contactLabelEl.textContent = i18n.contact;
+          }
+        }
       });
     }
   }

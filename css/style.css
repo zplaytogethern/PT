@@ -262,6 +262,7 @@ body {
   box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 18px rgba(255,255,255,0.04);
 }
 .item-name { font-size: .98rem; font-weight: 700; color: var(--ink); }
+.item-desc { font-size: .79rem; color: var(--accent); opacity: .85; margin-top: 1px; }
 .item-note { font-size: .8rem; color: var(--ink2); }
 .item-price { font-size: 1.22rem; font-weight: 800; color: var(--c); }
 .item-price-contact {
