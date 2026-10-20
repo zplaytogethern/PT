@@ -2,7 +2,6 @@
   "updated": "2026-10-20",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
-    "label_en": "Message Zalo 0388486348 or tap here to open IG",
     "link": "https://instagram.com/juhere04"
   },
   "categories": [
@@ -26,7 +25,7 @@
           "name_en": "Farm Coins 100M",
           "note": "",
           "note_en": "",
-          "price": 65000
+          "price": 99000
         },
         {
           "name": "Xu nông trại 200M",
@@ -61,7 +60,7 @@
           "name_en": "Farm Coins 3B",
           "note": "",
           "note_en": "",
-          "price": 510000
+          "price": 520000
         },
         {
           "name": "Nhân sâm",
@@ -92,42 +91,48 @@
           "name_en": "10 Weather",
           "note": "",
           "note_en": "",
-          "price": 12000
+          "price": 12000,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
           "name": "50 thời tiết",
           "name_en": "50 Weather",
           "note": "",
           "note_en": "",
-          "price": 18000
+          "price": 18000,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
           "name": "100 thời tiết",
           "name_en": "100 Weather",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 20000
+          "price": 25000,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
           "name": "200 thời tiết",
           "name_en": "200 Weather",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 30000
+          "price": 30000,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
           "name": "500 thời tiết",
           "name_en": "500 Weather",
           "note": "",
           "note_en": "",
-          "price": 0
+          "price": 0,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
           "name": "1000 thời tiết",
           "name_en": "1000 Weather",
           "note": "",
           "note_en": "",
-          "price": 0
+          "price": 0,
+          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         }
       ]
     },
