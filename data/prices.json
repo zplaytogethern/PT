@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
     "link": "https://instagram.com/juhere04"
@@ -14,7 +14,7 @@
         {
           "name": "Xu nông trại 10M",
           "note": "",
-          "price": 20000
+          "price": 23000
         },
         {
           "name": "Xu nông trại 100M",
@@ -50,6 +50,11 @@
           "name": "Nhân sâm",
           "note": "Gói 100 củ",
           "price": 32000
+        },
+        {
+          "name": "Xu nông trại 50M",
+          "note": "",
+          "price": 65000
         }
       ]
     },
@@ -71,13 +76,13 @@
         },
         {
           "name": "100 thời tiết",
-          "note": "",
-          "price": 28000
+          "note": "SALE",
+          "price": 20000
         },
         {
           "name": "200 thời tiết",
-          "note": "",
-          "price": 33000
+          "note": "SALE",
+          "price": 30000
         },
         {
           "name": "500 thời tiết",
