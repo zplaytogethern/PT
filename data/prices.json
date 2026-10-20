@@ -2,58 +2,79 @@
   "updated": "2026-10-20",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
+    "label_en": "Message Zalo 0388486348 or tap here to open IG",
     "link": "https://instagram.com/juhere04"
   },
   "categories": [
     {
       "id": "nong-trai",
       "title": "Nông trại",
+      "title_en": "Farm",
       "note": "Xu nông trại theo mốc, nhân sâm theo gói.",
+      "note_en": "Farm coins by milestone, ginseng by pack.",
       "color": "#2f8f5b",
       "items": [
         {
           "name": "Xu nông trại 10M",
+          "name_en": "Farm Coins 10M",
           "note": "",
+          "note_en": "",
           "price": 23000
         },
         {
           "name": "Xu nông trại 100M",
+          "name_en": "Farm Coins 100M",
           "note": "",
-          "price": 99000
+          "note_en": "",
+          "price": 65000
         },
         {
           "name": "Xu nông trại 200M",
+          "name_en": "Farm Coins 200M",
           "note": "",
+          "note_en": "",
           "price": 0
         },
         {
           "name": "Xu nông trại 500M",
+          "name_en": "Farm Coins 500M",
           "note": "",
+          "note_en": "",
           "price": 150000
         },
         {
           "name": "Xu nông trại 1B",
+          "name_en": "Farm Coins 1B",
           "note": "",
+          "note_en": "",
           "price": 200000
         },
         {
           "name": "Xu nông trại 2B",
+          "name_en": "Farm Coins 2B",
           "note": "",
+          "note_en": "",
           "price": 0
         },
         {
           "name": "Xu nông trại 3B",
+          "name_en": "Farm Coins 3B",
           "note": "",
+          "note_en": "",
           "price": 510000
         },
         {
           "name": "Nhân sâm",
+          "name_en": "Ginseng",
           "note": "Gói 100 củ",
+          "note_en": "Pack of 100",
           "price": 32000
         },
         {
           "name": "Xu nông trại 50M",
+          "name_en": "Farm Coins 50M",
           "note": "",
+          "note_en": "",
           "price": 65000
         }
       ]
@@ -61,37 +82,51 @@
     {
       "id": "thoi-tiet",
       "title": "Thời tiết",
+      "title_en": "Weather",
       "note": "Chọn số lượng thời tiết cần mua.",
+      "note_en": "Choose the amount of weather to purchase.",
       "color": "#2f7fd1",
       "items": [
         {
           "name": "10 thời tiết",
+          "name_en": "10 Weather",
           "note": "",
+          "note_en": "",
           "price": 12000
         },
         {
           "name": "50 thời tiết",
+          "name_en": "50 Weather",
           "note": "",
+          "note_en": "",
           "price": 18000
         },
         {
           "name": "100 thời tiết",
+          "name_en": "100 Weather",
           "note": "SALE",
+          "note_en": "SALE",
           "price": 20000
         },
         {
           "name": "200 thời tiết",
+          "name_en": "200 Weather",
           "note": "SALE",
+          "note_en": "SALE",
           "price": 30000
         },
         {
           "name": "500 thời tiết",
+          "name_en": "500 Weather",
           "note": "",
+          "note_en": "",
           "price": 0
         },
         {
           "name": "1000 thời tiết",
+          "name_en": "1000 Weather",
           "note": "",
+          "note_en": "",
           "price": 0
         }
       ]
@@ -99,27 +134,37 @@
     {
       "id": "tim-sao",
       "title": "Tim và Sao",
+      "title_en": "Hearts & Stars",
       "note": "Giá theo gói tim và sao.",
+      "note_en": "Price by heart and star pack.",
       "color": "#d6457a",
       "items": [
         {
           "name": "1K tim",
+          "name_en": "1K Hearts",
           "note": "",
+          "note_en": "",
           "price": 15000
         },
         {
           "name": "1K sao",
+          "name_en": "1K Stars",
           "note": "",
+          "note_en": "",
           "price": 0
         },
         {
           "name": "10K tim",
+          "name_en": "10K Hearts",
           "note": "",
+          "note_en": "",
           "price": 140000
         },
         {
           "name": "10K sao",
+          "name_en": "10K Stars",
           "note": "",
+          "note_en": "",
           "price": 0
         }
       ]

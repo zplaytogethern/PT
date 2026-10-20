@@ -109,6 +109,11 @@
     <span class="stat-chip">📦 <strong id="statCats">0</strong> <span data-i18n="categories">danh mục</span></span>
     <span class="stat-chip">🏷️ <strong id="statItems">0</strong> <span data-i18n="services">dịch vụ</span></span>
     <span class="stat-chip">📞 <span data-i18n="orderHint">Nhắn Zalo / IG để đặt</span></span>
+    <button type="button" class="notice-btn" id="noticeBtn" title="Thông báo Play Together">
+      <span class="bell-icon">🔔</span>
+      <span id="noticeBtnLabel" data-i18n="noticeBtn">Thông báo Game</span>
+      <span class="notice-dot"></span>
+    </button>
   </div>
 
   <!-- ===== STICKY TABS ===== -->
@@ -164,7 +169,38 @@
   <!-- ===== SCROLL TO TOP ===== -->
   <button id="scrollTop" title="Lên đầu trang" aria-label="Cuộn lên đầu trang">⬆</button>
 
+  <!-- ===== GAME NOTICE MODAL ===== -->
+  <div class="notice-modal" id="noticeModal" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+    <div class="notice-panel">
+      <div class="notice-drag-handle"></div>
+      <div class="notice-header">
+        <h3 id="noticeTitle">🔔 <span data-notice-i18n="title">Thông báo Play Together</span></h3>
+        <button type="button" class="notice-close" id="noticeClose" aria-label="Đóng">✕</button>
+      </div>
+      <div id="noticeBody">
+        <!-- filled by JS -->
+        <div class="notice-skeleton">
+          <div class="skel-item"></div>
+          <div class="skel-item"></div>
+          <div class="skel-item"></div>
+          <div class="skel-item"></div>
+          <div class="skel-item"></div>
+        </div>
+      </div>
+      <a class="notice-footer-link" href="https://notice.haegin.kr/play/prod/lang/Vietnamese" target="_blank" rel="noopener" id="noticeFullLink">↗ <span data-notice-i18n="viewAll">Xem tất cả thông báo</span></a>
+    </div>
+  </div>
+
+  <script>
+    /* ── Set language BEFORE app.js loads so render() picks correct lang ── */
+    (function () {
+      var lang = localStorage.getItem('site-lang') || 'vi';
+      window.__siteLang = lang;
+    })();
+  </script>
+
   <script src="js/app.js"></script>
+
   <script>
     /* ── QR modal ── */
     (function () {
@@ -176,6 +212,158 @@
       modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     })();
+
+    /* ── Game Notice ── */
+    (function () {
+      var noticeModal = document.getElementById('noticeModal');
+      var noticeBtn   = document.getElementById('noticeBtn');
+      var noticeClose = document.getElementById('noticeClose');
+      var noticeBody  = document.getElementById('noticeBody');
+      var fetched     = false;
+
+      // i18n labels for notice modal
+      var NOTICE_I18N = {
+        vi: { title: 'Thông báo Play Together', viewAll: 'Xem tất cả thông báo', noticeBtn: 'Thông báo Game',
+              loadErr: '😕 Không tải được thông báo. Vui lòng thử lại sau.',
+              badgeEvent:'Sự kiện', badgeCoupon:'Coupon', badgeUpdate:'Cập nhật', badgeNotice:'Thông báo' },
+        en: { title: 'Play Together Notices', viewAll: 'View all notices', noticeBtn: 'Game News',
+              loadErr: '😕 Failed to load notices. Please try again later.',
+              badgeEvent:'Event', badgeCoupon:'Coupon', badgeUpdate:'Update', badgeNotice:'Notice' },
+      };
+
+      function getLang() { return (window.__siteLang === 'en') ? 'en' : 'vi'; }
+      function nt(key)   { return (NOTICE_I18N[getLang()] || NOTICE_I18N.vi)[key] || key; }
+
+      function applyNoticeI18n() {
+        document.querySelectorAll('[data-notice-i18n]').forEach(function(el) {
+          var key = el.getAttribute('data-notice-i18n');
+          el.textContent = nt(key);
+        });
+        var btnLabel = document.getElementById('noticeBtnLabel');
+        if (btnLabel) btnLabel.textContent = nt('noticeBtn');
+        // update link for EN
+        var fullLink = document.getElementById('noticeFullLink');
+        if (fullLink) {
+          var lang = getLang() === 'en' ? 'English' : 'Vietnamese';
+          fullLink.href = 'https://notice.haegin.kr/play/prod/lang/' + lang;
+        }
+      }
+
+      // Classify badge
+      function classifyBadge(title) {
+        var t = title.toLowerCase();
+        if (t.includes('sự kiện') || t.includes('event'))  return 'event';
+        if (t.includes('coupon') || t.includes('phiếu'))   return 'coupon';
+        if (t.includes('cập nhật') || t.includes('update')) return 'update';
+        return 'notice';
+      }
+      function badgeLabel(type) {
+        return { event: nt('badgeEvent'), coupon: nt('badgeCoupon'),
+                 update: nt('badgeUpdate'), notice: nt('badgeNotice') }[type] || nt('badgeNotice');
+      }
+      // Color per badge
+      var BADGE_COLOR = { event:'#3fb950', coupon:'#f8c436', update:'#f78166', notice:'#8b949e' };
+
+      function showSkeleton() {
+        noticeBody.innerHTML = [
+          '<div class="notice-skeleton">',
+          '<div class="skel-item"></div>',
+          '<div class="skel-item"></div>',
+          '<div class="skel-item"></div>',
+          '<div class="skel-item"></div>',
+          '<div class="skel-item"></div>',
+          '</div>'
+        ].join('');
+      }
+
+      function renderNotices(items) {
+        if (!items || items.length === 0) {
+          noticeBody.innerHTML = '<div class="notice-empty">😕 ' + nt('loadErr') + '</div>';
+          return;
+        }
+        var html = '<div class="notice-list">';
+        items.forEach(function(it) {
+          var type  = classifyBadge(it.title);
+          var color = BADGE_COLOR[type] || '#8b949e';
+          html += [
+            '<a class="notice-item" href="' + it.href + '" target="_blank" rel="noopener"',
+            '   style="--ni-color:' + color + '">',
+            '  <div class="notice-row">',
+            '    <span class="notice-badge ' + type + '">' + badgeLabel(type) + '</span>',
+            '    <span class="notice-date">' + it.date + '</span>',
+            '  </div>',
+            '  <div class="notice-row">',
+            '    <span class="notice-title">' + it.title + '</span>',
+            '    <span class="notice-arrow">›</span>',
+            '  </div>',
+            '</a>'
+          ].join('');
+        });
+        html += '</div>';
+        noticeBody.innerHTML = html;
+      }
+
+      function fetchNotices() {
+        showSkeleton();
+        var lang  = getLang() === 'en' ? 'English' : 'Vietnamese';
+        var url   = 'https://notice.haegin.kr/play/prod/lang/' + lang;
+        var proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+
+        fetch(proxy)
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
+            var html = json.contents || '';
+            // Parse list-group-item anchors
+            var dp = new DOMParser();
+            var doc = dp.parseFromString(html, 'text/html');
+            var anchors = doc.querySelectorAll('a.list-group-item');
+            var items = [];
+            anchors.forEach(function(a) {
+              if (items.length >= 5) return;
+              var titleEl = a.querySelector('div > div:first-child');
+              var dateEl  = a.querySelector('small');
+              if (!titleEl) return;
+              var rawTitle = titleEl.innerText || titleEl.textContent || '';
+              rawTitle = rawTitle.trim();
+              if (!rawTitle) return;
+              var href = a.getAttribute('href') || '#';
+              if (href && href !== '#' && !href.startsWith('http')) {
+                href = 'https://notice.haegin.kr' + href;
+              }
+              items.push({
+                title: rawTitle,
+                date:  (dateEl ? (dateEl.textContent || '').replace('(UTC)','').trim() : ''),
+                href:  href,
+              });
+            });
+            fetched = true;
+            renderNotices(items);
+          })
+          .catch(function() {
+            noticeBody.innerHTML = '<div class="notice-empty">' + nt('loadErr') + '</div>';
+          });
+      }
+
+      function openNotice() {
+        noticeModal.classList.add('open');
+        applyNoticeI18n();
+        if (!fetched) fetchNotices();
+      }
+      function closeNotice() { noticeModal.classList.remove('open'); }
+
+      if (noticeBtn)   noticeBtn.addEventListener('click', openNotice);
+      if (noticeClose) noticeClose.addEventListener('click', closeNotice);
+      noticeModal.addEventListener('click', function(e) { if (e.target === noticeModal) closeNotice(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNotice(); });
+
+      // Re-fetch when language changes (so titles are in correct language)
+      document.addEventListener('langchange', function() {
+        applyNoticeI18n();
+        fetched = false; // force re-fetch in new lang
+        if (noticeModal.classList.contains('open')) fetchNotices();
+      });
+    })();
+
 
     /* ── i18n VIE / ENG ── */
     (function () {
@@ -194,6 +382,7 @@
           searchPlaceholder: 'Tìm dịch vụ…',
           contact: 'Liên hệ đặt dịch vụ',
           noResult: '😕 Không tìm thấy dịch vụ phù hợp',
+          noticeBtn: 'Thông báo Game',
         },
         en: {
           heroSub: 'Game service price list – Fast · Trusted · Best price',
@@ -209,6 +398,7 @@
           searchPlaceholder: 'Search services…',
           contact: 'Contact to order',
           noResult: '😕 No matching service found',
+          noticeBtn: 'Game News',
         },
       };
 
@@ -250,7 +440,7 @@
           lang = lang === 'vi' ? 'en' : 'vi';
           localStorage.setItem('site-lang', lang);
           applyLang();
-          // Notify app.js to re-render search placeholder & contact label
+          // Notify app.js to re-render ALL content (categories, items, notes, …)
           document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang, i18n: I18N[lang] } }));
         });
       }

@@ -2,6 +2,7 @@
  * app.js — Trang bảng giá công khai
  * - Đọc dữ liệu từ data/prices.json (hoặc localStorage nếu ?preview=1)
  * - Hỗ trợ: tìm kiếm, filter tab, scroll-to-top, stats bar
+ * - i18n: Khi đổi ngôn ngữ → re-render toàn bộ nội dung (title, note, item name, …)
  */
 (function () {
   'use strict';
@@ -17,7 +18,7 @@
   const fmt = (n) =>
     n > 0
       ? n.toLocaleString('vi-VN') + 'đ'
-      : null; // null = "Liên hệ"
+      : null; // null = "Liên hệ" / "Contact"
 
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
@@ -25,6 +26,20 @@
     if (text !== undefined) e.textContent = text;
     return e;
   };
+
+  /* ─── State ─────────────────────────────────────────────────────── */
+  let _data = null;
+  let _lang = window.__siteLang || localStorage.getItem('site-lang') || 'vi';
+
+  /* ─── Helper: lấy field theo ngôn ngữ ──────────────────────────── */
+  // Nếu có field `xxx_en` và đang dùng EN → trả về field đó; fallback về field gốc
+  function L(obj, field) {
+    if (_lang === 'en') {
+      const enVal = obj[field + '_en'];
+      if (enVal !== undefined && enVal !== null) return enVal;
+    }
+    return obj[field] || '';
+  }
 
   /* ─── Load dữ liệu ─────────────────────────────────────────────── */
   async function load() {
@@ -41,6 +56,8 @@
 
   /* ─── Render ────────────────────────────────────────────────────── */
   function render(data) {
+    _data = data;
+
     const tabs = document.getElementById('tabs');
     const content = document.getElementById('content');
     const statsBar = document.getElementById('statsBar');
@@ -50,11 +67,11 @@
     // --- Search bar ---
     const searchWrap = document.createElement('div');
     searchWrap.className = 'search-wrap';
-    const siteLang = window.__siteLang || 'vi';
-    const searchPh = (window.__siteI18n && window.__siteI18n.searchPlaceholder) || 'Tìm dịch vụ…';
+    const searchPh = (window.__siteI18n && window.__siteI18n.searchPlaceholder)
+      || (_lang === 'en' ? 'Search services…' : 'Tìm dịch vụ…');
     searchWrap.innerHTML = `
       <span class="s-icon">🔍</span>
-      <input type="search" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="Tìm dịch vụ">
+      <input type="search" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="Search services">
     `;
     content.appendChild(searchWrap);
 
@@ -71,12 +88,14 @@
     const sections = [];
     data.categories.forEach((cat, idx) => {
       const icon = CAT_ICONS[cat.id] || CAT_ICONS.default;
+      const catTitle = L(cat, 'title');
+      const catNote  = L(cat, 'note');
 
       // Tab
       const tab = el('a', '');
       tab.href = '#' + cat.id;
       tab.style.setProperty('--c', cat.color);
-      tab.innerHTML = `<span>${icon} ${cat.title}</span>`;
+      tab.innerHTML = `<span>${icon} ${catTitle}</span>`;
       if (idx === 0) tab.classList.add('active');
       tabs.appendChild(tab);
 
@@ -87,28 +106,37 @@
 
       const head = el('div', 'section-head');
       const h2 = el('h2');
-      h2.innerHTML = `<span>${icon}</span> ${cat.title}`;
+      h2.innerHTML = `<span>${icon}</span> ${catTitle}`;
       head.appendChild(h2);
-      if (cat.note) head.appendChild(el('p', '', cat.note));
+      if (catNote) head.appendChild(el('p', '', catNote));
       sec.appendChild(head);
 
       const grid = el('div', 'grid');
       grid.dataset.catId = cat.id;
 
       (cat.items || []).forEach((it) => {
+        const itemName = L(it, 'name');
+        const itemNote = L(it, 'note');
+        const itemDesc = L(it, 'description');
+
         const card = el('div', 'item');
-        card.dataset.name = (it.name + ' ' + (it.note || '') + ' ' + (it.description || '')).toLowerCase();
+        // dataset.name dùng để search – ghép cả vi lẫn en để tìm được cả hai
+        const searchStr = [
+          it.name, it.name_en, it.note, it.note_en, it.description, it.description_en
+        ].filter(Boolean).join(' ').toLowerCase();
+        card.dataset.name = searchStr;
+
         const info = el('div');
-        info.appendChild(el('div', 'item-name', it.name));
-        if (it.description) info.appendChild(el('div', 'item-desc', it.description));
-        if (it.note) info.appendChild(el('div', 'item-note', it.note));
+        info.appendChild(el('div', 'item-name', itemName));
+        if (itemDesc) info.appendChild(el('div', 'item-desc', itemDesc));
+        if (itemNote) info.appendChild(el('div', 'item-note', itemNote));
 
         const priceFormatted = fmt(it.price);
         if (priceFormatted) {
           info.appendChild(el('div', 'item-price', priceFormatted));
         } else {
           const contact = el('div', 'item-price-contact');
-          contact.innerHTML = '📞 Liên hệ';
+          contact.innerHTML = _lang === 'en' ? '📞 Contact' : '📞 Liên hệ';
           info.appendChild(contact);
         }
         card.appendChild(info);
@@ -124,8 +152,11 @@
     document.getElementById('updated').textContent = data.updated || 'N/A';
     const contactEl = document.getElementById('contact');
     if (data.contact) {
-      document.getElementById('contactLabel').textContent = data.contact.label || 'Liên hệ đặt dịch vụ';
-      contactEl.href = data.contact.link || '#';
+      const contactLabel = document.getElementById('contactLabel');
+      if (contactLabel) {
+        contactLabel.textContent = L(data.contact, 'label') || (_lang === 'en' ? 'Contact to order' : 'Liên hệ đặt dịch vụ');
+      }
+      if (contactEl) contactEl.href = data.contact.link || '#';
     }
 
     // --- Active tab on scroll (Intersection Observer) ---
@@ -151,7 +182,8 @@
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         const q = searchInput.value.trim().toLowerCase();
-        const noResultText = (window.__siteI18n && window.__siteI18n.noResult) || '😕 Không tìm thấy dịch vụ phù hợp';
+        const noResultText = (window.__siteI18n && window.__siteI18n.noResult)
+          || (_lang === 'en' ? '😕 No matching service found' : '😕 Không tìm thấy dịch vụ phù hợp');
         sections.forEach((sec) => {
           const grid = sec.querySelector('.grid');
           const cards = [...grid.querySelectorAll('.item')];
@@ -175,23 +207,24 @@
           }
         });
       });
-
-      // React to language change
-      document.addEventListener('langchange', (e) => {
-        const i18n = e.detail && e.detail.i18n;
-        if (i18n && i18n.searchPlaceholder) searchInput.placeholder = i18n.searchPlaceholder;
-        // Update contact label
-        const contactLabelEl = document.getElementById('contactLabel');
-        if (contactLabelEl && i18n && i18n.contact) {
-          // Only override if it's still the default
-          const defaultLabels = ['Liên hệ đặt dịch vụ', 'Contact to order'];
-          if (defaultLabels.includes(contactLabelEl.textContent.trim())) {
-            contactLabelEl.textContent = i18n.contact;
-          }
-        }
-      });
     }
   }
+
+  /* ─── React to language change → full re-render ─────────────────── */
+  document.addEventListener('langchange', (e) => {
+    _lang = (e.detail && e.detail.lang) || 'vi';
+    // Cập nhật __siteLang để L() dùng đúng
+    window.__siteLang = _lang;
+    if (_data) {
+      // Ghi nhớ vị trí scroll để không nhảy lên đầu
+      const scrollY = window.scrollY;
+      render(_data);
+      // Cập nhật search placeholder từ i18n
+      const si = document.getElementById('searchInput');
+      if (si && e.detail && e.detail.i18n) si.placeholder = e.detail.i18n.searchPlaceholder;
+      window.scrollTo({ top: scrollY });
+    }
+  });
 
   /* ─── Scroll to top ─────────────────────────────────────────────── */
   const scrollTopBtn = document.getElementById('scrollTop');
