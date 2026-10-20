@@ -176,6 +176,38 @@
           "price": 0
         }
       ]
+    },
+    {
+      "id": "hat-dua-hau--hat-giong",
+      "title": "Hạt Dưa Hấu ( Hạt giống)",
+      "color": "#58a6ff",
+      "note": "",
+      "items": [
+        {
+          "name": "50 Hạt dưa hấu",
+          "note": "",
+          "description": "Done thư",
+          "price": 23000
+        },
+        {
+          "name": "100 Hạt dưa hấu",
+          "note": "",
+          "description": "Done thư",
+          "price": 33000
+        },
+        {
+          "name": "200 Hạt dưa hấu",
+          "note": "",
+          "description": "Done thư",
+          "price": 43000
+        },
+        {
+          "name": "500 Hạt dưa hấu",
+          "note": "",
+          "description": "Done thư",
+          "price": 85000
+        }
+      ]
     }
   ]
 }
