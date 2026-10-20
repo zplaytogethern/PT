@@ -18,14 +18,14 @@
           "name_en": "Farm Coins 10M",
           "note": "",
           "note_en": "",
-          "price": 23000
+          "price": 24000
         },
         {
           "name": "Xu nông trại 100M",
           "name_en": "Farm Coins 100M",
-          "note": "",
+          "note": "Cây Phong",
           "note_en": "",
-          "price": 99000
+          "price": 69000
         },
         {
           "name": "Xu nông trại 200M",
@@ -37,16 +37,16 @@
         {
           "name": "Xu nông trại 500M",
           "name_en": "Farm Coins 500M",
-          "note": "",
+          "note": "Cây Phong",
           "note_en": "",
-          "price": 225000
+          "price": 169000
         },
         {
           "name": "Xu nông trại 1B",
           "name_en": "Farm Coins 1B",
           "note": "",
           "note_en": "",
-          "price": 335000
+          "price": 249000
         },
         {
           "name": "Xu nông trại 2B",
@@ -60,7 +60,7 @@
           "name_en": "Farm Coins 3B",
           "note": "",
           "note_en": "",
-          "price": 820000
+          "price": 520000
         },
         {
           "name": "Nhân sâm",
