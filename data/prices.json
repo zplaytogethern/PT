@@ -108,7 +108,7 @@
           "name_en": "100 Weather",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 25000,
+          "price": 21000,
           "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
@@ -116,7 +116,7 @@
           "name_en": "200 Weather",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 30000,
+          "price": 32000,
           "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         },
         {
@@ -132,7 +132,7 @@
           "name_en": "1000 Weather",
           "note": "",
           "note_en": "",
-          "price": 0,
+          "price": 135000,
           "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
         }
       ]
@@ -151,13 +151,6 @@
           "note": "",
           "note_en": "",
           "price": 15000
-        },
-        {
-          "name": "1K sao",
-          "name_en": "1K Stars",
-          "note": "",
-          "note_en": "",
-          "price": 0
         },
         {
           "name": "10K tim",
