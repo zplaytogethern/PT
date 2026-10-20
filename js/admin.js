@@ -1,5 +1,5 @@
 /**
- * admin.js — Trang quản trị giá Nguyen Anh DV Play
+ * admin.js — Trang quản trị giá ZPlayN
  *
  * LUỒNG HOẠT ĐỘNG:
  * 1. Load prices.json từ file local (data/prices.json) hoặc localStorage (nháp)
@@ -35,7 +35,7 @@
   const I18N = {
     vi: {
       heroTitle: 'Trang quản trị giá',
-      heroSub: 'Nguyễn Anh DV Play',
+      heroSub: 'ZPlayN',
       draftNone: '💾 Chưa có thay đổi',
       draftDirty: '✏️ Có thay đổi chưa lưu',
       draftSaved: '✅ Đã lưu',
@@ -67,7 +67,7 @@
     },
     en: {
       heroTitle: 'Price Admin Panel',
-      heroSub: 'Nguyen Anh DV Play',
+      heroSub: 'ZPlayN',
       draftNone: '💾 No changes yet',
       draftDirty: '✏️ Unsaved changes',
       draftSaved: '✅ Saved',
@@ -99,7 +99,8 @@
     },
   };
 
-  let lang = localStorage.getItem('admin-lang') || 'vi';
+  try { localStorage.removeItem('admin-lang'); } catch (e) {}
+  let lang = (window.sessionStorage && sessionStorage.getItem('admin-lang')) || 'vi';
   const t = (key) => (I18N[lang] || I18N.vi)[key] || key;
 
   function applyLang() {
@@ -135,7 +136,7 @@
     if (toggle) {
       toggle.addEventListener('click', () => {
         lang = lang === 'vi' ? 'en' : 'vi';
-        localStorage.setItem('admin-lang', lang);
+        try { sessionStorage.setItem('admin-lang', lang); } catch (e) {}
         applyLang();
       });
     }

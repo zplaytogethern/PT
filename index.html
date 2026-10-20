@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>  PlayZn – Bảng giá dịch vụ</title>
-  <meta name="description" content="Bảng giá dịch vụ Nguyễn Anh DV Play: nông trại, thời tiết, tim và sao. Giá cập nhật mới nhất, uy tín, nhanh chóng.">
+  <title>ZPlayN – Bảng giá dịch vụ</title>
+  <meta name="description" content="Bảng giá dịch vụ ZPlayN: nông trại, thời tiết, tim và sao. Giá cập nhật mới nhất, uy tín, nhanh chóng.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -93,7 +93,7 @@
   <header class="hero">
     <div class="hero-brand">
       <div class="hero-logo">🎮</div>
-      <h1 id="heroTitle">PlayZn</h1>
+      <h1 id="heroTitle">ZPlayN</h1>
     </div>
     <p class="hero-sub" id="heroSub">Bảng giá dịch vụ game – Nhanh · Uy tín · Giá tốt</p>
     <div class="hero-badges">
@@ -128,11 +128,6 @@
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="footer-inner">
-      <a id="contact" class="btn" href="#">
-        <span class="btn-icon">💬</span>
-        <span id="contactLabel">Liên hệ đặt dịch vụ</span>
-      </a>
-      <br>
       <button type="button" class="qr-btn" id="openQR">📱 <span data-i18n="openQR">Ấn vào đây để mở QR Zalo</span></button>
 
       <!-- Social icons -->
@@ -151,7 +146,7 @@
         </a>
       </div>
 
-      <p>© 2024–2026 Nguyen Anh DV Play · Tất cả dịch vụ đều uy tín</p>
+      <p>© 2024–2026 ZPlayN · Tất cả dịch vụ đều uy tín</p>
       <p class="footer-copy" id="footerCopy">© Bản quyền thuộc NguyenAnhZn</p>
     </div>
   </footer>
@@ -162,7 +157,7 @@
       <button type="button" class="qr-close" id="closeQR" aria-label="Đóng">✕</button>
       <h3 id="qrTitle">QR Zalo</h3>
       <p>Quét mã bằng Zalo để nhắn tin đặt dịch vụ</p>
-      <img src="images/zalo-qr.png" alt="Mã QR Zalo Nguyen Anh DV Play">
+      <img src="images/zalo-qr.png" alt="Mã QR Zalo ZPlayN">
     </div>
   </div>
 
@@ -194,7 +189,9 @@
   <script>
     /* ── Set language BEFORE app.js loads so render() picks correct lang ── */
     (function () {
-      var lang = localStorage.getItem('site-lang') || 'vi';
+      // Mặc định luôn là tiếng Việt khi vào trang; chỉ đổi khi người dùng tự chuyển trong phiên
+      try { localStorage.removeItem('site-lang'); } catch (e) {}
+      var lang = (window.sessionStorage && sessionStorage.getItem('site-lang')) || 'vi';
       window.__siteLang = lang;
     })();
   </script>
@@ -224,10 +221,12 @@
       // i18n labels for notice modal
       var NOTICE_I18N = {
         vi: { title: 'Thông báo Play Together', viewAll: 'Xem tất cả thông báo', noticeBtn: 'Thông báo Game',
-              loadErr: '😕 Không tải được thông báo. Vui lòng thử lại sau.',
+              loadErr: 'Không tải được thông báo. Vui lòng thử lại sau.',
+              retry: 'Thử lại',
               badgeEvent:'Sự kiện', badgeCoupon:'Coupon', badgeUpdate:'Cập nhật', badgeNotice:'Thông báo' },
         en: { title: 'Play Together Notices', viewAll: 'View all notices', noticeBtn: 'Game News',
-              loadErr: '😕 Failed to load notices. Please try again later.',
+              loadErr: 'Failed to load notices. Please try again later.',
+              retry: 'Try again',
               badgeEvent:'Event', badgeCoupon:'Coupon', badgeUpdate:'Update', badgeNotice:'Notice' },
       };
 
@@ -244,8 +243,8 @@
         // update link for EN
         var fullLink = document.getElementById('noticeFullLink');
         if (fullLink) {
-          var lang = getLang() === 'en' ? 'English' : 'Vietnamese';
-          fullLink.href = 'https://notice.haegin.kr/play/prod/lang/' + lang;
+          var langName = getLang() === 'en' ? 'English' : 'Vietnamese';
+          fullLink.href = 'https://notice.haegin.kr/play/prod/lang/' + langName;
         }
       }
 
@@ -278,7 +277,7 @@
 
       function renderNotices(items) {
         if (!items || items.length === 0) {
-          noticeBody.innerHTML = '<div class="notice-empty">😕 ' + nt('loadErr') + '</div>';
+          showError();
           return;
         }
         var html = '<div class="notice-list">';
@@ -303,45 +302,166 @@
         noticeBody.innerHTML = html;
       }
 
-      function fetchNotices() {
-        showSkeleton();
-        var lang  = getLang() === 'en' ? 'English' : 'Vietnamese';
-        var url   = 'https://notice.haegin.kr/play/prod/lang/' + lang;
-        var proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-
-        fetch(proxy)
-          .then(function(r) { return r.json(); })
-          .then(function(json) {
-            var html = json.contents || '';
-            // Parse list-group-item anchors
-            var dp = new DOMParser();
-            var doc = dp.parseFromString(html, 'text/html');
-            var anchors = doc.querySelectorAll('a.list-group-item');
-            var items = [];
-            anchors.forEach(function(a) {
-              if (items.length >= 5) return;
-              var titleEl = a.querySelector('div > div:first-child');
-              var dateEl  = a.querySelector('small');
-              if (!titleEl) return;
-              var rawTitle = titleEl.innerText || titleEl.textContent || '';
-              rawTitle = rawTitle.trim();
-              if (!rawTitle) return;
-              var href = a.getAttribute('href') || '#';
-              if (href && href !== '#' && !href.startsWith('http')) {
-                href = 'https://notice.haegin.kr' + href;
-              }
-              items.push({
-                title: rawTitle,
-                date:  (dateEl ? (dateEl.textContent || '').replace('(UTC)','').trim() : ''),
-                href:  href,
-              });
-            });
-            fetched = true;
-            renderNotices(items);
-          })
-          .catch(function() {
-            noticeBody.innerHTML = '<div class="notice-empty">' + nt('loadErr') + '</div>';
+      function showError() {
+        noticeBody.innerHTML = [
+          '<div class="notice-empty">',
+          '  <span style="font-size: 1.5rem">😕</span>',
+          '  <span>' + nt('loadErr') + '</span>',
+          '  <button type="button" class="notice-retry-btn" id="noticeRetryBtn">🔄 ' + nt('retry') + '</button>',
+          '</div>'
+        ].join('');
+        var retryBtn = document.getElementById('noticeRetryBtn');
+        if (retryBtn) {
+          retryBtn.addEventListener('click', function() {
+            fetchNotices(true);
           });
+        }
+      }
+
+      function parseNoticeHtml(html) {
+        var items = [];
+        if (!html) return items;
+        try {
+          var dp = new DOMParser();
+          var doc = dp.parseFromString(html, 'text/html');
+          var anchors = doc.querySelectorAll('a.list-group-item');
+          anchors.forEach(function(a) {
+            if (items.length >= 5) return;
+            var titleEl = a.querySelector('.justify-content-between > div:first-child') ||
+                          a.querySelector('div > div:first-child') ||
+                          a.querySelector('div');
+            var dateEl = a.querySelector('small');
+            if (!titleEl) return;
+            var rawTitle = (titleEl.innerText || titleEl.textContent || '').trim();
+            if (!rawTitle) return;
+            var href = a.getAttribute('href') || '#';
+            if (href && href !== '#' && !href.startsWith('http')) {
+              href = 'https://notice.haegin.kr' + (href.startsWith('/') ? '' : '/') + href;
+            }
+            var rawDate = dateEl ? (dateEl.innerText || dateEl.textContent || '').replace('(UTC)','').trim() : '';
+            items.push({
+              title: rawTitle,
+              date: rawDate,
+              href: href
+            });
+          });
+        } catch (e) {}
+
+        // Fallback regex parsing if DOMParser found nothing
+        if (items.length === 0) {
+          var itemRegex = /<a[^>]*class=["'][^"']*list-group-item[^"']*["'][^>]*href=["']([^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
+          var match;
+          while ((match = itemRegex.exec(html)) !== null && items.length < 5) {
+            var href = match[1];
+            var body = match[2];
+            var dateMatch = body.match(/<small[^>]*>([\s\S]*?)<\/small>/i);
+            var titleMatch = body.match(/<div[^>]*class=["'][^"']*justify-content-between[^"']*["']>[\s\S]*?<div>([\s\S]*?)<\/div>/i) ||
+                             body.match(/<div[^>]*>([\s\S]*?)<\/div>/i);
+            var cleanTitle = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+            var cleanDate = dateMatch ? dateMatch[1].replace('(UTC)', '').trim() : '';
+            if (cleanTitle) {
+              items.push({
+                title: cleanTitle,
+                date: cleanDate,
+                href: href.startsWith('http') ? href : ('https://notice.haegin.kr' + (href.startsWith('/') ? '' : '/') + href)
+              });
+            }
+          }
+        }
+        return items;
+      }
+
+      function fetchWithTimeout(url, options, timeoutMs) {
+        return new Promise(function(resolve, reject) {
+          var timer = setTimeout(function() {
+            reject(new Error('Timeout'));
+          }, timeoutMs || 6000);
+
+          fetch(url, options)
+            .then(function(res) {
+              clearTimeout(timer);
+              resolve(res);
+            })
+            .catch(function(err) {
+              clearTimeout(timer);
+              reject(err);
+            });
+        });
+      }
+
+      function fetchNotices(force) {
+        var currentLang = getLang();
+        var cacheKey = 'pt_notices_' + currentLang;
+
+        // Try restoring from localStorage first for instant display
+        var hasCache = false;
+        try {
+          var cachedRaw = localStorage.getItem(cacheKey);
+          if (cachedRaw) {
+            var cached = JSON.parse(cachedRaw);
+            if (Array.isArray(cached) && cached.length > 0) {
+              renderNotices(cached);
+              hasCache = true;
+            }
+          }
+        } catch (e) {}
+
+        if (!hasCache || force) {
+          showSkeleton();
+        }
+
+        var langName = currentLang === 'en' ? 'English' : 'Vietnamese';
+        var targetUrl = 'https://notice.haegin.kr/play/prod/lang/' + langName;
+
+        // Proxies ordered by reliability & speed
+        var proxies = [
+          {
+            url: 'https://api.microlink.io/?url=' + encodeURIComponent(targetUrl) + '&data.html.selector=.list-group&meta=false',
+            extract: function(r) { return r.json().then(function(j) { return (j.data && j.data.html) || ''; }); }
+          },
+          {
+            url: 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl),
+            extract: function(r) { return r.json().then(function(j) { return j.contents || ''; }); }
+          },
+          {
+            url: 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl),
+            extract: function(r) { return r.text(); }
+          }
+        ];
+
+        function tryProxy(index) {
+          if (index >= proxies.length) {
+            if (!hasCache) {
+              showError();
+            }
+            return;
+          }
+
+          var p = proxies[index];
+          fetchWithTimeout(p.url, {}, 6000)
+            .then(function(res) {
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              return p.extract(res);
+            })
+            .then(function(html) {
+              var items = parseNoticeHtml(html);
+              if (items && items.length > 0) {
+                fetched = true;
+                try {
+                  localStorage.setItem(cacheKey, JSON.stringify(items));
+                } catch (e) {}
+                renderNotices(items);
+              } else {
+                throw new Error('No items parsed');
+              }
+            })
+            .catch(function(err) {
+              console.warn('Proxy ' + index + ' failed:', err.message);
+              tryProxy(index + 1);
+            });
+        }
+
+        tryProxy(0);
       }
 
       function openNotice() {
@@ -402,7 +522,8 @@
         },
       };
 
-      var lang = localStorage.getItem('site-lang') || 'vi';
+      try { localStorage.removeItem('site-lang'); } catch (e) {}
+      var lang = window.__siteLang || (window.sessionStorage && sessionStorage.getItem('site-lang')) || 'vi';
       var toggle = document.getElementById('langToggle');
 
       function applyLang() {
@@ -438,7 +559,7 @@
       if (toggle) {
         toggle.addEventListener('click', function () {
           lang = lang === 'vi' ? 'en' : 'vi';
-          localStorage.setItem('site-lang', lang);
+          try { sessionStorage.setItem('site-lang', lang); } catch (e) {}
           applyLang();
           // Notify app.js to re-render ALL content (categories, items, notes, …)
           document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang, i18n: I18N[lang] } }));

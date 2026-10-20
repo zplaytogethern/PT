@@ -1,4 +1,4 @@
-# Nguyễn Anh DV Play – Bảng giá
+# ZPlayN – Bảng giá
 
 Trang bảng giá tĩnh (HTML + CSS, một ít JS để đọc dữ liệu), chạy được trên GitHub Pages.
 

@@ -29,7 +29,7 @@
 
   /* ─── State ─────────────────────────────────────────────────────── */
   let _data = null;
-  let _lang = window.__siteLang || localStorage.getItem('site-lang') || 'vi';
+  let _lang = window.__siteLang || (window.sessionStorage && sessionStorage.getItem('site-lang')) || 'vi';
 
   /* ─── Helper: lấy field theo ngôn ngữ ──────────────────────────── */
   // Nếu có field `xxx_en` và đang dùng EN → trả về field đó; fallback về field gốc
