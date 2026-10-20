@@ -60,14 +60,15 @@
           "name_en": "Farm Coins 3B",
           "note": "",
           "note_en": "",
-          "price": 520000
+          "price": 820000
         },
         {
           "name": "Nhân sâm",
           "name_en": "Ginseng",
           "note": "Gói 100 củ",
           "note_en": "Pack of 100",
-          "price": 32000
+          "price": 32000,
+          "description": "5% nhận ánh vàng, cầu vồng, ẩm ướt "
         },
         {
           "name": "Xu nông trại 50M",
