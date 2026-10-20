@@ -79,6 +79,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   gap: 12px; margin-bottom: 12px;
   position: relative; z-index: 1;
+  flex-wrap: wrap;
 }
 .hero-logo {
   width: 52px; height: 52px;
@@ -102,6 +103,24 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.hero-version {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.15);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  color: #79c2d0;
+  font: 700 0.8rem/1 'Be Vietnam Pro', sans-serif;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  vertical-align: middle;
+  align-self: center;
+  user-select: none;
 }
 .hero-sub { margin-top: 10px; font-size: 1.1rem; opacity: 0.85; font-weight: 500; position: relative; z-index: 1; }
 .hero-badges {
@@ -127,6 +146,121 @@ body {
   50% { opacity: 0.5; transform: scale(0.75); }
 }
 .hero-updated { margin-top: 6px; font-size: .82rem; opacity: .65; position: relative; z-index: 1; }
+
+/* ── Live Auto-update & Refresh Widget ── */
+.hero-updated-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.92);
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.hero-updated-wrap .live-dot-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #7ee787;
+}
+.hero-updated-wrap .live-pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3fb950;
+  box-shadow: 0 0 8px #3fb950;
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+.hero-updated-sep {
+  opacity: 0.35;
+  user-select: none;
+}
+.hero-updated-date {
+  opacity: 0.85;
+}
+.hero-updated-date #updated {
+  font-weight: 600;
+  color: #fff;
+}
+.btn-refresh-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: #fff;
+  font: 600 0.76rem/1 'Be Vietnam Pro', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-refresh-price:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.btn-refresh-price:active {
+  transform: scale(0.96);
+}
+.btn-refresh-price .refresh-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.btn-refresh-price.is-loading {
+  opacity: 0.75;
+  pointer-events: none;
+}
+.btn-refresh-price.is-loading .refresh-icon {
+  animation: spinRefresh 0.75s linear infinite;
+}
+@keyframes spinRefresh {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Subtle update notification toast */
+.price-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(22, 27, 34, 0.95);
+  border: 1px solid rgba(63, 185, 80, 0.45);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font: 600 0.84rem/1.2 'Be Vietnam Pro', sans-serif;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(63, 185, 80, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.price-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
 
 /* ===== Stats Bar ===== */
 .stats-bar {

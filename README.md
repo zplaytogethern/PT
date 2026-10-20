@@ -29,3 +29,9 @@ Mở `admin.html`, sửa giá rồi chọn một trong hai cách:
 
 Lưu ý: GitHub Pages không có máy chủ nên `admin.html` ai cũng mở được, nhưng chỉ người có token ghi vào repo mới đổi được giá thật.
 Thêm mục mới (vd. danh mục khác) bằng cách sửa `data/prices.json`, trang web tự hiển thị.
+
+## Cơ chế chống lưu cache & tự động cập nhật giá mới
+- **Chống lưu session / cache cũ**: Tự động dọn dẹp bộ nhớ tạm, hủy Service Worker cũ (nếu có), sử dụng nonce ngẫu nhiên + `cache: 'no-store'` + Header HTTP không lưu cache.
+- **Bắt sự kiện Back/Forward Cache (`pageshow`)**: Khi khách dùng điện thoại mở lại app (Zalo, Safari, Chrome) hoặc bấm Back, web tự động tải lại giá mới nhất ngay lập tức.
+- **Tự động làm mới khi quay lại tab (`visibilitychange`)**: Khi chuyển qua app khác rồi quay lại, web tự kiểm tra và cập nhật nếu có giá mới.
+- **Polling ngầm & Nút làm mới thủ công**: Kiểm tra định kỳ mỗi 60 giây và có nút "🔄 Làm mới" trên giao diện để khách có thể chủ động cập nhật bất cứ lúc nào.

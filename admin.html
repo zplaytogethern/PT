@@ -5,13 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Admin – ZPlayN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/style.css?v=20261020">
+  <link rel="stylesheet" href="css/admin.css?v=20261020">
   <style>
     /* ── Lang toggle ── */
     .lang-toggle {
@@ -143,13 +146,20 @@
     <!-- Nút thêm danh mục -->
     <button class="b b-ghost" id="btnAddCat" style="width:100%;margin-bottom:18px">➕ Thêm danh mục mới</button>
 
-    <!-- ===== CONTACT SECTION ===== -->
+    <!-- ===== GENERAL & CONTACT SECTION ===== -->
     <section class="panel">
-      <h2>📞 Liên hệ</h2>
-      <label>Chữ trên nút liên hệ <input id="contactLabel" type="text"
-          placeholder="Nhắn Zalo 09xxxxxxxx hoặc vào IG"></label>
-      <label>Đường dẫn (Zalo / Facebook / Instagram) <input id="contactLink" type="url"
-          placeholder="https://zalo.me/..."></label>
+      <h2 id="contactSectionTitle">⚙️ Cài đặt chung & Liên hệ</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:14px">
+        <label id="lblVersion">🏷️ Số phiên bản (Version hiển thị kế logo)
+          <input id="appVersion" type="text" placeholder="vd: 1.0, 2.1, v1.0...">
+        </label>
+        <label id="lblContactText">Chữ trên nút liên hệ
+          <input id="contactLabel" type="text" placeholder="Nhắn Zalo 09xxxxxxxx hoặc vào IG">
+        </label>
+      </div>
+      <label id="lblContactLink" style="margin-top:12px">Đường dẫn (Zalo / Facebook / Instagram)
+        <input id="contactLink" type="url" placeholder="https://zalo.me/...">
+      </label>
     </section>
 
     <!-- ===== GITHUB PUSH SECTION ===== -->
@@ -220,7 +230,7 @@
   <!-- Hidden file input trigger -->
   <input type="file" id="fileInput2" accept=".json,application/json" style="display:none">
 
-  <script src="js/admin.js"></script>
+  <script src="js/admin.js?v=20261020"></script>
 </body>
 
 </html>

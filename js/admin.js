@@ -51,7 +51,8 @@
       labelNote: 'Ghi chú',
       labelDesc: 'Mô tả dịch vụ',
       labelPrice: 'Giá (đồng, 0=Liên hệ)',
-      contactSection: '📞 Liên hệ',
+      contactSection: '⚙️ Cài đặt chung & Liên hệ',
+      lblVersion: '🏷️ Số phiên bản (Version hiển thị kế logo)',
       contactLabelInput: 'Chữ trên nút liên hệ',
       contactLinkInput: 'Đường dẫn (Zalo / Facebook / Instagram)',
       syncSection: '🚀 Lưu và đồng bộ',
@@ -83,7 +84,8 @@
       labelNote: 'Note',
       labelDesc: 'Service description',
       labelPrice: 'Price (VND, 0=Contact)',
-      contactSection: '📞 Contact',
+      contactSection: '⚙️ General Settings & Contact',
+      lblVersion: '🏷️ Version Number (displayed next to logo)',
       contactLabelInput: 'Contact button text',
       contactLinkInput: 'Link (Zalo / Facebook / Instagram)',
       syncSection: '🚀 Save & Sync',
@@ -117,9 +119,14 @@
     if ($('btnPush')) $('btnPush').innerHTML = t('btnPush');
     // Draft info
     if (!dirty && $('draftInfo')) $('draftInfo').textContent = t('draftNone');
-    // Contact section
-    const contactSec = document.querySelector('.panel h2');
+    // Contact & Version section
+    const contactSec = $('contactSectionTitle') || document.querySelector('.panel h2');
     if (contactSec) contactSec.textContent = t('contactSection');
+    const lblVer = $('lblVersion');
+    if (lblVer) {
+      const input = lblVer.querySelector('input');
+      lblVer.childNodes[0].nodeValue = t('lblVersion') + '\n          ';
+    }
     // Copyright
     const copyrightEl = $('adminCopyright');
     if (copyrightEl) copyrightEl.textContent = t('copyright');
@@ -169,7 +176,15 @@
       say('Đang mở bản nháp đã lưu. Nhấn "Tải JSON" để xuất hoặc "Đẩy GitHub" để cập nhật web.', 'info');
       markDirty();
     } else {
-      const res = await fetch('data/prices.json?v=' + Date.now());
+      const nonce = Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+      const res = await fetch('data/prices.json?v=' + nonce, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      });
       if (!res.ok) throw new Error('Không đọc được prices.json (HTTP ' + res.status + ')');
       data = await res.json();
     }
@@ -228,6 +243,7 @@
 
     $('contactLabel').value = data.contact?.label || '';
     $('contactLink').value = data.contact?.link || '';
+    if ($('appVersion')) $('appVersion').value = data.version || '1.0';
   }
 
   function makeRow(it, ci, ii) {
@@ -306,6 +322,9 @@
       label: $('contactLabel').value.trim(),
       link: $('contactLink').value.trim(),
     };
+    if ($('appVersion')) {
+      data.version = $('appVersion').value.trim() || '1.0';
+    }
     data.updated = new Date().toISOString().slice(0, 10);
     return JSON.stringify(data, null, 2) + '\n';
   }
@@ -465,8 +484,8 @@
     }
   };
 
-  /* ── Contact fields ──────────────────────────────────────────── */
-  ['contactLabel', 'contactLink'].forEach((id) => {
+  /* ── Contact & Version fields ────────────────────────────────── */
+  ['contactLabel', 'contactLink', 'appVersion'].forEach((id) => {
     $(id)?.addEventListener('input', markDirty);
   });
 
