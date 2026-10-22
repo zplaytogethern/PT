@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
     "link": "https://instagram.com/juhere04"
@@ -17,63 +17,63 @@
         {
           "name": "Xu nông trại 10M",
           "name_en": "Farm Coins 10M",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 24000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 100M",
           "name_en": "Farm Coins 100M",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "SALE ",
           "note_en": "",
           "price": 69000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 200M",
           "name_en": "Farm Coins 200M",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 0,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 500M",
           "name_en": "Farm Coins 500M",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 169000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 1B",
           "name_en": "Farm Coins 1B",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 249000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 2B",
           "name_en": "Farm Coins 2B",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 0,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Xu nông trại 3B",
           "name_en": "Farm Coins 3B",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 520000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         },
         {
           "name": "Nhân sâm 100 củ",
           "name_en": "Ginseng",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "Pack of 100",
           "price": 32000,
           "description": "5% nhận ánh vàng, cầu vồng, ẩm ướt "
@@ -81,10 +81,10 @@
         {
           "name": "Xu nông trại 50M",
           "name_en": "Farm Coins 50M",
-          "note": "OFF HẾT NGÀY 22/10",
+          "note": "",
           "note_en": "",
           "price": 65000,
-          "description": "OFF HẾT NGÀY 22/10"
+          "description": "Done thư cây Phong"
         }
       ]
     },
@@ -97,12 +97,30 @@
       "color": "#2f7fd1",
       "items": [
         {
-          "name": "OFF HẾT NGÀY 22/10",
+          "name": "100 Thời tiết tự chọn S1",
           "name_en": "1000 Weather",
-          "note": "",
+          "note": "server thoitietplayus",
           "note_en": "",
-          "price": 0,
-          "description": "Thời tiết - Giá bên dưới bao nhiêu slot cũng chạy, tự kiếm map - Tùy chọn theo ý muốn bất cứ thời tiết nào"
+          "price": 30000,
+          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật."
+        },
+        {
+          "name": "100 Thời tiết tự chọn S2",
+          "note": "server checkbot",
+          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật và ID Game",
+          "price": 27000
+        },
+        {
+          "name": "200 Thời tiết tự chọn S1",
+          "note": "server thoitietplayus",
+          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật.",
+          "price": 34000
+        },
+        {
+          "name": "200 Thời tiết tự chọn S2",
+          "note": "server checkbot",
+          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật và ID Game",
+          "price": 32000
         }
       ]
     },
@@ -115,11 +133,11 @@
       "color": "#d6457a",
       "items": [
         {
-          "name": "OFF HẾT NGÀY 22/10",
+          "name": "10K Tim",
           "name_en": "10K Stars",
           "note": "",
           "note_en": "",
-          "price": 0
+          "price": 45000
         }
       ]
     },
@@ -130,10 +148,16 @@
       "note": "",
       "items": [
         {
-          "name": "OFF HẾT NGÀY 22/10",
+          "name": "50 Hạt ",
           "note": "",
           "description": "Done thư",
-          "price": 85000
+          "price": 22000
+        },
+        {
+          "name": "100 Hạt",
+          "note": "",
+          "description": "",
+          "price": 32000
         }
       ]
     }
