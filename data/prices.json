@@ -112,7 +112,7 @@
           "note": "server thoitietplayus",
           "note_en": "server thoitietplayus",
           "price": 22000,
-          "description": "Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt."
         },
         {
@@ -120,25 +120,25 @@
           "name_en": "100 Custom Weather VIP",
           "note": "server checkbot",
           "note_en": "server checkbot",
-          "description": "Chạy cho cả 3 người",
+          "description": "Chạy cho cả 3 người, tự kiếm map",
           "description_en": "Run All",
           "price": 27000
         },
         {
-          "name": "200 Thời tiết tự chọn ",
-          "name_en": "200 Custom Weather ",
+          "name": "200 Thời tiết tự chọn VIP",
+          "name_en": "200 Custom Weather VIP",
           "note": "server thoitietplayus",
           "note_en": "server thoitietplayus",
-          "description": "Chạy cho cả 3 người",
-          "description_en": "RunALL",
+          "description": "Chạy cho cả 3 người, tự kiếm map",
+          "description_en": "Run ALL",
           "price": 45000
         },
         {
-          "name": "200 Thời tiết tự chọn VIP",
-          "name_en": "200 Custom Weather VIP",
+          "name": "200 Thời tiết tự chọn ",
+          "name_en": "200 Custom Weather ",
           "note": "server checkbot",
           "note_en": "server checkbot",
-          "description": "Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
           "price": 35000
         }
@@ -176,8 +176,8 @@
           "name_en": "50 Seeds",
           "note": "",
           "note_en": "",
-          "description": "Done thư cây Phong",
-          "description_en": "Delivered via Maple Tree mailbox",
+          "description": "Done thư ",
+          "description_en": "Done by MailBox",
           "price": 22000
         },
         {
@@ -185,8 +185,8 @@
           "name_en": "100 Seeds",
           "note": "",
           "note_en": "",
-          "description": "Done thư cây Phong",
-          "description_en": "Delivered via Maple Tree mailbox",
+          "description": "Done thư ",
+          "description_en": "Done by MailBox",
           "price": 32000
         }
       ]
