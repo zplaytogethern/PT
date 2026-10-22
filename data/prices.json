@@ -3,6 +3,7 @@
   "updated": "2026-10-22",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
+    "label_en": "Message Zalo 0388486348 or tap here for Instagram",
     "link": "https://instagram.com/juhere04"
   },
   "categories": [
@@ -20,63 +21,8 @@
           "note": "",
           "note_en": "",
           "price": 24000,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 100M",
-          "name_en": "Farm Coins 100M",
-          "note": "SALE ",
-          "note_en": "",
-          "price": 69000,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 200M",
-          "name_en": "Farm Coins 200M",
-          "note": "",
-          "note_en": "",
-          "price": 0,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 500M",
-          "name_en": "Farm Coins 500M",
-          "note": "",
-          "note_en": "",
-          "price": 169000,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 1B",
-          "name_en": "Farm Coins 1B",
-          "note": "",
-          "note_en": "",
-          "price": 249000,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 2B",
-          "name_en": "Farm Coins 2B",
-          "note": "",
-          "note_en": "",
-          "price": 0,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Xu nông trại 3B",
-          "name_en": "Farm Coins 3B",
-          "note": "",
-          "note_en": "",
-          "price": 520000,
-          "description": "Done thư cây Phong"
-        },
-        {
-          "name": "Nhân sâm 100 củ",
-          "name_en": "Ginseng",
-          "note": "",
-          "note_en": "Pack of 100",
-          "price": 32000,
-          "description": "5% nhận ánh vàng, cầu vồng, ẩm ướt "
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
         },
         {
           "name": "Xu nông trại 50M",
@@ -84,7 +30,71 @@
           "note": "",
           "note_en": "",
           "price": 65000,
-          "description": "Done thư cây Phong"
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 100M",
+          "name_en": "Farm Coins 100M",
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 69000,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 200M",
+          "name_en": "Farm Coins 200M",
+          "note": "",
+          "note_en": "",
+          "price": 0,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 500M",
+          "name_en": "Farm Coins 500M",
+          "note": "",
+          "note_en": "",
+          "price": 169000,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 1B",
+          "name_en": "Farm Coins 1B",
+          "note": "",
+          "note_en": "",
+          "price": 249000,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 2B",
+          "name_en": "Farm Coins 2B",
+          "note": "",
+          "note_en": "",
+          "price": 0,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Xu nông trại 3B",
+          "name_en": "Farm Coins 3B",
+          "note": "",
+          "note_en": "",
+          "price": 520000,
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox"
+        },
+        {
+          "name": "Nhân sâm 100 củ",
+          "name_en": "Ginseng 100 Roots",
+          "note": "Gói 100 củ",
+          "note_en": "Pack of 100",
+          "price": 32000,
+          "description": "5% nhận ánh vàng, cầu vồng, ẩm ướt",
+          "description_en": "5% chance for Gold, Rainbow, Moist"
         }
       ]
     },
@@ -98,28 +108,38 @@
       "items": [
         {
           "name": "100 Thời tiết tự chọn S1",
-          "name_en": "1000 Weather",
+          "name_en": "100 Custom Weather S1",
           "note": "server thoitietplayus",
-          "note_en": "",
+          "note_en": "server thoitietplayus",
           "price": 30000,
-          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật."
+          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật.",
+          "description_en": "Leave 1 slot for clone, auto-run. Character name required."
         },
         {
           "name": "100 Thời tiết tự chọn S2",
+          "name_en": "100 Custom Weather S2",
           "note": "server checkbot",
-          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật và ID Game",
+          "note_en": "server checkbot",
+          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật và ID Game",
+          "description_en": "Leave 1 slot for clone, auto-run. Character name & Game ID required.",
           "price": 27000
         },
         {
           "name": "200 Thời tiết tự chọn S1",
+          "name_en": "200 Custom Weather S1",
           "note": "server thoitietplayus",
-          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật.",
+          "note_en": "server thoitietplayus",
+          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật.",
+          "description_en": "Leave 1 slot for clone, auto-run. Character name required.",
           "price": 34000
         },
         {
           "name": "200 Thời tiết tự chọn S2",
+          "name_en": "200 Custom Weather S2",
           "note": "server checkbot",
-          "description": "Chừa 1 slot cho clone, tự chạy . Yêu cầu tên nhân vật và ID Game",
+          "note_en": "server checkbot",
+          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật và ID Game",
+          "description_en": "Leave 1 slot for clone, auto-run. Character name & Game ID required.",
           "price": 32000
         }
       ]
@@ -134,29 +154,39 @@
       "items": [
         {
           "name": "10K Tim",
-          "name_en": "10K Stars",
+          "name_en": "10K Hearts",
           "note": "",
           "note_en": "",
-          "price": 45000
+          "price": 45000,
+          "description": "Giao nhanh qua trang cá nhân",
+          "description_en": "Fast delivery to character profile"
         }
       ]
     },
     {
       "id": "hat-dua-hau--hat-giong",
-      "title": "Hạt Dưa Hấu ( Hạt giống)",
+      "title": "Hạt Dưa Hấu (Hạt giống)",
+      "title_en": "Watermelon Seeds",
       "color": "#58a6ff",
-      "note": "",
+      "note": "Hạt giống cây trồng chất lượng cao",
+      "note_en": "High-quality crop seeds",
       "items": [
         {
-          "name": "50 Hạt ",
+          "name": "50 Hạt",
+          "name_en": "50 Seeds",
           "note": "",
-          "description": "Done thư",
+          "note_en": "",
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox",
           "price": 22000
         },
         {
           "name": "100 Hạt",
+          "name_en": "100 Seeds",
           "note": "",
-          "description": "",
+          "note_en": "",
+          "description": "Done thư cây Phong",
+          "description_en": "Delivered via Maple Tree mailbox",
           "price": 32000
         }
       ]

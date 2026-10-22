@@ -1,8 +1,10 @@
 /**
- * app.js — Trang bảng giá công khai
- * - Đọc dữ liệu từ data/prices.json (hoặc localStorage nếu ?preview=1)
- * - Hỗ trợ: tìm kiếm, filter tab, scroll-to-top, stats bar
- * - i18n: Khi đổi ngôn ngữ → re-render toàn bộ nội dung (title, note, item name, …)
+ * app.js — Trang bảng giá ZPlayN (Client-side)
+ * - Tự động tải dữ liệu từ data/prices.json (hoặc draft nếu ?preview=1)
+ * - Chống lưu cache đa tầng (nonce ngẫu nhiên, no-store, no-cache)
+ * - Tìm kiếm thông minh: Không dấu tiếng Việt + Tiếng Anh
+ * - Hỗ trợ đa ngôn ngữ (VIE / ENG) toàn diện, luôn tương thích với dữ liệu Git
+ * - Thiết kế hướng người dùng: Mượt mà, nhẹ, tương tác nhanh
  */
 (function () {
   'use strict';
@@ -12,13 +14,69 @@
     'nong-trai': '🌾',
     'thoi-tiet': '⛅',
     'tim-sao': '💖',
+    'hat-dua-hau--hat-giong': '🍉',
     'default': '🏷️',
   };
 
-  const fmt = (n) =>
-    n > 0
-      ? n.toLocaleString('vi-VN') + 'đ'
-      : null; // null = "Liên hệ" / "Contact"
+  /* ─── Helper bỏ dấu tiếng Việt để tìm kiếm thông minh ─── */
+  function stripAccents(str) {
+    return String(str || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[đĐ]/g, (m) => (m === 'đ' ? 'd' : 'D'))
+      .toLowerCase()
+      .trim();
+  }
+
+  /* ─── Từ điển dịch tự động dự phòng (khi dữ liệu Git thiếu field _en) ─── */
+  const FALLBACK_TRANSLATIONS = {
+    'nông trại': 'Farm',
+    'thời tiết': 'Weather',
+    'tim và sao': 'Hearts & Stars',
+    'hạt dưa hấu (hạt giống)': 'Watermelon Seeds',
+    'hạt dưa hấu ( hạt giống)': 'Watermelon Seeds',
+    'hạt dưa hấu': 'Watermelon Seeds',
+    'xu nông trại': 'Farm Coins',
+    'nhân sâm': 'Ginseng',
+    'done thư cây phong': 'Delivered via Maple Tree mailbox',
+    'done thư': 'Delivered via mailbox',
+    'liên hệ': 'Contact',
+    'giá liên hệ': 'Contact for price',
+  };
+
+  function smartTranslateEn(text) {
+    if (!text) return '';
+    const clean = text.trim();
+    const lower = clean.toLowerCase();
+    if (FALLBACK_TRANSLATIONS[lower]) return FALLBACK_TRANSLATIONS[lower];
+
+    // Thay thế các cụm từ phổ biến
+    let res = clean
+      .replace(/xu nông trại/gi, 'Farm Coins')
+      .replace(/thời tiết tự chọn/gi, 'Custom Weather')
+      .replace(/thời tiết/gi, 'Weather')
+      .replace(/nhân sâm/gi, 'Ginseng')
+      .replace(/hạt giống/gi, 'Seeds')
+      .replace(/hạt dưa hấu/gi, 'Watermelon Seeds')
+      .replace(/(\d+)\s*hạt/gi, '$1 Seeds')
+      .replace(/(\d+)\s*củ/gi, '$1 Roots')
+      .replace(/done thư cây phong/gi, 'Delivered via Maple Tree mailbox')
+      .replace(/done thư/gi, 'Delivered via mailbox')
+      .replace(/chừa 1 slot cho clone, tự chạy/gi, 'Leave 1 slot for clone, auto-run')
+      .replace(/yêu cầu tên nhân vật và id game/gi, 'Character name & Game ID required')
+      .replace(/yêu cầu tên nhân vật/gi, 'Character name required');
+
+    return res;
+  }
+
+  /* ─── Định dạng tiền tệ theo ngôn ngữ ─────────────────────────────── */
+  const fmtPrice = (n, lang) => {
+    if (!n || n <= 0) return null;
+    if (lang === 'en') {
+      return n.toLocaleString('en-US') + ' VND';
+    }
+    return n.toLocaleString('vi-VN') + 'đ';
+  };
 
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
@@ -49,17 +107,28 @@
 
   /* ─── State ─────────────────────────────────────────────────────── */
   let _data = null;
-  let _lang = window.__siteLang || (window.sessionStorage && sessionStorage.getItem('site-lang')) || 'vi';
+  let _lang = (function () {
+    try {
+      return localStorage.getItem('site-lang') || (window.sessionStorage && sessionStorage.getItem('site-lang')) || 'vi';
+    } catch (e) {
+      return 'vi';
+    }
+  })();
   let _lastFetchTime = 0;
   let _isFetching = false;
   let _lastSignature = '';
 
-  /* ─── Helper: lấy field theo ngôn ngữ ──────────────────────────── */
-  // Nếu có field `xxx_en` và đang dùng EN → trả về field đó; fallback về field gốc
+  /* ─── Helper: lấy field theo ngôn ngữ chuẩn xác ─────────────────── */
   function L(obj, field) {
+    if (!obj) return '';
     if (_lang === 'en') {
       const enVal = obj[field + '_en'];
-      if (enVal !== undefined && enVal !== null) return enVal;
+      if (enVal !== undefined && enVal !== null && String(enVal).trim() !== '') {
+        return String(enVal).trim();
+      }
+      // Dùng từ điển dự phòng thông minh nếu dữ liệu trên Git thiếu bản EN
+      const viVal = obj[field] || '';
+      return smartTranslateEn(viVal);
     }
     return obj[field] || '';
   }
@@ -69,16 +138,16 @@
     if (!data) return '';
     try {
       return (data.version || '') + '__' + (data.updated || '') + '__' + (data.categories || []).map((c) =>
-        c.id + ':' + (c.items || []).map((i) => i.name + '=' + i.price).join(',')
+        c.id + ':' + (c.items || []).map((i) => (i.name || '') + '=' + (i.price || 0)).join(',')
       ).join(';');
     } catch (e) {
       return JSON.stringify(data);
     }
   }
 
-  /* ─── Load dữ liệu mới nhất (chống cache đa tầng) ──────────────── */
+  /* ─── Load dữ liệu mới nhất (chống cache triệt để) ───────────────── */
   async function loadData() {
-    // Preview mode: chỉ kích hoạt khi có ?preview trên URL từ admin
+    // Chế độ xem thử từ trang Admin
     if (new URLSearchParams(location.search).has('preview')) {
       const draft = localStorage.getItem('prices-draft');
       if (draft) {
@@ -90,8 +159,7 @@
       }
     }
 
-    // Anti-cache: kết hợp epoch timestamp nano + chuỗi ngẫu nhiên
-    // Thêm cache: 'no-store' & Header no-cache để vượt qua cả cache trình duyệt lẫn WebView (Zalo, FB, TikTok)
+    // Anti-cache: kết hợp epoch timestamp nano + random nonce
     const nonce = Date.now() + '_' + Math.random().toString(36).substring(2, 9);
     const res = await fetch('data/prices.json?v=' + nonce, {
       method: 'GET',
@@ -106,7 +174,13 @@
     return res.json();
   }
 
-  /* ─── Render ────────────────────────────────────────────────────── */
+  /* ─── Mở QR Zalo Modal ─────────────────────────────────────────── */
+  function openQRModal() {
+    const modal = document.getElementById('qrModal');
+    if (modal) modal.classList.add('open');
+  }
+
+  /* ─── Render Giao Diện ─────────────────────────────────────────── */
   function render(data) {
     _data = data;
 
@@ -116,45 +190,48 @@
     tabs.innerHTML = '';
     content.innerHTML = '';
 
-    // --- Search bar ---
+    // --- Search Bar với Nút Xóa Nhanh ---
     const searchWrap = document.createElement('div');
     searchWrap.className = 'search-wrap';
     const searchPh = (window.__siteI18n && window.__siteI18n.searchPlaceholder)
       || (_lang === 'en' ? 'Search services…' : 'Tìm dịch vụ…');
     searchWrap.innerHTML = `
       <span class="s-icon">🔍</span>
-      <input type="search" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="Search services">
+      <input type="text" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="${searchPh}">
+      <button type="button" class="search-clear-btn" id="searchClearBtn" title="Clear">✕</button>
     `;
     content.appendChild(searchWrap);
 
-    // --- Stats ---
+    // --- Stats Bar ---
     let totalItems = 0;
-    data.categories.forEach(c => { totalItems += (c.items || []).length; });
+    (data.categories || []).forEach((c) => { totalItems += (c.items || []).length; });
     if (statsBar) {
       statsBar.style.display = '';
-      document.getElementById('statCats').textContent = data.categories.length;
-      document.getElementById('statItems').textContent = totalItems;
+      const statCats = document.getElementById('statCats');
+      const statItems = document.getElementById('statItems');
+      if (statCats) statCats.textContent = (data.categories || []).length;
+      if (statItems) statItems.textContent = totalItems;
     }
 
-    // --- Tabs & sections ---
+    // --- Tabs & Danh mục ---
     const sections = [];
-    data.categories.forEach((cat, idx) => {
+    (data.categories || []).forEach((cat, idx) => {
       const icon = CAT_ICONS[cat.id] || CAT_ICONS.default;
       const catTitle = L(cat, 'title');
       const catNote  = L(cat, 'note');
 
-      // Tab
+      // Tab điều hướng
       const tab = el('a', '');
       tab.href = '#' + cat.id;
-      tab.style.setProperty('--c', cat.color);
+      tab.style.setProperty('--c', cat.color || '#58a6ff');
       tab.innerHTML = `<span>${icon} ${catTitle}</span>`;
       if (idx === 0) tab.classList.add('active');
       tabs.appendChild(tab);
 
-      // Section
+      // Section danh mục
       const sec = el('section', 'section');
       sec.id = cat.id;
-      sec.style.setProperty('--c', cat.color);
+      sec.style.setProperty('--c', cat.color || '#58a6ff');
 
       const head = el('div', 'section-head');
       const h2 = el('h2');
@@ -172,26 +249,55 @@
         const itemDesc = L(it, 'description');
 
         const card = el('div', 'item');
-        // dataset.name dùng để search – ghép cả vi lẫn en để tìm được cả hai
-        const searchStr = [
-          it.name, it.name_en, it.note, it.note_en, it.description, it.description_en
+
+        // Chuỗi tìm kiếm: Hỗ trợ tiếng Việt gốc, tiếng Việt không dấu, và tiếng Anh
+        const searchKeywords = [
+          it.name, stripAccents(it.name),
+          it.name_en,
+          it.note, it.note_en,
+          it.description, stripAccents(it.description), it.description_en,
+          cat.title, stripAccents(cat.title), cat.title_en,
         ].filter(Boolean).join(' ').toLowerCase();
-        card.dataset.name = searchStr;
 
-        const info = el('div');
+        card.dataset.name = searchKeywords;
+
+        const info = el('div', 'item-content');
         info.appendChild(el('div', 'item-name', itemName));
-        if (itemDesc) info.appendChild(el('div', 'item-desc', itemDesc));
-        if (itemNote) info.appendChild(el('div', 'item-note', itemNote));
 
-        const priceFormatted = fmt(it.price);
-        if (priceFormatted) {
-          info.appendChild(el('div', 'item-price', priceFormatted));
-        } else {
-          const contact = el('div', 'item-price-contact');
-          contact.innerHTML = _lang === 'en' ? '📞 Contact' : '📞 Liên hệ';
-          info.appendChild(contact);
+        if (itemDesc) {
+          info.appendChild(el('div', 'item-desc', itemDesc));
         }
+
+        if (itemNote) {
+          const noteBadge = el('span', 'item-note' + (itemNote.toLowerCase().includes('sale') ? ' sale' : ''), itemNote);
+          info.appendChild(noteBadge);
+        }
+
         card.appendChild(info);
+
+        const priceWrap = el('div', 'item-price-wrap');
+        const priceFormatted = fmtPrice(it.price, _lang);
+
+        if (priceFormatted) {
+          priceWrap.appendChild(el('div', 'item-price', priceFormatted));
+        } else {
+          // Khi giá = 0 -> Nút "Liên hệ" tương tác được
+          const contactBtn = el('button', 'item-price-contact');
+          contactBtn.type = 'button';
+          contactBtn.innerHTML = _lang === 'en' ? '📞 Contact' : '📞 Liên hệ';
+          contactBtn.title = _lang === 'en' ? 'Tap to contact and order' : 'Bấm để liên hệ đặt dịch vụ';
+          contactBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (data.contact && data.contact.link) {
+              window.open(data.contact.link, '_blank');
+            } else {
+              openQRModal();
+            }
+          });
+          priceWrap.appendChild(contactBtn);
+        }
+
+        card.appendChild(priceWrap);
         grid.appendChild(card);
       });
 
@@ -200,8 +306,10 @@
       sections.push(sec);
     });
 
-    // --- Cập nhật ngày, version & contact ---
-    document.getElementById('updated').textContent = data.updated || 'N/A';
+    // --- Cập nhật ngày, version & contact link ---
+    const updatedEl = document.getElementById('updated');
+    if (updatedEl) updatedEl.textContent = data.updated || 'N/A';
+
     const verEl = document.getElementById('heroVersion');
     if (verEl) {
       const v = String(data.version || '1.0').trim();
@@ -212,16 +320,31 @@
         verEl.textContent = v;
       }
     }
-    const contactEl = document.getElementById('contact');
+
     if (data.contact) {
       const contactLabel = document.getElementById('contactLabel');
       if (contactLabel) {
-        contactLabel.textContent = L(data.contact, 'label') || (_lang === 'en' ? 'Contact to order' : 'Liên hệ đặt dịch vụ');
+        contactLabel.textContent = L(data.contact, 'label') || (_lang === 'en' ? 'Message Zalo / IG to order' : 'Nhắn Zalo / IG để đặt');
       }
-      if (contactEl) contactEl.href = data.contact.link || '#';
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        contactEl.href = data.contact.link || '#';
+      }
+      const quickContact = document.getElementById('quickContactBtn');
+      if (quickContact) {
+        quickContact.onclick = (e) => {
+          if (data.contact.link) {
+            e.preventDefault();
+            window.open(data.contact.link, '_blank');
+          } else {
+            e.preventDefault();
+            openQRModal();
+          }
+        };
+      }
     }
 
-    // --- Active tab on scroll (Intersection Observer) ---
+    // --- Tab Scrollspy (Intersection Observer) ---
     const tabLinks = [...tabs.querySelectorAll('a')];
     if ('IntersectionObserver' in window) {
       const obs = new IntersectionObserver(
@@ -234,46 +357,68 @@
             }
           });
         },
-        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+        { rootMargin: '-25% 0px -65% 0px', threshold: 0 }
       );
       sections.forEach((s) => obs.observe(s));
     }
 
-    // --- Search / filter ---
+    // --- Tìm kiếm thông minh + Nút Clear ---
     const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+
     if (searchInput) {
-      searchInput.addEventListener('input', () => {
-        const q = searchInput.value.trim().toLowerCase();
+      const handleSearch = () => {
+        const raw = searchInput.value.trim().toLowerCase();
+        const stripped = stripAccents(raw);
+
+        if (searchClearBtn) {
+          searchClearBtn.classList.toggle('visible', raw.length > 0);
+        }
+
         const noResultText = (window.__siteI18n && window.__siteI18n.noResult)
           || (_lang === 'en' ? '😕 No matching service found' : '😕 Không tìm thấy dịch vụ phù hợp');
+
         sections.forEach((sec) => {
           const grid = sec.querySelector('.grid');
           const cards = [...grid.querySelectorAll('.item')];
-          let visible = 0;
+          let visibleCount = 0;
+
           cards.forEach((card) => {
-            const match = !q || card.dataset.name.includes(q);
+            const cardKeywords = card.dataset.name || '';
+            const match = !raw || cardKeywords.includes(raw) || cardKeywords.includes(stripped);
             card.style.display = match ? '' : 'none';
-            if (match) visible++;
+            if (match) visibleCount++;
           });
-          // No-results message
+
+          // Hiển thị thông báo không tìm thấy
           let noRes = grid.querySelector('.no-results');
-          if (visible === 0 && q) {
+          if (visibleCount === 0 && raw) {
             if (!noRes) {
               noRes = el('p', 'no-results', noResultText);
               grid.appendChild(noRes);
             } else {
               noRes.textContent = noResultText;
             }
-          } else {
-            if (noRes) noRes.remove();
+          } else if (noRes) {
+            noRes.remove();
           }
         });
-      });
+      };
+
+      searchInput.addEventListener('input', handleSearch);
+
+      if (searchClearBtn) {
+        searchClearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          handleSearch();
+          searchInput.focus();
+        });
+      }
     }
   }
 
   /* ─── Thông báo Toast nổi ───────────────────────────────────────── */
-  function showToast(text, duration = 3000) {
+  function showToast(text, duration = 2800) {
     let toast = document.getElementById('priceToast');
     if (!toast) {
       toast = document.createElement('div');
@@ -310,14 +455,12 @@
       if (hasChanged) {
         _lastSignature = newSig;
 
-        // Giữ lại từ khóa tìm kiếm và vị trí cuộn trang hiện tại
         const searchInput = document.getElementById('searchInput');
         const prevSearch = searchInput ? searchInput.value : '';
         const prevScrollY = window.scrollY;
 
         render(freshData);
 
-        // Khôi phục bộ lọc tìm kiếm nếu người dùng đang tìm
         if (prevSearch) {
           const newSearchInput = document.getElementById('searchInput');
           if (newSearchInput) {
@@ -326,7 +469,6 @@
           }
         }
 
-        // Khôi phục scroll nếu không phải lần đầu mở web
         if (!isFirstLoad && prevScrollY > 0) {
           window.scrollTo({ top: prevScrollY, behavior: 'instant' });
         }
@@ -343,10 +485,9 @@
           showToast(successMsg);
         }
       } else {
-        // Dữ liệu không đổi nhưng người dùng bấm nút làm mới thủ công
         if (!silent || showToastOnSuccess) {
           const latestMsg = _lang === 'en'
-            ? '✅ Prices are already the latest!'
+            ? '✅ Prices are already up-to-date!'
             : '✅ Bạn đang xem bảng giá mới nhất!';
           showToast(latestMsg);
         }
@@ -357,7 +498,7 @@
         const content = document.getElementById('content');
         content.innerHTML = '';
         const msg = el('p', 'error');
-        msg.innerHTML = `⚠️ Không tải được bảng giá. Vui lòng thử lại sau.<br><small style="opacity:.6">${err.message}</small>`;
+        msg.innerHTML = `⚠️ Không tải được bảng giá. Vui lòng kiểm tra kết nối mạng.<br><small style="opacity:.6">${err.message}</small>`;
         content.appendChild(msg);
       }
     } finally {
@@ -368,7 +509,7 @@
     }
   }
 
-  /* ─── React to language change → full re-render ─────────────────── */
+  /* ─── Phản hồi khi chuyển ngôn ngữ ──────────────────────────────── */
   document.addEventListener('langchange', (e) => {
     _lang = (e.detail && e.detail.lang) || 'vi';
     window.__siteLang = _lang;
@@ -387,8 +528,6 @@
         }
       }
 
-      const si = document.getElementById('searchInput');
-      if (si && e.detail && e.detail.i18n) si.placeholder = e.detail.i18n.searchPlaceholder;
       window.scrollTo({ top: scrollY });
     }
   });
@@ -404,40 +543,47 @@
     });
   }
 
-  /* ─── Lifecycle Triggers: Xử lý triệt để session cũ của trình duyệt ─ */
+  /* ─── Floating Order Button ─────────────────────────────────────── */
+  const floatingBtn = document.getElementById('floatingOrderBtn');
+  if (floatingBtn) {
+    floatingBtn.addEventListener('click', () => {
+      if (_data && _data.contact && _data.contact.link) {
+        window.open(_data.contact.link, '_blank');
+      } else {
+        openQRModal();
+      }
+    });
+  }
 
-  // 1. bfcache (Back/Forward Cache): Khi khách ấn Back, mở lại app hoặc khôi phục tab đã lưu session
+  /* ─── Lifecycle Triggers: Xử lý session trình duyệt & bfcache ───── */
   window.addEventListener('pageshow', (e) => {
-    if (e.persisted || (Date.now() - _lastFetchTime > 10000)) {
+    if (e.persisted || (Date.now() - _lastFetchTime > 12000)) {
       refresh({ silent: true });
     }
   });
 
-  // 2. Chuyển tab hoặc chuyển ứng dụng (Zalo/Messenger/TikTok/Safari tab) rồi quay lại
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      // Nếu đã hơn 15 giây kể từ lần tải gần nhất → tự động kiểm tra giá mới
       if (Date.now() - _lastFetchTime > 15000) {
         refresh({ silent: true });
       }
     }
   });
 
-  // 3. Window focus (click lại vào cửa sổ trình duyệt)
   window.addEventListener('focus', () => {
     if (Date.now() - _lastFetchTime > 25000) {
       refresh({ silent: true });
     }
   });
 
-  // 4. Polling ngầm: Tự động kiểm tra giá mới mỗi 60 giây khi khách đang xem trang
+  // Polling ngầm mỗi 60 giây khi tab đang hiển thị
   setInterval(() => {
     if (document.visibilityState === 'visible') {
       refresh({ silent: true });
     }
   }, 60000);
 
-  // 5. Bấm nút "Làm mới giá" thủ công trên giao diện
+  // Nút làm mới thủ công
   const btnRefresh = document.getElementById('btnRefreshPrice');
   if (btnRefresh) {
     btnRefresh.addEventListener('click', () => {
@@ -445,9 +591,8 @@
     });
   }
 
-  // Xuất hàm refresh ra window để tiện kiểm tra hoặc gọi từ ngoài
   window.__refreshPrices = refresh;
 
-  /* ─── Boot ──────────────────────────────────────────────────────── */
+  /* ─── Khởi động ─────────────────────────────────────────────────── */
   refresh({ silent: true });
 })();

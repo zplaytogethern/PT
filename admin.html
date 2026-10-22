@@ -13,106 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261020">
-  <link rel="stylesheet" href="css/admin.css?v=20261020">
-  <style>
-    /* ── Lang toggle ── */
-    .lang-toggle {
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1.5px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      font: 600 .82rem/1 'Be Vietnam Pro', sans-serif;
-      cursor: pointer;
-      transition: all .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .lang-toggle:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    /* ── Admin footer ── */
-    .admin-footer {
-      margin-top: 32px;
-      padding: 22px 16px 28px;
-      border-top: 1px solid var(--line);
-      text-align: center;
-      color: var(--ink2);
-      font-size: .82rem;
-    }
-
-    .admin-footer .social-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 10px;
-    }
-
-    .admin-footer .social-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      text-decoration: none;
-      font: 600 .83rem/1 'Be Vietnam Pro', sans-serif;
-      transition: all .2s;
-      border: 1.5px solid transparent;
-    }
-
-    .social-link.tiktok {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .social-link.tiktok:hover {
-      background: #010101;
-      border-color: #69c9d0;
-      color: #69c9d0;
-    }
-
-    .social-link.instagram {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .social-link.instagram:hover {
-      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .admin-footer .copyright {
-      margin-top: 8px;
-      opacity: .55;
-      font-size: .78rem;
-    }
-
-    /* TikTok SVG icon */
-    .icon-tiktok {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    .icon-ig {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      display: inline-block;
-      vertical-align: middle;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css?v=20261022">
+  <link rel="stylesheet" href="css/admin.css?v=20261022">
 </head>
 
 <body>
@@ -132,6 +34,7 @@
     <div class="admin-actions">
       <!-- Language Toggle -->
       <button class="lang-toggle" id="langToggle" title="Đổi ngôn ngữ">🌐 ENG</button>
+      <button class="b b-ghost" id="btnAutoTranslateAll" title="Tự động điền bản tiếng Anh cho các mục còn thiếu">⚡ Tự động dịch EN</button>
       <button class="b b-ghost" id="btnImport" title="Nhập file prices.json">📂 Nhập JSON</button>
       <button class="b b-ghost" id="btnPreview">👁️ Xem thử</button>
       <button class="b b-ghost" id="btnDownload">⬇️ Tải JSON</button>
@@ -149,16 +52,19 @@
     <!-- ===== GENERAL & CONTACT SECTION ===== -->
     <section class="panel">
       <h2 id="contactSectionTitle">⚙️ Cài đặt chung & Liên hệ</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:14px">
-        <label id="lblVersion">🏷️ Số phiên bản (Version hiển thị kế logo)
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:10px">
+        <label id="lblVersion">🏷️ Số phiên bản (Version)
           <input id="appVersion" type="text" placeholder="vd: 1.0, 2.1, v1.0...">
         </label>
-        <label id="lblContactText">Chữ trên nút liên hệ
-          <input id="contactLabel" type="text" placeholder="Nhắn Zalo 09xxxxxxxx hoặc vào IG">
+        <label id="lblContactText">Chữ nút liên hệ (Tiếng Việt)
+          <input id="contactLabel" type="text" placeholder="Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG">
+        </label>
+        <label id="lblContactTextEn" class="lbl-en">Contact button text (English)
+          <input id="contactLabelEn" type="text" placeholder="Message Zalo 0388486348 or tap here for Instagram">
         </label>
       </div>
-      <label id="lblContactLink" style="margin-top:12px">Đường dẫn (Zalo / Facebook / Instagram)
-        <input id="contactLink" type="url" placeholder="https://zalo.me/...">
+      <label id="lblContactLink" style="margin-top:12px">Đường dẫn liên hệ (Zalo / Facebook / Instagram)
+        <input id="contactLink" type="url" placeholder="https://instagram.com/juhere04">
       </label>
     </section>
 
@@ -168,7 +74,7 @@
 
       <!-- Import file JSON -->
       <h3>📂 Nhập file prices.json</h3>
-      <p class="hint">Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này.</p>
+      <p class="hint">Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này hoặc kéo thả file vào khung bên dưới.</p>
       <label class="import-zone" id="importZone" for="fileInput">
         📁 Kéo thả hoặc bấm để chọn file prices.json
         <input type="file" id="fileInput" accept=".json,application/json">
@@ -227,10 +133,7 @@
     <p class="copyright" id="adminCopyright">© Bản quyền thuộc NguyenAnhZn</p>
   </footer>
 
-  <!-- Hidden file input trigger -->
-  <input type="file" id="fileInput2" accept=".json,application/json" style="display:none">
-
-  <script src="js/admin.js?v=20261020"></script>
+  <script src="js/admin.js?v=20261022"></script>
 </body>
 
 </html>
