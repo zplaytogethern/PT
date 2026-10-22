@@ -110,7 +110,7 @@
           "name": "100 Thời tiết tự chọn ",
           "name_en": "100 Custom Weather ",
           "note": "server thoitietplayus",
-          "note_en": "server thoitietplayus",
+          "note_en": "",
           "price": 22000,
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt."
@@ -119,28 +119,28 @@
           "name": "100 Thời tiết tự chọn VIP",
           "name_en": "100 Custom Weather VIP",
           "note": "server checkbot",
-          "note_en": "server checkbot",
+          "note_en": "",
           "description": "Chạy cho cả 3 người, tự kiếm map",
           "description_en": "Run All",
           "price": 27000
         },
         {
-          "name": "200 Thời tiết tự chọn VIP",
-          "name_en": "200 Custom Weather VIP",
-          "note": "server thoitietplayus",
-          "note_en": "server thoitietplayus",
-          "description": "Chạy cho cả 3 người, tự kiếm map",
-          "description_en": "Run ALL",
-          "price": 45000
-        },
-        {
           "name": "200 Thời tiết tự chọn ",
           "name_en": "200 Custom Weather ",
           "note": "server checkbot",
-          "note_en": "server checkbot",
+          "note_en": "SALE",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
-          "price": 35000
+          "price": 29000
+        },
+        {
+          "name": "200 Thời tiết Bao 3 người",
+          "name_en": "200 Weather VIP",
+          "note": "",
+          "note_en": "",
+          "description": "",
+          "description_en": "",
+          "price": 49000
         }
       ]
     },
