@@ -107,40 +107,40 @@
       "color": "#2f7fd1",
       "items": [
         {
-          "name": "100 Thời tiết tự chọn S1",
-          "name_en": "100 Custom Weather S1",
+          "name": "100 Thời tiết tự chọn ",
+          "name_en": "100 Custom Weather ",
           "note": "server thoitietplayus",
           "note_en": "server thoitietplayus",
-          "price": 30000,
-          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật.",
-          "description_en": "Leave 1 slot for clone, auto-run. Character name required."
+          "price": 22000,
+          "description": "Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description_en": "Plenty of people are running it—save one slot for an alt."
         },
         {
-          "name": "100 Thời tiết tự chọn S2",
-          "name_en": "100 Custom Weather S2",
+          "name": "100 Thời tiết tự chọn VIP",
+          "name_en": "100 Custom Weather VIP",
           "note": "server checkbot",
           "note_en": "server checkbot",
-          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật và ID Game",
-          "description_en": "Leave 1 slot for clone, auto-run. Character name & Game ID required.",
+          "description": "Chạy cho cả 3 người",
+          "description_en": "Run All",
           "price": 27000
         },
         {
-          "name": "200 Thời tiết tự chọn S1",
-          "name_en": "200 Custom Weather S1",
+          "name": "200 Thời tiết tự chọn ",
+          "name_en": "200 Custom Weather ",
           "note": "server thoitietplayus",
           "note_en": "server thoitietplayus",
-          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật.",
-          "description_en": "Leave 1 slot for clone, auto-run. Character name required.",
-          "price": 34000
+          "description": "Chạy cho cả 3 người",
+          "description_en": "RunALL",
+          "price": 45000
         },
         {
-          "name": "200 Thời tiết tự chọn S2",
-          "name_en": "200 Custom Weather S2",
+          "name": "200 Thời tiết tự chọn VIP",
+          "name_en": "200 Custom Weather VIP",
           "note": "server checkbot",
           "note_en": "server checkbot",
-          "description": "Chừa 1 slot cho clone, tự chạy. Yêu cầu tên nhân vật và ID Game",
-          "description_en": "Leave 1 slot for clone, auto-run. Character name & Game ID required.",
-          "price": 32000
+          "description": "Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description_en": "Plenty of people are running it—save one slot for an alt.",
+          "price": 35000
         }
       ]
     },
