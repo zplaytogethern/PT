@@ -43,15 +43,6 @@
           "description_en": "Delivered via Maple Tree mailbox"
         },
         {
-          "name": "Xu nông trại 200M",
-          "name_en": "Farm Coins 200M",
-          "note": "",
-          "note_en": "",
-          "price": 0,
-          "description": "Done thư cây Phong",
-          "description_en": "Delivered via Maple Tree mailbox"
-        },
-        {
           "name": "Xu nông trại 500M",
           "name_en": "Farm Coins 500M",
           "note": "",
@@ -74,7 +65,7 @@
           "name_en": "Farm Coins 2B",
           "note": "",
           "note_en": "",
-          "price": 0,
+          "price": 320000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -83,7 +74,7 @@
           "name_en": "Farm Coins 3B",
           "note": "",
           "note_en": "",
-          "price": 520000,
+          "price": 425000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -123,6 +114,15 @@
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
           "price": 32000
+        },
+        {
+          "name": "50 Thời tiết tự chon",
+          "name_en": "50 Weather tự chon",
+          "note": "Fast",
+          "note_en": "Fast",
+          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description_en": "Plenty of people are running it—save one slot for an alt.",
+          "price": 18000
         }
       ]
     },
@@ -170,6 +170,15 @@
           "description": "Done thư ",
           "description_en": "Done by MailBox",
           "price": 32000
+        },
+        {
+          "name": "1000 Hạt",
+          "name_en": "1000 Seeds",
+          "note": "SALE",
+          "note_en": "SALE",
+          "description": "Done thư",
+          "description_en": "Delivered via mailbox",
+          "price": 155000
         }
       ]
     }
