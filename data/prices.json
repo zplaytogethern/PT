@@ -123,33 +123,6 @@
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
           "price": 18000
-        },
-        {
-          "name": "50 Thời tiết tự chọn",
-          "name_en": "50 Custom Weather",
-          "note": "Tên nhân vật",
-          "note_en": "Character Name",
-          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
-          "description_en": "Plenty of people are running it—save one slot for an alt.",
-          "price": 20000
-        },
-        {
-          "name": "100 Thời tiết tự chọn ",
-          "name_en": "100 Custom Weather",
-          "note": "Tên nhân vật",
-          "note_en": "Character Name",
-          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
-          "description_en": "Plenty of people are running it—save one slot for an alt.",
-          "price": 25000
-        },
-        {
-          "name": "200 Thời tiết tự chọn",
-          "name_en": "200 Custom Weather",
-          "note": "Tên nhân vật",
-          "note_en": "Character Name",
-          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
-          "description_en": "Plenty of people are running it—save one slot for an alt.",
-          "price": 35000
         }
       ]
     },
