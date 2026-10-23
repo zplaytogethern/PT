@@ -208,6 +208,43 @@
           "price": 155000
         }
       ]
+    },
+    {
+      "id": "khac",
+      "title": "Khác",
+      "title_en": "Other",
+      "color": "#58a6ff",
+      "note": "Up ảnh AVT ( Dành cho ZingID )",
+      "note_en": "Upload Avatar for ZingID",
+      "items": [
+        {
+          "name": "Ảnh AVT ZingID",
+          "name_en": "AVT ZIngID",
+          "note": "Cần đăng nhập",
+          "note_en": "Need to Login",
+          "description": "",
+          "description_en": "",
+          "price": 16000
+        },
+        {
+          "name": "Ảnh Bìa Nhà ",
+          "name_en": "Picture House",
+          "note": "Cần đăng nhập",
+          "note_en": "Need to Login",
+          "description": "",
+          "description_en": "",
+          "price": 16000
+        },
+        {
+          "name": "Combo Full",
+          "name_en": "Combo Full",
+          "note": "Cần đăng nhập",
+          "note_en": "Need to Login",
+          "description": "Cả avt và bìa",
+          "description_en": "AVT and Pic House",
+          "price": 21000
+        }
+      ]
     }
   ]
 }
