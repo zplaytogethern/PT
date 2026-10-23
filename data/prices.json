@@ -1,5 +1,5 @@
 {
-  "version": "1.6ST",
+  "version": "1.7.TEST",
   "updated": "2026-10-23",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
@@ -173,43 +173,6 @@
       ]
     },
     {
-      "id": "hat-dua-hau--hat-giong",
-      "title": "Hạt Dưa Hấu (Hạt giống)",
-      "title_en": "Watermelon Seeds",
-      "color": "#58a6ff",
-      "note": "Hạt giống cây trồng chất lượng cao",
-      "note_en": "High-quality crop seeds",
-      "items": [
-        {
-          "name": "50 Hạt",
-          "name_en": "50 Seeds",
-          "note": "",
-          "note_en": "",
-          "description": "Done thư ",
-          "description_en": "Done by MailBox",
-          "price": 22000
-        },
-        {
-          "name": "100 Hạt",
-          "name_en": "100 Seeds",
-          "note": "",
-          "note_en": "",
-          "description": "Done thư ",
-          "description_en": "Done by MailBox",
-          "price": 32000
-        },
-        {
-          "name": "1000 Hạt",
-          "name_en": "1000 Seeds",
-          "note": "SALE",
-          "note_en": "SALE",
-          "description": "Done thư",
-          "description_en": "Delivered via mailbox",
-          "price": 155000
-        }
-      ]
-    },
-    {
       "id": "khac",
       "title": "Khác",
       "title_en": "Other",
@@ -243,6 +206,33 @@
           "description": "Cả avt và bìa",
           "description_en": "AVT and Pic House",
           "price": 21000
+        },
+        {
+          "name": "Key KDG VIP 7D",
+          "name_en": "Key KDG VIP 7D",
+          "note": "dùng cho KDG Mods",
+          "note_en": "for KDG Mods",
+          "description": "",
+          "description_en": "",
+          "price": 75000
+        },
+        {
+          "name": "Key KDG VIP 30D",
+          "name_en": "Key KDG VIP 30D",
+          "note": "dùng cho KDG Mods",
+          "note_en": "for KDG Mods",
+          "description": "",
+          "description_en": "",
+          "price": 145000
+        },
+        {
+          "name": "Hạt dưa hấu ",
+          "name_en": "Watermelon Seeds",
+          "note": "SALE",
+          "note_en": "SALE",
+          "description": "",
+          "description_en": "",
+          "price": 32000
         }
       ]
     }
