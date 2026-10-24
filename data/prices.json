@@ -1,6 +1,6 @@
 {
   "version": "1.7.TEST",
-  "updated": "2026-10-23",
+  "updated": "2026-10-24",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
     "label_en": "Message Zalo 0388486348 or tap here for Instagram",
@@ -100,8 +100,8 @@
         {
           "name": "100 Thời tiết tự chọn ",
           "name_en": "100 Custom Weather ",
-          "note": "ID Game",
-          "note_en": "ID Game",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "price": 22000,
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt."
@@ -109,8 +109,8 @@
         {
           "name": "200 Thời tiết tự chọn ",
           "name_en": "200 Custom Weather ",
-          "note": "ID Game",
-          "note_en": "ID Game",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
           "price": 32000
@@ -118,11 +118,29 @@
         {
           "name": "50 Thời tiết tự chọn",
           "name_en": "50 Weather",
-          "note": "ID Game",
-          "note_en": "ID Game",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
           "price": 18000
+        },
+        {
+          "name": "500 Thời tiết tự chọn",
+          "name_en": "500 Custom Weather",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
+          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description_en": "Plenty of people are running it—save one slot for an alt.",
+          "price": 57000
+        },
+        {
+          "name": "1000 Thời tiết tự chọn",
+          "name_en": "",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
+          "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
+          "description_en": "Plenty of people are running it—save one slot for an alt.",
+          "price": 95000
         }
       ]
     },
