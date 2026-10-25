@@ -1,6 +1,6 @@
 {
   "version": "1.7.TEST",
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "contact": {
     "label": "Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG",
     "label_en": "Message Zalo 0388486348 or tap here for Instagram",
@@ -54,9 +54,9 @@
         {
           "name": "Xu nông trại 1B",
           "name_en": "Farm Coins 1B",
-          "note": "",
-          "note_en": "",
-          "price": 249000,
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 159000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -72,9 +72,9 @@
         {
           "name": "Xu nông trại 3B",
           "name_en": "Farm Coins 3B",
-          "note": "",
-          "note_en": "",
-          "price": 425000,
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 349000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -113,7 +113,7 @@
           "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Plenty of people are running it—save one slot for an alt.",
-          "price": 32000
+          "price": 31000
         },
         {
           "name": "50 Thời tiết tự chọn",
