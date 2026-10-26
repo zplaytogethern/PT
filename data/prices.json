@@ -104,29 +104,29 @@
         {
           "name": "50 Thời tiết tự chọn",
           "name_en": "50 Custom Weather",
-          "note": "SALE 26/10",
-          "note_en": "SALE 26/10",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 16000
+          "price": 19000
         },
         {
           "name": "100 Thời tiết tự chọn",
           "name_en": "100 Custom Weather",
-          "note": "SALE 26/10",
-          "note_en": "SALE 26/10",
-          "price": 20000,
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
+          "price": 22000,
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone"
         },
         {
           "name": "200 Thời tiết tự chọn",
           "name_en": "200 Custom Weather",
-          "note": "SALE 26/10",
-          "note_en": "SALE 26/10",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 29000
+          "price": 32000
         },
         {
           "name": "500 Thời tiết tự chọn",
