@@ -8,13 +8,15 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Admin – ZPlayN</title>
+  <title>Quản Trị Bảng Giá – ZPlayN</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261022">
-  <link rel="stylesheet" href="css/admin.css?v=20261022">
+  <link rel="stylesheet" href="css/style.css?v=20261026">
+  <link rel="stylesheet" href="css/admin.css?v=20261026">
 </head>
 
 <body>
@@ -23,7 +25,7 @@
   <header class="hero small">
     <div class="hero-brand">
       <div class="hero-logo">⚙️</div>
-      <h1>Trang quản trị giá</h1>
+      <h1>Quản Trị Bảng Giá</h1>
     </div>
     <p class="hero-sub">ZPlayN</p>
   </header>
@@ -34,7 +36,8 @@
     <div class="admin-actions">
       <!-- Language Toggle -->
       <button class="lang-toggle" id="langToggle" title="Đổi ngôn ngữ">🌐 ENG</button>
-      <button class="b b-ghost" id="btnAutoTranslateAll" title="Tự động điền bản tiếng Anh cho các mục còn thiếu">⚡ Tự động dịch EN</button>
+      <button class="b b-ghost" id="btnAutoTranslateAll" title="Tự động điền bản tiếng Anh cho các mục còn thiếu">⚡ Tự
+        động dịch EN</button>
       <button class="b b-ghost" id="btnImport" title="Nhập file prices.json">📂 Nhập JSON</button>
       <button class="b b-ghost" id="btnPreview">👁️ Xem thử</button>
       <button class="b b-ghost" id="btnDownload">⬇️ Tải JSON</button>
@@ -54,18 +57,26 @@
       <h2 id="contactSectionTitle">⚙️ Cài đặt chung & Liên hệ</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:10px">
         <label id="lblVersion">🏷️ Số phiên bản (Version)
-          <input id="appVersion" type="text" placeholder="vd: 1.0, 2.1, v1.0...">
+          <input id="appVersion" type="text" placeholder="vd: 2.0, 2.1, v2.0...">
         </label>
         <label id="lblContactText">Chữ nút liên hệ (Tiếng Việt)
-          <input id="contactLabel" type="text" placeholder="Nhắn Zalo 0388486348 hoặc bấm vào đây để vào IG">
+          <input id="contactLabel" type="text" placeholder="Nhắn Zalo hoặc Instagram để đặt dịch vụ nhanh">
         </label>
         <label id="lblContactTextEn" class="lbl-en">Contact button text (English)
-          <input id="contactLabelEn" type="text" placeholder="Message Zalo 0388486348 or tap here for Instagram">
+          <input id="contactLabelEn" type="text" placeholder="Message Zalo or Instagram to order quickly">
         </label>
       </div>
-      <label id="lblContactLink" style="margin-top:12px">Đường dẫn liên hệ (Zalo / Facebook / Instagram)
-        <input id="contactLink" type="url" placeholder="https://instagram.com/juhere04">
-      </label>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-top:12px">
+        <label id="lblContactZaloLink">🟢 Đường dẫn Zalo đặt hàng
+          <input id="contactZaloLink" type="url" placeholder="https://zalo.me/0388486348">
+        </label>
+        <label id="lblContactInstagramLink">📸 Đường dẫn Instagram đặt hàng
+          <input id="contactInstagramLink" type="url" placeholder="https://instagram.com/juhere04">
+        </label>
+        <label id="lblContactLink">Đường dẫn liên hệ phụ / Link bio
+          <input id="contactLink" type="url" placeholder="https://instagram.com/juhere04">
+        </label>
+      </div>
     </section>
 
     <!-- ===== GITHUB PUSH SECTION ===== -->
@@ -74,7 +85,8 @@
 
       <!-- Import file JSON -->
       <h3>📂 Nhập file prices.json</h3>
-      <p class="hint">Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này hoặc kéo thả file vào khung bên dưới.</p>
+      <p class="hint">Nếu bạn đã tải file prices.json về máy, chỉnh sửa rồi muốn import lại — dùng nút này hoặc kéo thả
+        file vào khung bên dưới.</p>
       <label class="import-zone" id="importZone" for="fileInput">
         📁 Kéo thả hoặc bấm để chọn file prices.json
         <input type="file" id="fileInput" accept=".json,application/json">
@@ -133,7 +145,7 @@
     <p class="copyright" id="adminCopyright">© Bản quyền thuộc NguyenAnhZn</p>
   </footer>
 
-  <script src="js/admin.js?v=20261022"></script>
+  <script src="js/admin.js?v=20261026"></script>
 </body>
 
 </html>

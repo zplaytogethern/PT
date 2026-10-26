@@ -71,7 +71,7 @@
   /* ─── i18n ──────────────────────────────────────────────────────── */
   const I18N = {
     vi: {
-      heroTitle: 'Trang quản trị giá',
+      heroTitle: 'Quản trị Bảng Giá',
       heroSub: 'ZPlayN',
       draftNone: '💾 Chưa có thay đổi',
       draftDirty: '✏️ Có thay đổi chưa lưu',
@@ -285,7 +285,9 @@
     if ($('contactLabel')) $('contactLabel').value = data.contact?.label || '';
     if ($('contactLabelEn')) $('contactLabelEn').value = data.contact?.label_en || '';
     if ($('contactLink')) $('contactLink').value = data.contact?.link || '';
-    if ($('appVersion')) $('appVersion').value = data.version || '1.0';
+    if ($('contactZaloLink')) $('contactZaloLink').value = data.contact?.zalo_link || (data.contact?.zalo ? ('https://zalo.me/' + data.contact.zalo) : 'https://zalo.me/0388486348');
+    if ($('contactInstagramLink')) $('contactInstagramLink').value = data.contact?.instagram_link || data.contact?.link || 'https://instagram.com/juhere04';
+    if ($('appVersion')) $('appVersion').value = data.version || '2.0';
   }
 
   function makeRow(it, ci, ii) {
@@ -420,13 +422,21 @@
 
   /* ── Collect Current State ───────────────────────────────────── */
   function collect() {
+    const zaloVal = $('contactZaloLink') ? $('contactZaloLink').value.trim() : (data.contact?.zalo_link || 'https://zalo.me/0388486348');
+    const igVal = $('contactInstagramLink') ? $('contactInstagramLink').value.trim() : (data.contact?.instagram_link || 'https://instagram.com/juhere04');
+    const phoneMatch = zaloVal.match(/(\d{9,11})/);
+
     data.contact = {
-      label: $('contactLabel') ? $('contactLabel').value.trim() : '',
-      label_en: $('contactLabelEn') ? $('contactLabelEn').value.trim() : '',
-      link: $('contactLink') ? $('contactLink').value.trim() : '',
+      label: $('contactLabel') ? $('contactLabel').value.trim() : (data.contact?.label || ''),
+      label_en: $('contactLabelEn') ? $('contactLabelEn').value.trim() : (data.contact?.label_en || ''),
+      link: $('contactLink') ? $('contactLink').value.trim() : igVal,
+      zalo: phoneMatch ? phoneMatch[1] : (data.contact?.zalo || '0388486348'),
+      zalo_link: zaloVal,
+      instagram: (igVal.split('/').filter(Boolean).pop() || data.contact?.instagram || 'juhere04'),
+      instagram_link: igVal,
     };
     if ($('appVersion')) {
-      data.version = $('appVersion').value.trim() || '1.0';
+      data.version = $('appVersion').value.trim() || '2.0';
     }
     data.updated = new Date().toISOString().slice(0, 10);
     return JSON.stringify(data, null, 2) + '\n';
@@ -641,8 +651,7 @@
     }
   };
 
-  /* ── Contact & Version Fields Listeners ──────────────────────── */
-  ['contactLabel', 'contactLabelEn', 'contactLink', 'appVersion'].forEach((id) => {
+  ['contactLabel', 'contactLabelEn', 'contactLink', 'contactZaloLink', 'contactInstagramLink', 'appVersion'].forEach((id) => {
     $(id)?.addEventListener('input', markDirty);
   });
 

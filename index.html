@@ -4,17 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZPlayN – Bảng giá dịch vụ</title>
+  <title>Bảng Giá Dịch Vụ – ZPlayN</title>
   <meta name="description"
-    content="Bảng giá dịch vụ ZPlayN: nông trại, thời tiết, tim và sao. Giá cập nhật mới nhất, uy tín, nhanh chóng.">
+    content="Bảng giá dịch vụ Play Together ZPlayN: Nông trại, thời tiết, tim sao, up avatar ZingID. Giá niêm yết rõ ràng, uy tín, giao dịch siêu tốc.">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <meta name="theme-color" content="#0d1117">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zplaytogethern.github.io/PT/">
+  <meta property="og:title" content="Bảng Giá Dịch Vụ – ZPlayN">
+  <meta property="og:description"
+    content="Bảng giá dịch vụ Play Together ZPlayN: Nông trại, thời tiết, tim sao, up avatar ZingID. Uy tín, nhanh chóng, cập nhật liên tục.">
+  <meta property="og:image" content="images/og-cover.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bảng Giá Dịch Vụ – ZPlayN">
+  <meta name="twitter:description"
+    content="Bảng giá dịch vụ Play Together ZPlayN: Nông trại, thời tiết, tim sao, up avatar ZingID. Uy tín, nhanh chóng.">
+  <meta name="twitter:image" content="images/og-cover.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261022">
+  <link rel="stylesheet" href="css/style.css?v=20261026">
 </head>
 
 <body>
@@ -28,10 +49,30 @@
   <header class="hero">
     <div class="hero-brand">
       <div class="hero-logo">🎮</div>
-      <h1 id="heroTitle">ZPlayN</h1>
-      <span class="hero-version" id="heroVersion">Version 1.0</span>
+      <h1 id="heroTitle" data-i18n="heroTitle">Bảng Giá Dịch Vụ</h1>
+      <span class="hero-version" id="heroVersion">Version 2.0</span>
     </div>
-    <p class="hero-sub" id="heroSub">Bảng giá dịch vụ game – Nhanh · Uy tín · Giá tốt</p>
+    <p class="hero-sub" id="heroSub" data-i18n="heroSub">ZPlayN · Play Together — Bảng giá rõ ràng, đặt hàng nhanh chóng</p>
+
+    <!-- Header Quick Contact CTA -->
+    <div class="hero-cta-group">
+      <a class="hero-btn hero-btn-zalo" id="heroZaloBtn" href="https://zalo.me/0388486348" target="_blank"
+        rel="noopener">
+        <span class="btn-icon">💬</span>
+        <span class="btn-text" data-i18n="chatZalo">Nhắn Zalo</span>
+      </a>
+      <a class="hero-btn hero-btn-ig" id="heroIgBtn" href="https://instagram.com/juhere04" target="_blank"
+        rel="noopener">
+        <span class="btn-icon">📸</span>
+        <span class="btn-text" data-i18n="chatInstagram">Instagram</span>
+      </a>
+      <button type="button" class="hero-btn hero-btn-qr" id="heroQrBtn">
+        <span class="btn-icon">📱</span>
+        <span class="btn-text" data-i18n="openQR">Mã QR</span>
+      </button>
+    </div>
+
+    <!-- Live Auto-update & Refresh Widget -->
     <div class="hero-updated-wrap">
       <span class="live-dot-wrap" title="Dữ liệu giá tự động cập nhật">
         <span class="live-pulse"></span>
@@ -56,32 +97,92 @@
   <div class="stats-bar" id="statsBar" style="display:none">
     <span class="stat-chip">📦 <strong id="statCats">0</strong> <span data-i18n="categories">danh mục</span></span>
     <span class="stat-chip">🏷️ <strong id="statItems">0</strong> <span data-i18n="services">dịch vụ</span></span>
-    <a class="btn-contact-quick" id="quickContactBtn" href="#contact" title="Liên hệ ngay">
-      <span>💬</span> <span data-i18n="quickContact">Đặt hàng ngay</span>
-    </a>
     <button type="button" class="notice-btn" id="noticeBtn" title="Thông báo Play Together">
       <span class="bell-icon">🔔</span>
       <span id="noticeBtnLabel" data-i18n="noticeBtn">Thông báo Game</span>
-      <span class="notice-dot"></span>
+      <span class="notice-dot" id="noticeDot"></span>
     </button>
   </div>
+
+  <!-- ===== ORDERING WORKFLOW / TRUST HIGHLIGHTS ===== -->
+  <section class="trust-section container" id="trustSection">
+    <div class="workflow-grid">
+      <div class="step-card">
+        <span class="step-num">1</span>
+        <div class="step-info">
+          <strong data-i18n="step1Title">Chọn dịch vụ</strong>
+          <span data-i18n="step1Desc">Bấm "Đặt dịch vụ" trên bảng giá</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-num">2</span>
+        <div class="step-info">
+          <strong data-i18n="step2Title">Sao chép nội dung</strong>
+          <span data-i18n="step2Desc">Đơn tự động tạo đầy đủ chi tiết</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-num">3</span>
+        <div class="step-info">
+          <strong data-i18n="step3Title">Nhắn Zalo / IG</strong>
+          <span data-i18n="step3Desc">Gửi tin nhắn đặt & thanh toán</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-num">4</span>
+        <div class="step-info">
+          <strong data-i18n="step4Title">Nhận dịch vụ</strong>
+          <span data-i18n="step4Desc">Xử lý trong 5-15p, an toàn 100%</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== STICKY TABS ===== -->
   <nav class="tabs" id="tabs" aria-label="Danh mục dịch vụ"></nav>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main id="content" class="container">
-    <p class="loading" id="loadingMsg">Đang tải bảng giá…</p>
+    <div class="loading-wrap" id="loadingWrap">
+      <p class="loading" id="loadingMsg">Đang tải bảng giá…</p>
+    </div>
   </main>
+
+  <!-- ===== NOSCRIPT FALLBACK ===== -->
+  <noscript>
+    <div class="noscript-box container">
+      <h3>⚠️ Bảng giá dịch vụ Play Together – ZPlayN</h3>
+      <p>Trình duyệt của bạn đang tắt JavaScript. Vui lòng bật lại để trải nghiệm tính năng tìm kiếm và đặt hàng tự động.
+      </p>
+      <p>Quý khách có thể liên hệ trực tiếp để được tư vấn và đặt dịch vụ:</p>
+      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="https://zalo.me/0388486348" style="color:#38ef7d;font-weight:700">💬 Nhắn Zalo: 0388486348</a>
+        <a href="https://instagram.com/juhere04" style="color:#f78166;font-weight:700">📸 Instagram: @juhere04</a>
+        <a href="data/prices.json" style="color:#58a6ff;font-weight:700">📂 Xem file dữ liệu giá gốc (JSON)</a>
+      </div>
+    </div>
+  </noscript>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="footer-inner">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-        <button type="button" class="qr-btn" id="openQR">📱 <span data-i18n="openQR">Mở QR Zalo</span></button>
-        <a class="qr-btn" id="contact" target="_blank" rel="noopener" style="background:linear-gradient(135deg, #1d7a45 0%, #2ea043 100%);">
-          <span id="contactLabel" data-i18n="contactOrder">Nhắn Zalo / IG để đặt</span>
+      <div class="footer-cta-row">
+        <a class="qr-btn zalo-btn" id="footerZalo" href="https://zalo.me/0388486348" target="_blank" rel="noopener">
+          <span>💬</span> <span data-i18n="chatZalo">Nhắn Zalo</span>
         </a>
+        <a class="qr-btn ig-btn" id="footerIg" href="https://instagram.com/juhere04" target="_blank" rel="noopener">
+          <span>📸</span> <span data-i18n="chatInstagram">Instagram</span>
+        </a>
+        <button type="button" class="qr-btn qr-action-btn" id="openQR">
+          <span>📱</span> <span data-i18n="openQR">Mở QR Zalo</span>
+        </button>
+      </div>
+
+      <!-- Payment & Policy Badges -->
+      <div class="trust-badges">
+        <span class="trust-badge">⚡ Giao nhanh 5–15 phút</span>
+        <span class="trust-badge">🔒 Bảo mật tài khoản</span>
+        <span class="trust-badge">💳 Chuyển khoản QR & MoMo</span>
       </div>
 
       <!-- Social icons -->
@@ -104,7 +205,7 @@
         </a>
       </div>
 
-      <p>© 2024–2026 ZPlayN · Uy tín & Chất lượng</p>
+      <p>© 2024–2026 ZPlayN · Dịch vụ Play Together Uy tín</p>
       <p class="footer-copy" id="footerCopy">© Bản quyền thuộc JZn</p>
     </div>
   </footer>
@@ -114,13 +215,87 @@
     <span>💬</span> <span data-i18n="floatingOrder">Đặt dịch vụ</span>
   </button>
 
+  <!-- ===== ORDER CONFIRMATION MODAL ===== -->
+  <div class="order-modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+    <div class="order-panel">
+      <div class="order-header">
+        <div class="order-header-text">
+          <span class="order-header-badge" id="orderCatBadge">Dịch vụ</span>
+          <h3 id="orderModalTitle" data-i18n="orderModalTitle">Xác nhận đặt hàng</h3>
+        </div>
+        <button type="button" class="order-close" id="orderClose" aria-label="Đóng">✕</button>
+      </div>
+
+      <div class="order-body">
+        <!-- Selected Service Info Card -->
+        <div class="order-card-preview">
+          <div class="order-card-title-row">
+            <span class="order-card-icon" id="orderItemIcon">🎮</span>
+            <div class="order-card-title-box">
+              <h4 id="orderItemName">Tên dịch vụ</h4>
+              <p id="orderItemDesc">Mô tả chi tiết</p>
+            </div>
+            <div class="order-card-price-box">
+              <span class="order-price-val" id="orderItemPrice">0đ</span>
+              <span class="order-note-tag" id="orderItemBadge" style="display:none">SALE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Requirement / Note box -->
+        <div class="order-req-box" id="orderReqBox">
+          <span class="order-req-icon">💡</span>
+          <div class="order-req-text" id="orderReqText">
+            Vui lòng sao chép nội dung bên dưới và nhắn qua <strong>Zalo</strong> hoặc <strong>Instagram</strong> để shop hỗ trợ ngay.
+          </div>
+        </div>
+
+        <!-- Generated order message box -->
+        <div class="order-msg-section">
+          <div class="order-msg-header">
+            <span class="order-msg-label" data-i18n="orderMsgLabel">📝 Nội dung gửi shop:</span>
+            <button type="button" class="btn-copy-order" id="btnCopyOrder">
+              <span class="copy-icon" id="copyIcon">📋</span>
+              <span class="copy-text" id="btnCopyText" data-i18n="copyOrderBtn">Sao chép tin nhắn</span>
+            </button>
+          </div>
+          <pre class="order-msg-pre" id="orderMsgText"></pre>
+        </div>
+
+        <!-- Contact CTA buttons -->
+        <div class="order-cta-grid">
+          <a class="order-btn-zalo" id="orderBtnZalo" href="https://zalo.me/0388486348" target="_blank" rel="noopener">
+            <span class="cta-icon">💬</span>
+            <span class="cta-text">
+              <strong data-i18n="orderZaloTitle">Nhắn Zalo đặt ngay</strong>
+              <small id="orderZaloSub">0388486348 (ZPlayN)</small>
+            </span>
+          </a>
+          <a class="order-btn-ig" id="orderBtnInstagram" href="https://instagram.com/juhere04" target="_blank"
+            rel="noopener">
+            <span class="cta-icon">📸</span>
+            <span class="cta-text">
+              <strong data-i18n="orderIgTitle">Nhắn Instagram</strong>
+              <small id="orderIgSub">@juhere04</small>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== QR ZALO POPUP ===== -->
   <div class="qr-modal" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
     <div class="qr-box">
       <button type="button" class="qr-close" id="closeQR" aria-label="Đóng">✕</button>
-      <h3 id="qrTitle">QR Zalo</h3>
-      <p id="qrSubText" data-i18n="qrScanHint">Quét mã bằng Zalo để nhắn tin đặt dịch vụ</p>
+      <h3 id="qrTitle">Mã QR Zalo</h3>
+      <p id="qrSubText" data-i18n="qrScanHint">Quét mã bằng Zalo hoặc lưu ảnh để nhắn tin đặt dịch vụ</p>
       <img src="images/zalo-qr.png" alt="Mã QR Zalo ZPlayN">
+      <div class="qr-action-row">
+        <a class="qr-direct-link" id="qrDirectLink" href="https://zalo.me/0388486348" target="_blank" rel="noopener">
+          <span>💬</span> Mở Zalo 0388486348
+        </a>
+      </div>
     </div>
   </div>
 
@@ -145,7 +320,7 @@
         </div>
       </div>
       <a class="notice-footer-link" href="https://notice.haegin.kr/play/prod/lang/Vietnamese" target="_blank"
-        rel="noopener" id="noticeFullLink">↗ <span data-notice-i18n="viewAll">Xem tất cả thông báo</span></a>
+        rel="noopener" id="noticeFullLink">↗ <span data-notice-i18n="viewAll">Xem tất cả thông báo chính thức</span></a>
     </div>
   </div>
 
@@ -160,40 +335,45 @@
     })();
   </script>
 
-  <script src="js/app.js?v=20261022"></script>
+  <script src="js/app.js?v=20261026"></script>
 
   <script>
     /* ── QR modal ── */
     (function () {
       var modal = document.getElementById('qrModal');
-      function open() { modal.classList.add('open'); }
-      function close() { modal.classList.remove('open'); }
+      function open() { if (modal) modal.classList.add('open'); }
+      function close() { if (modal) modal.classList.remove('open'); }
       var openBtn = document.getElementById('openQR');
+      var heroQrBtn = document.getElementById('heroQrBtn');
       var closeBtn = document.getElementById('closeQR');
       if (openBtn) openBtn.addEventListener('click', open);
+      if (heroQrBtn) heroQrBtn.addEventListener('click', open);
       if (closeBtn) closeBtn.addEventListener('click', close);
       if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+      window.__openQRModal = open;
     })();
 
-    /* ── Game Notice ── */
+    /* ── Game Notice & Unread Dot ── */
     (function () {
       var noticeModal = document.getElementById('noticeModal');
       var noticeBtn = document.getElementById('noticeBtn');
       var noticeClose = document.getElementById('noticeClose');
       var noticeBody = document.getElementById('noticeBody');
+      var noticeDot = document.getElementById('noticeDot');
       var fetched = false;
+      var latestNoticeId = '';
 
       var NOTICE_I18N = {
         vi: {
-          title: 'Thông báo Play Together', viewAll: 'Xem tất cả thông báo', noticeBtn: 'Thông báo Game',
-          loadErr: 'Không tải được thông báo. Vui lòng thử lại sau.',
-          retry: 'Thử lại',
+          title: 'Thông báo Play Together', viewAll: 'Xem tất cả thông báo chính thức', noticeBtn: 'Thông báo Game',
+          loadErr: 'Không tải được thông báo từ máy chủ Haegin. Vui lòng thử lại sau.',
+          retry: 'Thử lại ngay',
           badgeEvent: 'Sự kiện', badgeCoupon: 'Coupon', badgeUpdate: 'Cập nhật', badgeNotice: 'Thông báo'
         },
         en: {
-          title: 'Play Together Notices', viewAll: 'View all notices', noticeBtn: 'Game News',
-          loadErr: 'Failed to load notices. Please try again later.',
+          title: 'Play Together News', viewAll: 'View official notices on Haegin', noticeBtn: 'Game News',
+          loadErr: 'Failed to load notices from Haegin servers. Please try again.',
           retry: 'Try again',
           badgeEvent: 'Event', badgeCoupon: 'Coupon', badgeUpdate: 'Update', badgeNotice: 'Notice'
         },
@@ -214,6 +394,29 @@
           var langName = getLang() === 'en' ? 'English' : 'Vietnamese';
           fullLink.href = 'https://notice.haegin.kr/play/prod/lang/' + langName;
         }
+      }
+
+      function updateUnreadIndicator(firstItem) {
+        if (!firstItem || !firstItem.title) return;
+        var curId = firstItem.title + '_' + (firstItem.date || '');
+        latestNoticeId = curId;
+        var lastRead = '';
+        try { lastRead = localStorage.getItem('pt_last_read_notice') || ''; } catch (e) { }
+
+        if (noticeDot) {
+          if (lastRead !== curId) {
+            noticeDot.classList.add('has-unread');
+          } else {
+            noticeDot.classList.remove('has-unread');
+          }
+        }
+      }
+
+      function markNoticesAsRead() {
+        if (latestNoticeId) {
+          try { localStorage.setItem('pt_last_read_notice', latestNoticeId); } catch (e) { }
+        }
+        if (noticeDot) noticeDot.classList.remove('has-unread');
       }
 
       function classifyBadge(title) {
@@ -248,6 +451,7 @@
           showError();
           return;
         }
+        updateUnreadIndicator(items[0]);
         var html = '<div class="notice-list">';
         items.forEach(function (it) {
           var type = classifyBadge(it.title);
@@ -271,11 +475,16 @@
       }
 
       function showError() {
+        var langName = getLang() === 'en' ? 'English' : 'Vietnamese';
+        var directUrl = 'https://notice.haegin.kr/play/prod/lang/' + langName;
         noticeBody.innerHTML = [
           '<div class="notice-empty">',
-          '  <span style="font-size: 1.5rem">😕</span>',
+          '  <span style="font-size: 1.8rem">⚠️</span>',
           '  <span>' + nt('loadErr') + '</span>',
-          '  <button type="button" class="notice-retry-btn" id="noticeRetryBtn">🔄 ' + nt('retry') + '</button>',
+          '  <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;justify-content:center">',
+          '    <button type="button" class="notice-retry-btn" id="noticeRetryBtn">🔄 ' + nt('retry') + '</button>',
+          '    <a class="notice-retry-btn" href="' + directUrl + '" target="_blank" rel="noopener">↗ Mở web Haegin</a>',
+          '  </div>',
           '</div>'
         ].join('');
         var retryBtn = document.getElementById('noticeRetryBtn');
@@ -294,7 +503,7 @@
           var doc = dp.parseFromString(html, 'text/html');
           var anchors = doc.querySelectorAll('a.list-group-item');
           anchors.forEach(function (a) {
-            if (items.length >= 5) return;
+            if (items.length >= 6) return;
             var titleEl = a.querySelector('.justify-content-between > div:first-child') ||
               a.querySelector('div > div:first-child') ||
               a.querySelector('div');
@@ -318,7 +527,7 @@
         if (items.length === 0) {
           var itemRegex = /<a[^>]*class=["'][^"']*list-group-item[^"']*["'][^>]*href=["']([^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
           var match;
-          while ((match = itemRegex.exec(html)) !== null && items.length < 5) {
+          while ((match = itemRegex.exec(html)) !== null && items.length < 6) {
             var href = match[1];
             var body = match[2];
             var dateMatch = body.match(/<small[^>]*>([\s\S]*?)<\/small>/i);
@@ -428,6 +637,7 @@
       function openNotice() {
         noticeModal.classList.add('open');
         applyNoticeI18n();
+        markNoticesAsRead();
         if (!fetched) fetchNotices();
       }
       function closeNotice() { noticeModal.classList.remove('open'); }
@@ -436,6 +646,19 @@
       if (noticeClose) noticeClose.addEventListener('click', closeNotice);
       noticeModal.addEventListener('click', function (e) { if (e.target === noticeModal) closeNotice(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNotice(); });
+
+      // Check unread notice silently from cache on load
+      setTimeout(function () {
+        try {
+          var cachedRaw = localStorage.getItem('pt_notices_' + getLang());
+          if (cachedRaw) {
+            var items = JSON.parse(cachedRaw);
+            if (Array.isArray(items) && items.length > 0) {
+              updateUnreadIndicator(items[0]);
+            }
+          }
+        } catch (e) { }
+      }, 500);
 
       document.addEventListener('langchange', function () {
         applyNoticeI18n();
@@ -448,16 +671,32 @@
     (function () {
       var I18N = {
         vi: {
-          heroSub: 'Bảng giá dịch vụ game – Nhanh · Uy tín · Giá tốt',
+          pageTitle: 'Bảng Giá Dịch Vụ – ZPlayN',
+          heroTitle: 'Bảng Giá Dịch Vụ',
+          heroSub: 'ZPlayN · Play Together — Bảng giá rõ ràng, đặt hàng nhanh chóng.',
+          chatZalo: 'Nhắn Zalo',
+          chatInstagram: 'Instagram',
           categories: 'danh mục',
           services: 'dịch vụ',
           quickContact: 'Đặt hàng ngay',
           floatingOrder: 'Đặt dịch vụ',
           openQR: 'Mở QR Zalo',
-          contactOrder: 'Nhắn Zalo / IG để đặt',
+          orderModalTitle: 'Xác nhận đặt hàng',
+          orderMsgLabel: '📝 Nội dung gửi shop:',
+          copyOrderBtn: 'Sao chép tin nhắn',
+          orderZaloTitle: 'Nhắn Zalo đặt ngay',
+          orderIgTitle: 'Nhắn Instagram',
+          step1Title: '1. Chọn dịch vụ',
+          step1Desc: 'Bấm "Đặt dịch vụ" trên từng thẻ',
+          step2Title: '2. Sao chép nội dung',
+          step2Desc: 'Mẫu tin nhắn tự sinh đầy đủ chi tiết',
+          step3Title: '3. Nhắn Zalo / IG',
+          step3Desc: 'Gửi tin nhắn đặt dịch vụ & thanh toán',
+          step4Title: '4. Nhận dịch vụ',
+          step4Desc: 'Giao dịch siêu tốc 5–15p, bảo mật 100%',
           loading: 'Đang tải bảng giá…',
-          footerCopy: '© Bản quyền thuộc JZn',
-          searchPlaceholder: 'Tìm dịch vụ theo tên, danh mục…',
+          footerCopy: '© Bản quyền thuộc ZPlayN · JZn',
+          searchPlaceholder: 'Tìm dịch vụ theo tên, gói hoặc danh mục…',
           noResult: '😕 Không tìm thấy dịch vụ phù hợp',
           noticeBtn: 'Thông báo Game',
           autoUpdated: 'Giá tự động cập nhật',
@@ -468,16 +707,32 @@
           scrollTop: 'Lên đầu trang',
         },
         en: {
-          heroSub: 'Game service price list – Fast · Trusted · Best price',
+          pageTitle: 'Service Price List – ZPlayN',
+          heroTitle: 'Service Price List',
+          heroSub: 'ZPlayN · Play Together — Transparent pricing, instant ordering.',
+          chatZalo: 'Message Zalo',
+          chatInstagram: 'Instagram',
           categories: 'categories',
           services: 'services',
           quickContact: 'Order now',
           floatingOrder: 'Order Service',
           openQR: 'Open Zalo QR',
-          contactOrder: 'Message Zalo / IG to order',
+          orderModalTitle: 'Confirm Order',
+          orderMsgLabel: '📝 Message for Shop:',
+          copyOrderBtn: 'Copy Message',
+          orderZaloTitle: 'Order via Zalo',
+          orderIgTitle: 'Order via Instagram',
+          step1Title: '1. Choose Service',
+          step1Desc: 'Tap "Order" button on any card',
+          step2Title: '2. Copy Details',
+          step2Desc: 'Automated order template ready to paste',
+          step3Title: '3. Send via Zalo/IG',
+          step3Desc: 'Send message & complete payment',
+          step4Title: '4. Fast Delivery',
+          step4Desc: '5–15 min turnaround, 100% safe',
           loading: 'Loading price list…',
-          footerCopy: '© Copyright belongs to NguyenAnhZn',
-          searchPlaceholder: 'Search services by name, category…',
+          footerCopy: '© Copyright belongs to ZPlayN · NguyenAnhZn',
+          searchPlaceholder: 'Search service, pack or category…',
           noResult: '😕 No matching service found',
           noticeBtn: 'Game News',
           autoUpdated: 'Auto-updated prices',
@@ -500,8 +755,13 @@
         var d = I18N[lang] || I18N.vi;
         document.documentElement.lang = lang === 'vi' ? 'vi' : 'en';
 
+        if (d.pageTitle) document.title = d.pageTitle;
+
+        var heroTitle = document.getElementById('heroTitle');
+        if (heroTitle && d.heroTitle) heroTitle.textContent = d.heroTitle;
+
         var heroSub = document.getElementById('heroSub');
-        if (heroSub) heroSub.textContent = d.heroSub;
+        if (heroSub && d.heroSub) heroSub.textContent = d.heroSub;
 
         var footerCopy = document.getElementById('footerCopy');
         if (footerCopy) footerCopy.textContent = d.footerCopy;

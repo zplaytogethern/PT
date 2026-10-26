@@ -1,10 +1,12 @@
 /**
  * app.js — Trang bảng giá ZPlayN (Client-side)
  * - Tự động tải dữ liệu từ data/prices.json (hoặc draft nếu ?preview=1)
- * - Chống lưu cache đa tầng (nonce ngẫu nhiên, no-store, no-cache)
- * - Tìm kiếm thông minh: Không dấu tiếng Việt + Tiếng Anh
- * - Hỗ trợ đa ngôn ngữ (VIE / ENG) toàn diện, luôn tương thích với dữ liệu Git
- * - Thiết kế hướng người dùng: Mượt mà, nhẹ, tương tác nhanh
+ * - Tối ưu tần suất tải mạng (3 phút ngầm + kiểm tra thông minh khi focus)
+ * - An toàn dữ liệu tuyệt đối: Sử dụng DOM API textContent & kiểm tra giao thức URL (chống XSS)
+ * - Nút "Đặt dịch vụ" trên từng thẻ + Cửa sổ xác nhận đặt hàng (Order Modal) tiện lợi
+ * - Tự động tạo mẫu tin nhắn đặt hàng & sao chép 1-click gửi Zalo / Instagram
+ * - Giao diện lỗi có nút "Thử lại ngay" và liên kết bảng giá nguồn dự phòng
+ * - Hỗ trợ đa ngôn ngữ (VIE / ENG) toàn diện & Định dạng ngày DD/MM/YYYY chuẩn mực
  */
 (function () {
   'use strict';
@@ -15,8 +17,19 @@
     'thoi-tiet': '⛅',
     'tim-sao': '💖',
     'hat-dua-hau--hat-giong': '🍉',
+    'khac': '🏷️',
     'default': '🏷️',
   };
+
+  /* ─── URL Sanitizer (P1 - An toàn giao thức) ────────────────────── */
+  function sanitizeUrl(url) {
+    if (!url || typeof url !== 'string') return '#';
+    const clean = url.trim();
+    if (/^(https?:|tel:|mailto:|zalo:)/i.test(clean)) {
+      return clean;
+    }
+    return '#';
+  }
 
   /* ─── Helper bỏ dấu tiếng Việt để tìm kiếm thông minh ─── */
   function stripAccents(str) {
@@ -33,13 +46,22 @@
     'nông trại': 'Farm',
     'thời tiết': 'Weather',
     'tim và sao': 'Hearts & Stars',
+    'khác': 'Other',
     'hạt dưa hấu (hạt giống)': 'Watermelon Seeds',
     'hạt dưa hấu ( hạt giống)': 'Watermelon Seeds',
     'hạt dưa hấu': 'Watermelon Seeds',
     'xu nông trại': 'Farm Coins',
     'nhân sâm': 'Ginseng',
+    'ảnh avt zingid': 'ZingID Avatar',
+    'avt zingid': 'ZingID Avatar',
+    'ảnh bìa nhà': 'House Exterior Photo',
+    'combo full': 'Full Combo (Avatar & Cover)',
+    'key kdg vip 7d': '7-Day KDG VIP Key',
+    'key kdg vip 30d': '30-Day KDG VIP Key',
     'done thư cây phong': 'Delivered via Maple Tree mailbox',
     'done thư': 'Delivered via mailbox',
+    'cần đăng nhập': 'Need to Login',
+    'có link tùy chỉnh': 'Custom by Link',
     'liên hệ': 'Contact',
     'giá liên hệ': 'Contact for price',
   };
@@ -50,7 +72,6 @@
     const lower = clean.toLowerCase();
     if (FALLBACK_TRANSLATIONS[lower]) return FALLBACK_TRANSLATIONS[lower];
 
-    // Thay thế các cụm từ phổ biến
     let res = clean
       .replace(/xu nông trại/gi, 'Farm Coins')
       .replace(/thời tiết tự chọn/gi, 'Custom Weather')
@@ -58,11 +79,16 @@
       .replace(/nhân sâm/gi, 'Ginseng')
       .replace(/hạt giống/gi, 'Seeds')
       .replace(/hạt dưa hấu/gi, 'Watermelon Seeds')
+      .replace(/ảnh avt zingid/gi, 'ZingID Avatar')
+      .replace(/ảnh bìa nhà/gi, 'House Exterior Photo')
+      .replace(/combo full/gi, 'Full Combo')
       .replace(/(\d+)\s*hạt/gi, '$1 Seeds')
       .replace(/(\d+)\s*củ/gi, '$1 Roots')
       .replace(/done thư cây phong/gi, 'Delivered via Maple Tree mailbox')
       .replace(/done thư/gi, 'Delivered via mailbox')
-      .replace(/chừa 1 slot cho clone, tự chạy/gi, 'Leave 1 slot for clone, auto-run')
+      .replace(/cần đăng nhập/gi, 'Need to Login')
+      .replace(/có link tùy chỉnh/gi, 'Custom by Link')
+      .replace(/chừa 1 slot cho clone, tự chạy/gi, 'Keep 1 slot for clone, auto-run')
       .replace(/yêu cầu tên nhân vật và id game/gi, 'Character name & Game ID required')
       .replace(/yêu cầu tên nhân vật/gi, 'Character name required');
 
@@ -78,32 +104,37 @@
     return n.toLocaleString('vi-VN') + 'đ';
   };
 
+  /* ─── Định dạng ngày tháng DD/MM/YYYY chuẩn ───────────────────────── */
+  function formatDate(dateStr, lang) {
+    if (!dateStr || dateStr === '…') return '…';
+    try {
+      const parts = String(dateStr).trim().split(/[-/]/);
+      if (parts.length === 3) {
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        const dateObj = new Date(y, m, d);
+        if (!isNaN(dateObj.getTime())) {
+          if (lang === 'en') {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[m]} ${d}, ${y}`;
+          }
+          const dd = String(d).padStart(2, '0');
+          const mm = String(m + 1).padStart(2, '0');
+          return `${dd}/${mm}/${y}`;
+        }
+      }
+    } catch (e) { }
+    return dateStr;
+  }
+
+  /* ─── DOM Element Creator ─────────────────────────────────────────── */
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
     if (cls) e.className = cls;
-    if (text !== undefined) e.textContent = text;
+    if (text !== undefined && text !== null) e.textContent = String(text);
     return e;
   };
-
-  /* ─── Dọn dẹp cache cũ & Service Worker nếu có ───────────────────── */
-  try {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then((regs) => {
-        regs.forEach((r) => r.unregister());
-      }).catch(() => {});
-    }
-    if ('caches' in window) {
-      caches.keys().then((keys) => {
-        keys.forEach((k) => caches.delete(k));
-      }).catch(() => {});
-    }
-    if (window.sessionStorage) {
-      sessionStorage.removeItem('prices-cache');
-      sessionStorage.removeItem('prices-data');
-    }
-  } catch (e) {
-    /* ignore */
-  }
 
   /* ─── State ─────────────────────────────────────────────────────── */
   let _data = null;
@@ -117,6 +148,7 @@
   let _lastFetchTime = 0;
   let _isFetching = false;
   let _lastSignature = '';
+  let _currentSelectedService = null;
 
   /* ─── Helper: lấy field theo ngôn ngữ chuẩn xác ─────────────────── */
   function L(obj, field) {
@@ -126,7 +158,6 @@
       if (enVal !== undefined && enVal !== null && String(enVal).trim() !== '') {
         return String(enVal).trim();
       }
-      // Dùng từ điển dự phòng thông minh nếu dữ liệu trên Git thiếu bản EN
       const viVal = obj[field] || '';
       return smartTranslateEn(viVal);
     }
@@ -145,7 +176,7 @@
     }
   }
 
-  /* ─── Load dữ liệu mới nhất (chống cache triệt để) ───────────────── */
+  /* ─── Load dữ liệu mới nhất (chống cache nhẹ nhàng) ───────────────── */
   async function loadData() {
     // Chế độ xem thử từ trang Admin
     if (new URLSearchParams(location.search).has('preview')) {
@@ -159,15 +190,12 @@
       }
     }
 
-    // Anti-cache: kết hợp epoch timestamp nano + random nonce
-    const nonce = Date.now() + '_' + Math.random().toString(36).substring(2, 9);
-    const res = await fetch('data/prices.json?v=' + nonce, {
+    // Cache-busting với epoch minute (giúp tránh cache trình duyệt mà không spam server vô tận)
+    const epochMinute = Math.floor(Date.now() / 60000);
+    const res = await fetch('data/prices.json?v=' + epochMinute, {
       method: 'GET',
-      cache: 'no-store',
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-        'Pragma': 'no-cache',
-        'Expires': '0',
+        'Accept': 'application/json',
       },
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -176,11 +204,216 @@
 
   /* ─── Mở QR Zalo Modal ─────────────────────────────────────────── */
   function openQRModal() {
-    const modal = document.getElementById('qrModal');
-    if (modal) modal.classList.add('open');
+    if (typeof window.__openQRModal === 'function') {
+      window.__openQRModal();
+    } else {
+      const modal = document.getElementById('qrModal');
+      if (modal) modal.classList.add('open');
+    }
   }
 
-  /* ─── Render Giao Diện ─────────────────────────────────────────── */
+  /* ─── Helper phân loại Badge ───────────────────────────────────── */
+  function getBadgeClass(noteText) {
+    if (!noteText) return '';
+    const lower = noteText.toLowerCase();
+    if (lower.includes('sale')) return 'sale';
+    if (lower.includes('đăng nhập') || lower.includes('login')) return 'login';
+    if (lower.includes('thư') || lower.includes('mailbox')) return 'mail';
+    if (lower.includes('link') || lower.includes('tùy chỉnh')) return 'custom';
+    return 'default';
+  }
+
+  /* ─── Order Modal Management ───────────────────────────────────── */
+  function openOrderModal(it, cat) {
+    _currentSelectedService = { item: it, category: cat };
+    const modal = document.getElementById('orderModal');
+    if (!modal) return;
+
+    const itemName = L(it, 'name');
+    const itemDesc = L(it, 'description');
+    const itemNote = L(it, 'note');
+    const catTitle = L(cat, 'title');
+    const catIcon = CAT_ICONS[cat.id] || CAT_ICONS.default;
+    const priceFormatted = fmtPrice(it.price, _lang) || (_lang === 'en' ? 'Contact for price' : 'Liên hệ báo giá');
+
+    // Cập nhật thông tin trên Modal
+    const orderCatBadge = document.getElementById('orderCatBadge');
+    if (orderCatBadge) {
+      orderCatBadge.textContent = `${catIcon} ${catTitle}`;
+      orderCatBadge.style.background = (cat.color || '#58a6ff') + '22';
+      orderCatBadge.style.color = cat.color || '#58a6ff';
+      orderCatBadge.style.borderColor = (cat.color || '#58a6ff') + '44';
+    }
+
+    const orderItemIcon = document.getElementById('orderItemIcon');
+    if (orderItemIcon) orderItemIcon.textContent = catIcon;
+
+    const orderItemName = document.getElementById('orderItemName');
+    if (orderItemName) orderItemName.textContent = itemName;
+
+    const orderItemDesc = document.getElementById('orderItemDesc');
+    if (orderItemDesc) {
+      if (itemDesc) {
+        orderItemDesc.textContent = itemDesc;
+        orderItemDesc.style.display = 'block';
+      } else {
+        orderItemDesc.style.display = 'none';
+      }
+    }
+
+    const orderItemPrice = document.getElementById('orderItemPrice');
+    if (orderItemPrice) {
+      orderItemPrice.textContent = priceFormatted;
+      orderItemPrice.style.color = cat.color || '#58a6ff';
+    }
+
+    const orderItemBadge = document.getElementById('orderItemBadge');
+    if (orderItemBadge) {
+      if (itemNote) {
+        orderItemBadge.textContent = itemNote;
+        orderItemBadge.className = 'order-note-tag ' + getBadgeClass(itemNote);
+        orderItemBadge.style.display = 'inline-block';
+      } else {
+        orderItemBadge.style.display = 'none';
+      }
+    }
+
+    // Gợi ý điều kiện hoặc thông tin cần chuẩn bị
+    const orderReqText = document.getElementById('orderReqText');
+    if (orderReqText) {
+      let reqHtml = '';
+      const noteLower = (it.note || '').toLowerCase();
+      const descLower = (it.description || '').toLowerCase();
+
+      if (noteLower.includes('đăng nhập')) {
+        reqHtml = _lang === 'en'
+          ? '🔒 <strong>Requirement:</strong> ZingID account & password required. Shop commits to 100% security.'
+          : '🔒 <strong>Yêu cầu:</strong> Dịch vụ cần tài khoản & mật khẩu ZingID. Shop cam kết bảo mật 100%.';
+      } else if (descLower.includes('thư cây phong') || descLower.includes('thư')) {
+        reqHtml = _lang === 'en'
+          ? '📬 <strong>Delivery:</strong> Delivered via Maple Tree mailbox. Please provide in-game character name.'
+          : '📬 <strong>Giao dịch:</strong> Giao qua hộp thư cây Phong. Bạn chỉ cần gửi Tên nhân vật trong game.';
+      } else if (cat.id === 'thoi-tiet') {
+        reqHtml = _lang === 'en'
+          ? '⛅ <strong>Weather:</strong> Any number of players supported, save 1 slot for clone. Custom link supported.'
+          : '⛅ <strong>Thời tiết:</strong> Bao nhiêu người cũng chạy được, vui lòng chừa 1 slot cho clone.';
+      } else if (cat.id === 'tim-sao') {
+        reqHtml = _lang === 'en'
+          ? '💖 <strong>Hearts & Stars:</strong> Fast delivery to character profile. Only need Character Name & Game ID.'
+          : '💖 <strong>Tim & Sao:</strong> Giao nhanh qua trang cá nhân, chỉ cần Tên nhân vật & ID Game.';
+      } else {
+        reqHtml = _lang === 'en'
+          ? '💡 <strong>Order guide:</strong> Copy message below and tap Zalo or Instagram to order instantly.'
+          : '💡 <strong>Hướng dẫn:</strong> Bấm "Sao chép tin nhắn" bên dưới rồi bấm nút Zalo hoặc Instagram để gửi cho shop.';
+      }
+      orderReqText.innerHTML = reqHtml;
+    }
+
+    // Tự sinh mẫu nội dung tin nhắn gửi shop
+    const msgTemplateVi = `[ZPlayN] Đặt dịch vụ: ${it.name}
+• Giá: ${fmtPrice(it.price, 'vi') || 'Liên hệ'}
+• Danh mục: ${cat.title}
+${it.note ? '• Ghi chú: ' + it.note + '\n' : ''}${it.description ? '• Chi tiết: ' + it.description + '\n' : ''}• Thời gian: ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
+
+    const msgTemplateEn = `[ZPlayN] Order Service: ${L(it, 'name')}
+• Price: ${fmtPrice(it.price, 'en') || 'Contact'}
+• Category: ${catTitle}
+${itemNote ? '• Note: ' + itemNote + '\n' : ''}${itemDesc ? '• Details: ' + itemDesc + '\n' : ''}• Time: ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+
+    const orderMsgText = document.getElementById('orderMsgText');
+    const orderText = _lang === 'en' ? msgTemplateEn : msgTemplateVi;
+    if (orderMsgText) orderMsgText.textContent = orderText;
+
+    // Reset nút copy
+    const btnCopyText = document.getElementById('btnCopyText');
+    const copyIcon = document.getElementById('copyIcon');
+    if (btnCopyText) btnCopyText.textContent = _lang === 'en' ? 'Copy Message' : 'Sao chép tin nhắn';
+    if (copyIcon) copyIcon.textContent = '📋';
+
+    // Đường dẫn Zalo & Instagram
+    const zaloUrl = (_data && _data.contact && _data.contact.zalo_link) || 'https://zalo.me/0388486348';
+    const igUrl = (_data && _data.contact && _data.contact.instagram_link) || (_data && _data.contact && _data.contact.link) || 'https://instagram.com/juhere04';
+
+    const orderBtnZalo = document.getElementById('orderBtnZalo');
+    if (orderBtnZalo) orderBtnZalo.href = sanitizeUrl(zaloUrl);
+
+    const orderBtnIg = document.getElementById('orderBtnInstagram');
+    if (orderBtnIg) orderBtnIg.href = sanitizeUrl(igUrl);
+
+    // Mở modal
+    modal.classList.add('open');
+  }
+
+  function closeOrderModal() {
+    const modal = document.getElementById('orderModal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  /* ─── Init Order Modal Listeners ───────────────────────────────── */
+  (function initOrderModal() {
+    const modal = document.getElementById('orderModal');
+    const closeBtn = document.getElementById('orderClose');
+    const copyBtn = document.getElementById('btnCopyOrder');
+
+    if (closeBtn) closeBtn.addEventListener('click', closeOrderModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeOrderModal();
+      });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
+        closeOrderModal();
+      }
+    });
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const orderMsgText = document.getElementById('orderMsgText');
+        const textToCopy = orderMsgText ? orderMsgText.textContent : '';
+        if (!textToCopy) return;
+
+        const copySuccess = () => {
+          const btnCopyText = document.getElementById('btnCopyText');
+          const copyIcon = document.getElementById('copyIcon');
+          if (btnCopyText) btnCopyText.textContent = _lang === 'en' ? 'Copied!' : 'Đã chép!';
+          if (copyIcon) copyIcon.textContent = '✅';
+          showToast(_lang === 'en' ? '📋 Order details copied to clipboard!' : '📋 Đã sao chép nội dung đơn hàng!');
+          setTimeout(() => {
+            if (btnCopyText) btnCopyText.textContent = _lang === 'en' ? 'Copy Message' : 'Sao chép tin nhắn';
+            if (copyIcon) copyIcon.textContent = '📋';
+          }, 2400);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(copySuccess).catch(() => {
+            fallbackCopy(textToCopy, copySuccess);
+          });
+        } else {
+          fallbackCopy(textToCopy, copySuccess);
+        }
+      });
+    }
+
+    function fallbackCopy(text, callback) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        callback();
+      } catch (e) {
+        showToast('⚠️ Không thể tự động sao chép, vui lòng chọn và sao chép thủ công.');
+      }
+      document.body.removeChild(ta);
+    }
+  })();
+
+  /* ─── Render Giao Diện Bảng Giá ─────────────────────────────────── */
   function render(data) {
     _data = data;
 
@@ -194,7 +427,7 @@
     const searchWrap = document.createElement('div');
     searchWrap.className = 'search-wrap';
     const searchPh = (window.__siteI18n && window.__siteI18n.searchPlaceholder)
-      || (_lang === 'en' ? 'Search services…' : 'Tìm dịch vụ…');
+      || (_lang === 'en' ? 'Search service, pack or category…' : 'Tìm dịch vụ theo tên, gói hoặc danh mục…');
     searchWrap.innerHTML = `
       <span class="s-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="${searchPh}" autocomplete="off" aria-label="${searchPh}">
@@ -213,7 +446,7 @@
       if (statItems) statItems.textContent = totalItems;
     }
 
-    // --- Tabs & Danh mục ---
+    // --- Tabs & Danh mục (P1: DOM API an toàn, textContent) ---
     const sections = [];
     (data.categories || []).forEach((cat, idx) => {
       const icon = CAT_ICONS[cat.id] || CAT_ICONS.default;
@@ -224,7 +457,13 @@
       const tab = el('a', '');
       tab.href = '#' + cat.id;
       tab.style.setProperty('--c', cat.color || '#58a6ff');
-      tab.innerHTML = `<span>${icon} ${catTitle}</span>`;
+
+      const tabSpan = el('span');
+      const tabIconSpan = el('span', 'tab-icon', icon + ' ');
+      tabSpan.appendChild(tabIconSpan);
+      tabSpan.appendChild(document.createTextNode(catTitle));
+      tab.appendChild(tabSpan);
+
       if (idx === 0) tab.classList.add('active');
       tabs.appendChild(tab);
 
@@ -235,9 +474,14 @@
 
       const head = el('div', 'section-head');
       const h2 = el('h2');
-      h2.innerHTML = `<span>${icon}</span> ${catTitle}`;
+      const h2IconSpan = el('span', 'sec-icon', icon + ' ');
+      h2.appendChild(h2IconSpan);
+      h2.appendChild(document.createTextNode(catTitle));
       head.appendChild(h2);
-      if (catNote) head.appendChild(el('p', '', catNote));
+
+      if (catNote) {
+        head.appendChild(el('p', '', catNote));
+      }
       sec.appendChild(head);
 
       const grid = el('div', 'grid');
@@ -249,8 +493,11 @@
         const itemDesc = L(it, 'description');
 
         const card = el('div', 'item');
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('title', _lang === 'en' ? `Order ${itemName}` : `Bấm để đặt ${itemName}`);
 
-        // Chuỗi tìm kiếm: Hỗ trợ tiếng Việt gốc, tiếng Việt không dấu, và tiếng Anh
+        // Từ khóa tìm kiếm: không dấu, có dấu, tiếng Anh
         const searchKeywords = [
           it.name, stripAccents(it.name),
           it.name_en,
@@ -261,6 +508,7 @@
 
         card.dataset.name = searchKeywords;
 
+        // Card Content
         const info = el('div', 'item-content');
         info.appendChild(el('div', 'item-name', itemName));
 
@@ -269,34 +517,46 @@
         }
 
         if (itemNote) {
-          const noteBadge = el('span', 'item-note' + (itemNote.toLowerCase().includes('sale') ? ' sale' : ''), itemNote);
+          const badgeCls = getBadgeClass(itemNote);
+          const noteBadge = el('span', 'item-note ' + badgeCls, itemNote);
           info.appendChild(noteBadge);
         }
 
         card.appendChild(info);
 
+        // Price wrap + Action button
         const priceWrap = el('div', 'item-price-wrap');
         const priceFormatted = fmtPrice(it.price, _lang);
 
         if (priceFormatted) {
           priceWrap.appendChild(el('div', 'item-price', priceFormatted));
         } else {
-          // Khi giá = 0 -> Nút "Liên hệ" tương tác được
-          const contactBtn = el('button', 'item-price-contact');
-          contactBtn.type = 'button';
-          contactBtn.innerHTML = _lang === 'en' ? '📞 Contact' : '📞 Liên hệ';
-          contactBtn.title = _lang === 'en' ? 'Tap to contact and order' : 'Bấm để liên hệ đặt dịch vụ';
-          contactBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (data.contact && data.contact.link) {
-              window.open(data.contact.link, '_blank');
-            } else {
-              openQRModal();
-            }
-          });
-          priceWrap.appendChild(contactBtn);
+          priceWrap.appendChild(el('div', 'item-price item-price-contact-text', _lang === 'en' ? 'Contact' : 'Liên hệ'));
         }
 
+        // Nút "Đặt dịch vụ" trên từng thẻ (P0 & 2A)
+        const orderBtn = el('button', 'item-order-btn');
+        orderBtn.type = 'button';
+        orderBtn.innerHTML = `<span>🛒</span> <span>${_lang === 'en' ? 'Order' : 'Đặt dịch vụ'}</span>`;
+        orderBtn.title = _lang === 'en' ? `Order ${itemName}` : `Đặt dịch vụ ${itemName}`;
+
+        orderBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openOrderModal(it, cat);
+        });
+
+        // Click cả thẻ cũng mở modal
+        card.addEventListener('click', () => {
+          openOrderModal(it, cat);
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openOrderModal(it, cat);
+          }
+        });
+
+        priceWrap.appendChild(orderBtn);
         card.appendChild(priceWrap);
         grid.appendChild(card);
       });
@@ -306,42 +566,42 @@
       sections.push(sec);
     });
 
-    // --- Cập nhật ngày, version & contact link ---
+    // --- Cập nhật ngày, version & contact links ---
     const updatedEl = document.getElementById('updated');
-    if (updatedEl) updatedEl.textContent = data.updated || 'N/A';
+    if (updatedEl) {
+      updatedEl.textContent = formatDate(data.updated, _lang);
+    }
 
     const verEl = document.getElementById('heroVersion');
     if (verEl) {
-      const v = String(data.version || '1.0').trim();
+      const v = String(data.version || '2.0').trim();
       if (!/^version/i.test(v)) {
         const num = v.replace(/^v/i, '').trim();
-        verEl.textContent = 'Version ' + (num || '1.0');
+        verEl.textContent = 'Version ' + (num || '2.0');
       } else {
         verEl.textContent = v;
       }
     }
 
+    // Liên kết liên hệ (Zalo, Instagram, v.v.)
     if (data.contact) {
-      const contactLabel = document.getElementById('contactLabel');
-      if (contactLabel) {
-        contactLabel.textContent = L(data.contact, 'label') || (_lang === 'en' ? 'Message Zalo / IG to order' : 'Nhắn Zalo / IG để đặt');
-      }
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        contactEl.href = data.contact.link || '#';
-      }
-      const quickContact = document.getElementById('quickContactBtn');
-      if (quickContact) {
-        quickContact.onclick = (e) => {
-          if (data.contact.link) {
-            e.preventDefault();
-            window.open(data.contact.link, '_blank');
-          } else {
-            e.preventDefault();
-            openQRModal();
-          }
-        };
-      }
+      const zaloUrl = data.contact.zalo_link || 'https://zalo.me/0388486348';
+      const igUrl = data.contact.instagram_link || data.contact.link || 'https://instagram.com/juhere04';
+
+      const heroZaloBtn = document.getElementById('heroZaloBtn');
+      if (heroZaloBtn) heroZaloBtn.href = sanitizeUrl(zaloUrl);
+
+      const heroIgBtn = document.getElementById('heroIgBtn');
+      if (heroIgBtn) heroIgBtn.href = sanitizeUrl(igUrl);
+
+      const footerZalo = document.getElementById('footerZalo');
+      if (footerZalo) footerZalo.href = sanitizeUrl(zaloUrl);
+
+      const footerIg = document.getElementById('footerIg');
+      if (footerIg) footerIg.href = sanitizeUrl(igUrl);
+
+      const qrDirectLink = document.getElementById('qrDirectLink');
+      if (qrDirectLink) qrDirectLink.href = sanitizeUrl(zaloUrl);
     }
 
     // --- Tab Scrollspy (Intersection Observer) ---
@@ -417,6 +677,51 @@
     }
   }
 
+  /* ─── Hiển thị Lỗi Tải Bảng Giá Có Phương Án Dự Phòng (P0) ───────── */
+  function renderError(err) {
+    const content = document.getElementById('content');
+    if (!content) return;
+    content.innerHTML = '';
+
+    const errBox = el('div', 'load-error-box');
+
+    const icon = el('div', 'load-error-icon', '⚠️');
+    errBox.appendChild(icon);
+
+    const title = el('h3', 'load-error-title', _lang === 'en' ? 'Unable to load service prices' : 'Không thể tải bảng giá dịch vụ');
+    errBox.appendChild(title);
+
+    const desc = el('p', 'load-error-desc', _lang === 'en'
+      ? 'Network connection issue or file not found. Please try again or view the backup source.'
+      : 'Kết nối mạng bị gián đoạn hoặc tệp dữ liệu tạm thời không khả dụng. Quý khách vui lòng thử lại hoặc mở bảng giá nguồn dự phòng.');
+    errBox.appendChild(desc);
+
+    const btnRow = el('div', 'load-error-actions');
+
+    const retryBtn = el('button', 'btn-retry', _lang === 'en' ? '🔄 Try Again' : '🔄 Thử lại ngay');
+    retryBtn.type = 'button';
+    retryBtn.addEventListener('click', () => {
+      refresh({ silent: false, showToastOnSuccess: true });
+    });
+    btnRow.appendChild(retryBtn);
+
+    const backupLink = el('a', 'btn-fallback-src', _lang === 'en' ? '📂 View Backup JSON' : '📂 Xem bảng giá dự phòng (JSON)');
+    backupLink.href = 'data/prices.json';
+    backupLink.target = '_blank';
+    backupLink.rel = 'noopener';
+    btnRow.appendChild(backupLink);
+
+    errBox.appendChild(btnRow);
+
+    const contactNotice = el('div', 'load-error-contact');
+    contactNotice.innerHTML = _lang === 'en'
+      ? `Need quick assistance? Message Zalo: <a href="https://zalo.me/0388486348" target="_blank" rel="noopener"><strong>0388486348</strong></a> or Instagram: <a href="https://instagram.com/juhere04" target="_blank" rel="noopener"><strong>@juhere04</strong></a>`
+      : `Cần đặt dịch vụ gấp? Nhắn trực tiếp Zalo: <a href="https://zalo.me/0388486348" target="_blank" rel="noopener"><strong>0388486348</strong></a> hoặc Instagram: <a href="https://instagram.com/juhere04" target="_blank" rel="noopener"><strong>@juhere04</strong></a>`;
+    errBox.appendChild(contactNotice);
+
+    content.appendChild(errBox);
+  }
+
   /* ─── Thông báo Toast nổi ───────────────────────────────────────── */
   function showToast(text, duration = 2800) {
     let toast = document.getElementById('priceToast');
@@ -480,7 +785,7 @@
           showToast(updateMsg);
         } else if (showToastOnSuccess) {
           const successMsg = _lang === 'en'
-            ? '✅ Prices updated to latest!'
+            ? '✅ Prices loaded successfully!'
             : '✅ Đã tải bảng giá mới nhất!';
           showToast(successMsg);
         }
@@ -495,11 +800,9 @@
     } catch (err) {
       console.warn('Failed to refresh prices:', err);
       if (!_data) {
-        const content = document.getElementById('content');
-        content.innerHTML = '';
-        const msg = el('p', 'error');
-        msg.innerHTML = `⚠️ Không tải được bảng giá. Vui lòng kiểm tra kết nối mạng.<br><small style="opacity:.6">${err.message}</small>`;
-        content.appendChild(msg);
+        renderError(err);
+      } else {
+        showToast(_lang === 'en' ? '⚠️ Network issue, showing cached prices.' : '⚠️ Kết nối mạng chậm, đang hiển thị giá đã lưu.');
       }
     } finally {
       _isFetching = false;
@@ -543,45 +846,51 @@
     });
   }
 
-  /* ─── Floating Order Button ─────────────────────────────────────── */
   const floatingBtn = document.getElementById('floatingOrderBtn');
   if (floatingBtn) {
     floatingBtn.addEventListener('click', () => {
-      if (_data && _data.contact && _data.contact.link) {
-        window.open(_data.contact.link, '_blank');
+      if (_currentSelectedService) {
+        openOrderModal(_currentSelectedService.item, _currentSelectedService.category);
       } else {
-        openQRModal();
+        const tabs = document.getElementById('tabs') || document.getElementById('content');
+        if (tabs) {
+          tabs.scrollIntoView({ behavior: 'smooth' });
+          showToast(_lang === 'en' ? '👇 Please tap "Order" on any service below!' : '👇 Vui lòng bấm "Đặt dịch vụ" trên gói bạn muốn mua!');
+        } else {
+          openQRModal();
+        }
       }
     });
   }
 
-  /* ─── Lifecycle Triggers: Xử lý session trình duyệt & bfcache ───── */
+  /* ─── Tối ưu Tải Mạng & Lifecycle Triggers ───────────────────────── */
+  // Chỉ tải lại khi người dùng quay lại tab sau hơn 2 phút (120,000ms)
   window.addEventListener('pageshow', (e) => {
-    if (e.persisted || (Date.now() - _lastFetchTime > 12000)) {
+    if (e.persisted || (Date.now() - _lastFetchTime > 120000)) {
       refresh({ silent: true });
     }
   });
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      if (Date.now() - _lastFetchTime > 15000) {
+      if (Date.now() - _lastFetchTime > 120000) {
         refresh({ silent: true });
       }
     }
   });
 
   window.addEventListener('focus', () => {
-    if (Date.now() - _lastFetchTime > 25000) {
+    if (Date.now() - _lastFetchTime > 120000) {
       refresh({ silent: true });
     }
   });
 
-  // Polling ngầm mỗi 60 giây khi tab đang hiển thị
+  // Polling ngầm mỗi 3 phút (180,000ms) thay vì 60s
   setInterval(() => {
     if (document.visibilityState === 'visible') {
       refresh({ silent: true });
     }
-  }, 60000);
+  }, 180000);
 
   // Nút làm mới thủ công
   const btnRefresh = document.getElementById('btnRefreshPrice');
