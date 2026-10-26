@@ -22,9 +22,9 @@
         {
           "name": "Xu nông trại 10M",
           "name_en": "Farm Coins 10M",
-          "note": "",
-          "note_en": "",
-          "price": 24000,
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 10000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -42,7 +42,7 @@
           "name_en": "Farm Coins 100M",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 69000,
+          "price": 21000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -58,9 +58,9 @@
         {
           "name": "Xu nông trại 1B",
           "name_en": "Farm Coins 1B",
-          "note": "",
-          "note_en": "",
-          "price": 249000,
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 159000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
