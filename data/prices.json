@@ -88,8 +88,8 @@
           "note": "Gói 100 củ",
           "note_en": "Pack of 100 roots",
           "price": 29000,
-          "description": "5% nhận ánh vàng, cầu vồng, ẩm ướt",
-          "description_en": "5% chance for Gold, Rainbow, Moist"
+          "description": "",
+          "description_en": ""
         }
       ]
     },
@@ -113,17 +113,17 @@
         {
           "name": "100 Thời tiết tự chọn",
           "name_en": "100 Custom Weather",
-          "note": "SUPER SALE",
-          "note_en": "SUPER SALE",
-          "price": 19000,
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
+          "price": 23000,
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone"
         },
         {
           "name": "200 Thời tiết tự chọn",
           "name_en": "200 Custom Weather",
-          "note": "SUPER SALE",
-          "note_en": "SUPER SALE",
+          "note": "Có link tùy chỉnh",
+          "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
           "price": 25000
@@ -161,7 +161,7 @@
           "name_en": "10K Hearts",
           "note": "SALE",
           "note_en": "SALE",
-          "price": 32000,
+          "price": 44000,
           "description": "Giao nhanh qua trang cá nhân",
           "description_en": "Fast delivery to character profile"
         },
