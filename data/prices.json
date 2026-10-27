@@ -135,7 +135,7 @@
           "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 57000
+          "price": 64000
         },
         {
           "name": "1000 Thời tiết tự chọn",
@@ -144,7 +144,7 @@
           "note_en": "Custom by Link",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 95000
+          "price": 0
         }
       ]
     },
