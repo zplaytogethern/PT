@@ -40,18 +40,18 @@
         {
           "name": "Xu nông trại 100M",
           "name_en": "Farm Coins 100M",
-          "note": "SALE",
-          "note_en": "SALE",
-          "price": 22000,
+          "note": "SUPER SALE",
+          "note_en": "SUPER SALE",
+          "price": 19000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
         {
           "name": "Xu nông trại 500M",
           "name_en": "Farm Coins 500M",
-          "note": "",
-          "note_en": "",
-          "price": 169000,
+          "note": "SUPER SALE",
+          "note_en": "SUPER SALE",
+          "price": 79000,
           "description": "Done thư cây Phong",
           "description_en": "Delivered via Maple Tree mailbox"
         },
@@ -159,11 +159,38 @@
         {
           "name": "10K Tim",
           "name_en": "10K Hearts",
-          "note": "",
-          "note_en": "",
-          "price": 45000,
+          "note": "SALE",
+          "note_en": "SALE",
+          "price": 32000,
           "description": "Giao nhanh qua trang cá nhân",
           "description_en": "Fast delivery to character profile"
+        },
+        {
+          "name": "50K Tim",
+          "name_en": "50K Hearts",
+          "note": "Mặc định",
+          "note_en": "Basic",
+          "description": "Giao nhanh qua trang cá nhân",
+          "description_en": "Fast delivery to character profile",
+          "price": 109000
+        },
+        {
+          "name": "100K Tim ",
+          "name_en": "100K Hearts",
+          "note": "SALE",
+          "note_en": "SALE",
+          "description": "Giao nhanh qua trang cá nhân",
+          "description_en": "Fast delivery to character profile",
+          "price": 169000
+        },
+        {
+          "name": "10K Sao",
+          "name_en": "10K Stars",
+          "note": "",
+          "note_en": "",
+          "description": "",
+          "description_en": "",
+          "price": 49000
         }
       ]
     },
