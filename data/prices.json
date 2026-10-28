@@ -212,24 +212,6 @@
           "price": 16000
         },
         {
-          "name": "Ảnh Bìa Nhà",
-          "name_en": "House Exterior Photo",
-          "note": "Cần đăng nhập",
-          "note_en": "Need to Login",
-          "description": "Up ảnh bìa nhà theo yêu cầu",
-          "description_en": "Custom house exterior photo upload",
-          "price": 16000
-        },
-        {
-          "name": "Combo Full",
-          "name_en": "Full Combo (Avatar & Cover)",
-          "note": "Cần đăng nhập",
-          "note_en": "Need to Login",
-          "description": "Bao gồm cả ảnh avatar và ảnh bìa",
-          "description_en": "Includes both custom avatar & house cover photo",
-          "price": 21000
-        },
-        {
           "name": "Key KDG VIP 7D",
           "name_en": "7-Day KDG VIP Key",
           "note": "Dùng cho KDG Mods",
