@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "contact": {
     "label": "Nhắn Zalo hoặc Instagram để đặt dịch vụ nhanh",
     "label_en": "Message Zalo or Instagram to order quickly",
@@ -104,44 +104,44 @@
         {
           "name": "50 Thời tiết tự chọn",
           "name_en": "50 Custom Weather",
-          "note": "Có link tùy chỉnh",
-          "note_en": "Custom by Link",
+          "note": "Tạm ngưng",
+          "note_en": "End",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 19000
+          "price": 0
         },
         {
           "name": "100 Thời tiết tự chọn",
           "name_en": "100 Custom Weather",
-          "note": "Có link tùy chỉnh",
-          "note_en": "Custom by Link",
-          "price": 23000,
+          "note": "Tạm ngưng",
+          "note_en": "End",
+          "price": 0,
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone"
         },
         {
           "name": "200 Thời tiết tự chọn",
           "name_en": "200 Custom Weather",
-          "note": "Có link tùy chỉnh",
-          "note_en": "Custom by Link",
+          "note": "Tạm ngưng",
+          "note_en": "End",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 25000
+          "price": 0
         },
         {
           "name": "500 Thời tiết tự chọn",
           "name_en": "500 Custom Weather",
-          "note": "Có link tùy chỉnh",
-          "note_en": "Custom by Link",
+          "note": "Tạm ngưng",
+          "note_en": "End",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
-          "price": 64000
+          "price": 0
         },
         {
           "name": "1000 Thời tiết tự chọn",
           "name_en": "1000 Custom Weather",
-          "note": "Có link tùy chỉnh",
-          "note_en": "Custom by Link",
+          "note": "Tạm ngưng",
+          "note_en": "End",
           "description": "Tự kiếm map. Bao nhiêu người cũng chạy, chừa 1 slot cho clone",
           "description_en": "Self-find map. Any number of players supported, save 1 slot for clone",
           "price": 0
